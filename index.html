@@ -1,137 +1,277 @@
 <!DOCTYPE html>
-<html lang="en-us" class="no-js">
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <title>TunerHimu - Web Design, Digital Marketing & IT Services</title>
+    <meta name="description" content="TunerHimu (Himmat Ali Himu) provides trusted Web Development, Digital Marketing, AI Content creation, and Local IT support in Narayanganj. Partner with our 15-year experienced team.">
+    <meta name="keywords" content="TunerHimu, Himmat Ali Himu, Web Design Narayanganj, Digital Marketing Bangladesh, msncloud.net, IT Support, CCTV installation, SEO services">
+    <meta name="author" content="Himmat Ali Himu">
+    
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="TunerHimu - Web Design & IT Professional">
+    <meta property="og:description" content="Boost your business in the digital world with TunerHimu's expert web development and digital marketing services.">
+    <meta property="og:type" content="website">
 
-	<head>
-		<meta charset="utf-8">
-        <title>Tuner Himu STARTUP PAGE ON GIT</title>
-        <meta name="description" content="This website is hosted by hathostbd, one of the best & reliable premium web hosting service provider. For Your Best WEb Program">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="TunerHimu">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        <!-- ================= Favicon ================== -->
-        <!-- Standard -->
-        <link rel="shortcut icon" href="img/favicon.ico">
-        <!-- Retina iPad Touch Icon-->
-        <link rel="apple-touch-icon" sizes="144x144" href="img/favicon.ico">
-        <!-- Retina iPhone Touch Icon-->
-        <link rel="apple-touch-icon" sizes="114x114" href="img/favicon.ico">
-        <!-- Standard iPad Touch Icon--> 
-        <link rel="apple-touch-icon" sizes="72x72" href="img/favicon.ico">
-        <!-- Standard iPhone Touch Icon--> 
-        <link rel="apple-touch-icon" sizes="57x57" href="img/favicon.ico">
+    <!-- Google Fonts: Noto Sans (Supports Bengali & English) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-        <!-- ============== Resources style ============== -->
-        <link rel="stylesheet" href="css/style-minimal.css" />
+    <style>
+        body {
+            font-family: 'Poppins', 'Noto Sans Bengali', sans-serif;
+        }
+        /* WhatsApp Widget Animation */
+        .wa-chat-box {
+            transition: all 0.3s ease-in-out;
+            transform-origin: bottom right;
+        }
+        .wa-hidden {
+            opacity: 0;
+            transform: scale(0);
+            pointer-events: none;
+        }
+        .wa-visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
 
-		<!-- Modernizr runs quickly on page load to detect features -->
-		<script src="js/modernizr.custom.js"></script>
-	</head>
-	
-	<body>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="text-2xl font-bold text-blue-600 tracking-tight">Tuner<span class="text-slate-800">Himu</span></a>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#about" class="text-slate-600 hover:text-blue-600 font-medium transition" data-i18n="nav_about">About Me</a>
+                    <a href="#services" class="text-slate-600 hover:text-blue-600 font-medium transition" data-i18n="nav_services">Services</a>
+                    <a href="#portfolio" class="text-slate-600 hover:text-blue-600 font-medium transition" data-i18n="nav_portfolio">Portfolio</a>
+                    <a href="#faq" class="text-slate-600 hover:text-blue-600 font-medium transition" data-i18n="nav_faq">FAQ</a>
+                    <a href="#contact" class="text-slate-600 hover:text-blue-600 font-medium transition" data-i18n="nav_contact">Contact</a>
+                    
+                    <!-- Language Switcher -->
+                    <button id="langToggleBtn" onclick="toggleLanguage()" class="bg-slate-800 text-white px-3 py-1.5 rounded-md text-sm font-semibold hover:bg-slate-700 transition flex items-center gap-2">
+                        <i class="fa-solid fa-language"></i> <span id="langLabel">বাংলা</span>
+                    </button>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center gap-4">
+                    <button id="langToggleBtnMobile" onclick="toggleLanguage()" class="bg-slate-800 text-white px-2 py-1 rounded text-xs font-semibold">
+                        বাংলা
+                    </button>
+                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-slate-600 hover:text-blue-600 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-md absolute w-full">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <a href="#about" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-md" data-i18n="nav_about">About Me</a>
+                <a href="#services" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-md" data-i18n="nav_services">Services</a>
+                <a href="#portfolio" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-md" data-i18n="nav_portfolio">Portfolio</a>
+                <a href="#faq" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-md" data-i18n="nav_faq">FAQ</a>
+                <a href="#contact" class="block px-3 py-2 text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-md" data-i18n="nav_contact">Contact</a>
+            </div>
+        </div>
+    </nav>
 
-		<!-- Page preloader -->
-		<div id="loading">
-			<div id="preloader">
-				<span></span>
-				<span></span>
-			</div>
-		</div>
+    <!-- Hero Section -->
+    <section id="home" class="pt-28 pb-20 md:pt-40 md:pb-32 px-4 bg-gradient-to-br from-blue-50 to-slate-100 flex items-center">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-blue-600 font-semibold tracking-wide uppercase mb-3" data-i18n="hero_greeting">Welcome to TunerHimu</p>
+            <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight" data-i18n="hero_title">
+                Boost Your Business in the <span class="text-blue-600">Digital World!</span>
+            </h1>
+            <p class="mt-4 max-w-2xl text-lg md:text-xl text-slate-600 mx-auto mb-10" data-i18n="hero_subtitle">
+                I am Himmat Ali Himu (TunerHimu) – Web Development Specialist at msncloud.net and a dedicated IT professional, ready to scale your digital presence.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#services" class="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition shadow-lg hover:shadow-xl" data-i18n="btn_services">View My Services</a>
+                <a href="#contact" class="bg-white text-slate-800 border border-slate-200 px-8 py-3 rounded-full font-semibold hover:bg-slate-50 transition shadow hover:shadow-md" data-i18n="btn_contact">Contact Me</a>
+            </div>
+        </div>
+    </section>
 
-		<!-- Overlay -->
-		<div class="global-overlay">
-			<div class="overlay skew-part"></div>
-		</div>
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center mb-12">
+                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase" data-i18n="about_tag">About Me</h2>
+                <p class="mt-2 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl" data-i18n="about_title">100% Honesty & Client Satisfaction</p>
+            </div>
+            <div class="max-w-4xl mx-auto text-center text-lg text-slate-600 space-y-6">
+                <p data-i18n="about_p1">
+                    I am Himmat Ali Himu, widely known online as <strong>TunerHimu</strong>. Providing top-quality services in digital marketing, web development, video production, and local IT support is my primary goal.
+                </p>
+                <p data-i18n="about_p2">
+                    For over 10 years, I have been working tirelessly through the 'TunerHimu' Facebook page. I am backed by an IT team with 15 years of solid experience. We believe that behind every successful project lies deep respect for the work and transparent communication with the client.
+                </p>
+            </div>
+        </div>
+    </section>
 
-		<!-- START - Home/Left Part -->
-		<section id="left-side" class="minimal-phone">
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase" data-i18n="services_tag">Expertise</h2>
+                <p class="mt-2 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl" data-i18n="services_title">Professional Services I Provide</p>
+            </div>
 
-			<!-- Your logo -->
-			<img src="img/hathostbd.png" alt="hathostbd" class="brand-logo" />
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition border border-slate-100 group">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition">
+                        <i class="fa-solid fa-code text-2xl text-blue-600 group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="srv1_title">Web Design & Development</h3>
+                    <p class="text-slate-600" data-i18n="srv1_desc">Professional portfolio and full e-commerce websites using HTML, CSS, JavaScript, and modern frameworks.</p>
+                </div>
+                <!-- Service 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition border border-slate-100 group">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition">
+                        <i class="fa-solid fa-bullhorn text-2xl text-blue-600 group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="srv2_title">Digital Marketing</h3>
+                    <p class="text-slate-600" data-i18n="srv2_desc">Social media management (Facebook, YouTube, TikTok), attractive post creation, and brand promotion.</p>
+                </div>
+                <!-- Service 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition border border-slate-100 group">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition">
+                        <i class="fa-solid fa-video text-2xl text-blue-600 group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="srv3_title">Short-form Video Ads</h3>
+                    <p class="text-slate-600" data-i18n="srv3_desc">Engaging 8-second hook videos, custom frames (1:1 & 16:9), and professional video script writing.</p>
+                </div>
+                <!-- Service 4 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition border border-slate-100 group">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition">
+                        <i class="fa-solid fa-wand-magic-sparkles text-2xl text-blue-600 group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="srv4_title">AI Content & Graphics</h3>
+                    <p class="text-slate-600" data-i18n="srv4_desc">Utilizing cutting-edge AI for custom images, stylized portraits, caricatures, and modern logo design.</p>
+                </div>
+                <!-- Service 5 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition border border-slate-100 group lg:col-span-2">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition">
+                        <i class="fa-solid fa-network-wired text-2xl text-blue-600 group-hover:text-white transition"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3" data-i18n="srv5_title">Local IT & CCTV (Narayanganj)</h3>
+                    <p class="text-slate-600" data-i18n="srv5_desc">Reliable local IT support, networking, and professional CCTV installation & maintenance for businesses located in Narayanganj.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-			<div class="content">
-<br /><br /><br />
-				<h1 class="text-intro opacity-0">We are coming soon
-				</h1>
-				
-				<h2 class="text-intro opacity-0">and Yes! we are proudly powered by <a href="https://www.hathostbd.com/">HatHostBD</a><br /></h2>
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase" data-i18n="port_tag">Showcase</h2>
+                <p class="mt-2 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl" data-i18n="port_title">My Notable Work Experience</p>
+                <p class="mt-4 max-w-2xl text-lg text-slate-600 mx-auto" data-i18n="port_desc">I have successfully collaborated with various local and corporate businesses for their digital promotion and development needs.</p>
+            </div>
 
-<br />
-HimuApps and Technology<br />
-B/10, Bot tola, Bazar Road, <br />
-Shiddhirganj, Narayanganj 1430 <br />
-Dhaka -  Bangladesh. <br /><br />
-Sales: <a href="tel:+8801680013168">+8801680013168</a> <br />
-Available during 10:00 AM to 06:00 PM (GMT +06:00)<br /><br />
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-slate-50 rounded-xl p-6 border border-slate-100 flex flex-col items-center text-center">
+                    <i class="fa-solid fa-cart-shopping text-4xl text-slate-400 mb-4"></i>
+                    <h4 class="font-bold text-lg text-slate-800 mb-2" data-i18n="pw1_title">E-Commerce Development</h4>
+                    <p class="text-slate-600 text-sm" data-i18n="pw1_desc">Full-stack e-commerce platforms including electronic dealership websites.</p>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-6 border border-slate-100 flex flex-col items-center text-center">
+                    <i class="fa-solid fa-store text-4xl text-slate-400 mb-4"></i>
+                    <h4 class="font-bold text-lg text-slate-800 mb-2" data-i18n="pw2_title">Local Business Promos</h4>
+                    <p class="text-slate-600 text-sm" data-i18n="pw2_desc">Promotional content for Medical Institutes, Sweet Shops, Kids Corners, and more.</p>
+                </div>
+                <div class="bg-slate-50 rounded-xl p-6 border border-slate-100 flex flex-col items-center text-center">
+                    <i class="fa-solid fa-cloud text-4xl text-slate-400 mb-4"></i>
+                    <h4 class="font-bold text-lg text-slate-800 mb-2" data-i18n="pw3_title">msncloud.net Specialist</h4>
+                    <p class="text-slate-600 text-sm" data-i18n="pw3_desc">Actively associated as a Web Development Specialist ensuring top-tier cloud web solutions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-WebSite: <a href="http://www.hathostbd.com/">www.hathostbd.com</a> | Support: <a href="http://support.hathostbd.com/">support.hathostbd.com</a><br />
-Query: <a href="http://query.hathostbd.com/">query.hathostbd.com</a> | Blog: <a href="http://blog.hathostbd.com/">blog.hathostbd.com</a><br />
-</h2>
-			</div>
-			
-			<!-- Social icons -->
-			<div class="social-icons">
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900" data-i18n="faq_title">Frequently Asked Questions</h2>
+            </div>
+            <div class="space-y-4">
+                <!-- FAQ 1 -->
+                <details class="bg-white p-6 rounded-lg shadow-sm border border-slate-100 cursor-pointer group">
+                    <summary class="font-semibold text-lg text-slate-800 list-none flex justify-between items-center">
+                        <span data-i18n="faq1_q">How much experience do you have?</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="mt-4 text-slate-600 leading-relaxed" data-i18n="faq1_a">I personally have over 10 years of experience, and I lead a dedicated IT team with 15 years of combined professional expertise.</p>
+                </details>
+                <!-- FAQ 2 -->
+                <details class="bg-white p-6 rounded-lg shadow-sm border border-slate-100 cursor-pointer group">
+                    <summary class="font-semibold text-lg text-slate-800 list-none flex justify-between items-center">
+                        <span data-i18n="faq2_q">Do you provide local support in Narayanganj?</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="mt-4 text-slate-600 leading-relaxed" data-i18n="faq2_a">Yes, we provide hands-on local IT support, networking solutions, and CCTV installation exclusively for businesses in Narayanganj and surrounding areas.</p>
+                </details>
+                <!-- FAQ 3 -->
+                <details class="bg-white p-6 rounded-lg shadow-sm border border-slate-100 cursor-pointer group">
+                    <summary class="font-semibold text-lg text-slate-800 list-none flex justify-between items-center">
+                        <span data-i18n="faq3_q">Can you build a multi-language website?</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 group-open:rotate-180 transition"></i>
+                    </summary>
+                    <p class="mt-4 text-slate-600 leading-relaxed" data-i18n="faq3_a">Absolutely! Just like this portfolio, we can build custom multi-language websites (e.g., English/Bengali) for your specific target audience.</p>
+                </details>
+            </div>
+        </div>
+    </section>
 
-				<a href="https://www.facebook.com/TunerHimu/"><i class="fa fa-facebook"></i></a>
-				<a href="http://www.twitter.com/TunerHimu"><i class="fa fa-twitter"></i></a>
-				<a href="https://tunerhimu.blogspot.com"><i class="fa fa-google-plus"></i></a>
-				<a href="https://www.linkedin.com/TunrHimu"><i class="fa fa-linkedin"></i></a>
-
-			</div>
-
-		</section>
-
-		<!-- END - Home/Left Part -->
-		<div id="getting-started"> </div>
-
-	<!-- ///////////////////\\\\\\\\\\\\\\\\\\\ -->
-    <!-- ********** Resources jQuery ********** -->
-    <!-- \\\\\\\\\\\\\\\\\\\/////////////////// -->
-	
-	<!-- * Libraries jQuery, Easing and Bootstrap - Be careful to not remove them * -->
-	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery.easings.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-
-	<!-- PhotoSwipe Core JS file -->
-	<script src="js/velocity.min.js"></script> 
-
-	<!-- PhotoSwipe UI JS file -->
-	<script src="js/velocity.ui.min.js"></script> 
-
-	<!-- Newsletter plugin -->
-	<script src="js/notifyMe.js"></script>
-
-	<!-- Slideshow/Image plugin -->
-	<script src="js/vegas.js"></script>
-
-	<!-- Scroll plugin -->
-	<script src="js/jquery.mousewheel.js"></script>
-
-	<!-- Custom Scrollbar plugin -->
-	<script src="js/jquery.mCustomScrollbar.js"></script>
-
-	<!-- Popup Newsletter Form -->
-	<script src="js/classie.js"></script>
-	<script src="js/dialogFx.js"></script>
-
-	<!-- Countdown plugin -->
-	<script src="js/jquery.countdown.js"></script>
-
-	<script>
-	$("#getting-started")
-		// Year/Month/Day Hour:Minute:Second
-		.countdown("2020/07/21 15:30:30", function(event) {
-			$(this).text(
-				event.strftime('%D Days %Hh %Mm %Ss')
-			);
-	});
-	</script>
-
-	<!-- Main JS File -->
-	<script src="js/main.js"></script>
-	
-	<!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
-
-	</body>
-
-</html>
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
+                
+                <!-- Contact Info -->
+                <div class="bg-blue-600 text-white p-10 md:p-12 flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-4" data-i18n="contact_title">Let's Discuss Your Project</h2>
+                        <p class="text-blue-100 mb-10" data-i18n="contact_subtitle">Fill out the form to send me an email directly, or reach out using the information below.</p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <i class="fa-solid fa-envelope text-xl mt-1 text-blue-200"></i>
+                                <div>
+                                    <p class="text-sm text-blue-200 font-medium" data-i18n="c_email">Public Email</p>
+                                    <a href="mailto:himu@msncloud.net" class="text-lg font-semibold hover:underline">himu@msncloud.net</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <i class="fa-brands fa-whatsapp text-xl mt-1 text-blue-200"></i>
+                                <div>
+                                    <p class="text-sm text-blue-200 font-medium" data-i18n="c_phone">WhatsApp</p>
+                                    <p class="text-lg font-semibold">+880 1680-013168</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <i class="fa-solid fa-location-dot text-xl mt-1 text-blue-200"></i>
+                                <div>
+                                    <p class="text-sm text-blue-200 font-medium" data-i18n="c_location">Location</p>
+                                    <p class="text-lg font-semibold"
