@@ -1,0 +1,317 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Calculator, 
+  TrendingUp, 
+  PieChart, 
+  Facebook, 
+  Linkedin, 
+  Github, 
+  Youtube, 
+  Globe,
+  Info,
+  Calendar
+} from 'lucide-react';
+
+const App = () => {
+  const [activeTab, setActiveTab] = useState('dps');
+  
+  // DPS States
+  const [dpsMonthly, setDpsMonthly] = useState(5000);
+  const [dpsRate, setDpsRate] = useState(7.5);
+  const [dpsYears, setDpsYears] = useState(5);
+  const [dpsResult, setDpsResult] = useState({ maturity: 0, investment: 0, interest: 0 });
+
+  // FDR States
+  const [fdrAmount, setFdrAmount] = useState(100000);
+  const [fdrRate, setFdrRate] = useState(8.0);
+  const [fdrYears, setFdrYears] = useState(3);
+  const [fdrResult, setFdrResult] = useState({ maturity: 0, investment: 0, interest: 0 });
+
+  // Calculation Logic for DPS
+  useEffect(() => {
+    const P = parseFloat(dpsMonthly);
+    const r = (parseFloat(dpsRate) / 100) / 12;
+    const n = parseFloat(dpsYears) * 12;
+
+    if (P > 0 && r > 0 && n > 0) {
+      const maturity = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+      const investment = P * n;
+      setDpsResult({
+        maturity: maturity.toFixed(2),
+        investment: investment.toFixed(2),
+        interest: (maturity - investment).toFixed(2)
+      });
+    } else {
+      setDpsResult({ maturity: 0, investment: 0, interest: 0 });
+    }
+  }, [dpsMonthly, dpsRate, dpsYears]);
+
+  // Calculation Logic for FDR
+  useEffect(() => {
+    const P = parseFloat(fdrAmount);
+    const r = (parseFloat(fdrRate) / 100);
+    const t = parseFloat(fdrYears);
+
+    if (P > 0 && r > 0 && t > 0) {
+      const maturity = P * Math.pow(1 + r, t);
+      setFdrResult({
+        maturity: maturity.toFixed(2),
+        investment: P.toFixed(2),
+        interest: (maturity - P).toFixed(2)
+      });
+    } else {
+      setFdrResult({ maturity: 0, investment: 0, interest: 0 });
+    }
+  }, [fdrAmount, fdrRate, fdrYears]);
+
+  const formatCurrency = (num) => {
+    return new Intl.NumberFormat('bn-BD', {
+      style: 'currency',
+      currency: 'BDT',
+    }).format(num);
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-12">
+      {/* SEO & Header Section */}
+      <header className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white pt-12 pb-20 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
+            msnCloud DPS & FDR Calculator
+          </h1>
+          <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
+            সহজেই আপনার সঞ্চয় ও মেয়াদী আমানতের সঠিক মুনাফা হিসেব করুন। msnCloud-এর উন্নত ক্যালকুলেটর আপনাকে দিচ্ছে নির্ভুল ফলাফল।
+          </p>
+          
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+            <div className="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-md">
+              <h2 className="flex items-center font-bold text-lg mb-2">
+                <Info className="w-5 h-5 mr-2 text-blue-300" /> ডিপিএস-এর সুবিধা
+              </h2>
+              <p className="text-sm opacity-80 leading-relaxed">
+                ডিপিএস (Deposit Pension Scheme) ছোট ছোট কিস্তিতে বড় অংকের টাকা জমানোর এক অনন্য উপায়। এটি ভবিষ্যতের জন্য আর্থিক নিরাপত্তা নিশ্চিত করে।
+              </p>
+            </div>
+            <div className="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-md">
+              <h2 className="flex items-center font-bold text-lg mb-2">
+                <Info className="w-5 h-5 mr-2 text-blue-300" /> এফডিআর কেন করবেন?
+              </h2>
+              <p className="text-sm opacity-80 leading-relaxed">
+                ফিক্সড ডিপোজিট বা এফডিআর (FDR) এককালীন বিনিয়োগের জন্য সেরা মাধ্যম। এখানে সুদের হার সঞ্চয়ী হিসাবের চেয়ে অনেক বেশি থাকে।
+              </p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Calculator Section */}
+      <main className="max-w-4xl mx-auto -mt-12 px-4">
+        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
+          
+          {/* Tabs Navigation */}
+          <div className="flex border-b">
+            <button 
+              onClick={() => setActiveTab('dps')}
+              className={`flex-1 py-5 text-lg font-bold flex items-center justify-center transition-all ${activeTab === 'dps' ? 'bg-blue-50 text-blue-700 border-b-4 border-blue-700' : 'text-slate-500 hover:bg-slate-50'}`}
+            >
+              <TrendingUp className="w-5 h-5 mr-2" /> DPS ক্যালকুলেটর
+            </button>
+            <button 
+              onClick={() => setActiveTab('fdr')}
+              className={`flex-1 py-5 text-lg font-bold flex items-center justify-center transition-all ${activeTab === 'fdr' ? 'bg-indigo-50 text-indigo-700 border-b-4 border-indigo-700' : 'text-slate-500 hover:bg-slate-50'}`}
+            >
+              <PieChart className="w-5 h-5 mr-2" /> FDR ক্যালকুলেটর
+            </button>
+          </div>
+
+          <div className="p-6 md:p-10">
+            {activeTab === 'dps' ? (
+              /* DPS UI */
+              <div className="grid md:grid-cols-2 gap-12 items-start">
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-600 mb-2">মাসিক জমার পরিমাণ (টাকা)</label>
+                    <input 
+                      type="range" min="500" max="100000" step="500" 
+                      value={dpsMonthly} onChange={(e) => setDpsMonthly(e.target.value)}
+                      className="w-full h-2 bg-blue-100 rounded-lg appearance-none cursor-pointer accent-blue-600 mb-4"
+                    />
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">৳</span>
+                      <input 
+                        type="number" value={dpsMonthly} onChange={(e) => setDpsMonthly(e.target.value)}
+                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xl text-blue-700 focus:ring-2 focus:ring-blue-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-600 mb-2">মুনাফার হার (%)</label>
+                    <div className="relative">
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">%</span>
+                      <input 
+                        type="number" step="0.01" value={dpsRate} onChange={(e) => setDpsRate(e.target.value)}
+                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xl text-blue-700 focus:ring-2 focus:ring-blue-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-600 mb-2">সময়কাল (বছর)</label>
+                    <div className="flex flex-col gap-3">
+                      <div className="relative">
+                        <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                        <input 
+                          type="number" value={dpsYears} onChange={(e) => setDpsYears(e.target.value)}
+                          placeholder="বছরের সংখ্যা লিখুন"
+                          className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xl text-blue-700 focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                      </div>
+                      <div className="flex gap-2">
+                        {[1, 3, 5, 10].map(y => (
+                          <button 
+                            key={y} onClick={() => setDpsYears(y)}
+                            className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${dpsYears == y ? 'bg-blue-600 text-white shadow-lg' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                          >
+                            {y}Y
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-slate-900 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 rounded-full -mr-16 -mt-16"></div>
+                  <p className="text-blue-400 text-sm font-bold uppercase tracking-widest mb-2">মেয়াদ শেষে মোট পাবেন</p>
+                  <h3 className="text-4xl font-black mb-10 text-blue-50">{formatCurrency(dpsResult.maturity)}</h3>
+                  
+                  <div className="space-y-5 border-t border-slate-700 pt-8">
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">মোট বিনিয়োগ</span>
+                      <span className="font-bold text-lg">{formatCurrency(dpsResult.investment)}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-400">অর্জিত মুনাফা</span>
+                      <span className="font-bold text-lg text-green-400">+{formatCurrency(dpsResult.interest)}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* FDR UI */
+              <div className="grid md:grid-cols-2 gap-12 items-start">
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-600 mb-2">এককালীন জমার পরিমাণ (টাকা)</label>
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">৳</span>
+                      <input 
+                        type="number" value={fdrAmount} onChange={(e) => setFdrAmount(e.target.value)}
+                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xl text-indigo-700 focus:ring-2 focus:ring-indigo-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-600 mb-2">মুনাফার হার (%)</label>
+                    <div className="relative">
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">%</span>
+                      <input 
+                        type="number" step="0.01" value={fdrRate} onChange={(e) => setFdrRate(e.target.value)}
+                        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xl text-indigo-700 focus:ring-2 focus:ring-indigo-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-600 mb-2">সময়কাল (বছর)</label>
+                    <div className="relative">
+                      <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                      <input 
+                        type="number" value={fdrYears} onChange={(e) => setFdrYears(e.target.value)}
+                        className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xl text-indigo-700 focus:ring-2 focus:ring-indigo-500 outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-indigo-950 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
+                   <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full -mr-16 -mt-16"></div>
+                  <p className="text-indigo-300 text-sm font-bold uppercase tracking-widest mb-2">FDR ম্যাচিউরিটি ভ্যালু</p>
+                  <h3 className="text-4xl font-black mb-10 text-indigo-50">{formatCurrency(fdrResult.maturity)}</h3>
+                  
+                  <div className="space-y-5 border-t border-indigo-800 pt-8">
+                    <div className="flex justify-between items-center">
+                      <span className="text-indigo-400">বিনিয়োগকৃত আসল</span>
+                      <span className="font-bold text-lg">{formatCurrency(fdrResult.investment)}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-indigo-400">মোট মুনাফা</span>
+                      <span className="font-bold text-lg text-emerald-400">+{formatCurrency(fdrResult.interest)}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* SEO Information & Blogs */}
+        <section className="mt-16 space-y-8">
+          <div className="grid md:grid-cols-3 gap-6 text-center md:text-left">
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+              <h4 className="font-bold text-slate-800 mb-2">সঠিক হিসেব</h4>
+              <p className="text-sm text-slate-500">চক্রবৃদ্ধি মুনাফার (Compound Interest) সঠিক সূত্র ব্যবহার করে ফলাফল প্রদান করা হয়।</p>
+            </div>
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+              <h4 className="font-bold text-slate-800 mb-2">সহজ ইন্টারফেস</h4>
+              <p className="text-sm text-slate-500">মোবাইল বা পিসি যেকোনো ডিভাইস থেকে খুব সহজেই ব্যবহারযোগ্য ইউজার ফ্রেন্ডলি ডিজাইন।</p>
+            </div>
+            <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+              <h4 className="font-bold text-slate-800 mb-2">সুরক্ষিত সঞ্চয়</h4>
+              <p className="text-sm text-slate-500">আপনার সঞ্চয়ের পরিকল্পনার জন্য msnCloud সবসময় আপনার সাথে আছে।</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Social Profile Section */}
+        <div className="mt-24 text-center">
+          <p className="text-slate-400 font-bold uppercase tracking-[0.2em] text-xs mb-8">Follow My Journey</p>
+          <div className="flex flex-wrap justify-center items-center gap-5">
+            <a href="https://facebook.com/msncloud" target="_blank" rel="noopener noreferrer" 
+               className="group flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm text-blue-600 border border-slate-100 hover:bg-blue-600 hover:text-white transition-all transform hover:-translate-y-1">
+              <Facebook className="w-5 h-5" />
+              <span className="font-bold text-slate-600 group-hover:text-white transition-colors">Facebook</span>
+            </a>
+            <a href="https://linkedin.com/in/TunerHimu" target="_blank" rel="noopener noreferrer"
+               className="group flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm text-blue-700 border border-slate-100 hover:bg-blue-700 hover:text-white transition-all transform hover:-translate-y-1">
+              <Linkedin className="w-5 h-5" />
+              <span className="font-bold text-slate-600 group-hover:text-white transition-colors">LinkedIn</span>
+            </a>
+            <a href="https://github.com/tunerhimu" target="_blank" rel="noopener noreferrer"
+               className="group flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm text-slate-800 border border-slate-100 hover:bg-slate-800 hover:text-white transition-all transform hover:-translate-y-1">
+              <Github className="w-5 h-5" />
+              <span className="font-bold text-slate-600 group-hover:text-white transition-colors">GitHub</span>
+            </a>
+            <a href="https://youtube.com/tunerhimu" target="_blank" rel="noopener noreferrer"
+               className="group flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm text-red-600 border border-slate-100 hover:bg-red-600 hover:text-white transition-all transform hover:-translate-y-1">
+              <Youtube className="w-5 h-5" />
+              <span className="font-bold text-slate-600 group-hover:text-white transition-colors">YouTube</span>
+            </a>
+            <a href="https://msncloud.net" target="_blank" rel="noopener noreferrer"
+               className="group flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm text-emerald-600 border border-slate-100 hover:bg-emerald-600 hover:text-white transition-all transform hover:-translate-y-1">
+              <Globe className="w-5 h-5" />
+              <span className="font-bold text-slate-600 group-hover:text-white transition-colors">Website</span>
+            </a>
+          </div>
+          
+          <div className="mt-12 pt-8 border-t border-slate-200">
+            <p className="text-slate-400 text-sm">
+              © {new Date().getFullYear()} <span className="font-bold text-slate-600">msnCloud</span>. <br className="md:hidden" />
+              স্মার্ট সঞ্চয়, নিরাপদ ভবিষ্যৎ।
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default App;
