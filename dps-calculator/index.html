@@ -3,176 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>msnCloud DPS & FDR Calculator - ডিপিএস ও এফডিআর ক্যালকুলেটর</title>
     
-    <!-- এসইও (SEO) মেটা ট্যাগ -->
-    <meta name="title" content="msnCloud DPS Calculator | সহজে হিসাব করুন আপনার ডিপিএস">
-    <meta name="description" content="msnCloud DPS Calculator-এর মাধ্যমে খুব সহজেই আপনার মাসিক জমার উপর ভিত্তি করে মেয়াদ শেষে মুনাফাসহ মোট টাকার পরিমাণ হিসাব করুন। এটি একটি নির্ভুল ডিপোজিট পেনশন স্কিম (DPS) ক্যালকুলেটর।">
-    <meta name="keywords" content="msnCloud DPS calculator, DPS Calculator Bangladesh, Deposit Pension Scheme Calculator, ডিপিএস ক্যালকুলেটর, মাসিক সঞ্চয় হিসাব, msnCloud">
-    <meta name="author" content="msnCloud">
-    <meta name="robots" content="index, follow">
-
-    <title>msnCloud DPS Calculator | সহজে হিসাব করুন আপনার ডিপিএস</title>
-
-    <!-- বুটস্ট্র্যাপ ৫ সিএসএস (Bootstrap 5 CSS) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- কাস্টম সিএসএস (Custom CSS) -->
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
         body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f8fafc;
         }
-        .seo-header {
-            background-color: #ffffff;
-            padding: 50px 20px;
-            border-bottom: 4px solid #0d6efd;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
         }
-        .brand-text {
-            color: #0d6efd;
-            font-weight: 800;
+        .tab-active {
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            border-bottom: 4px solid #1d4ed8;
         }
-        .calculator-wrapper {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-top: -40px;
-            position: relative;
-            z-index: 10;
+        .tab-inactive {
+            color: #64748b;
         }
-        .result-box {
-            display: none;
-            background-color: #f1f8f5;
-            padding: 25px;
-            border-radius: 10px;
-            margin-top: 30px;
-            border-left: 6px solid #198754;
+        .tab-inactive:hover {
+            background-color: #f1f5f9;
         }
-        .form-label {
-            font-weight: 600;
-            color: #495057;
-        }
-        .btn-calculate {
-            font-weight: bold;
-            letter-spacing: 0.5px;
+        input:focus {
+            ring: 2px;
+            ring-color: #3b82f6;
         }
     </style>
 </head>
-<body>
+<body class="text-slate-900 pb-12">
 
-    <!-- এসইও ফ্রেন্ডলি কন্টেন্ট সেকশন -->
-    <header class="seo-header text-center">
-        <div class="container">
-            <h1 class="brand-text mb-3">msnCloud DPS Calculator</h1>
-            <p class="lead text-secondary">আপনার ভবিষ্যতের আর্থিক সুরক্ষা নিশ্চিত করতে ডিপিএস (Deposit Pension Scheme) এর হিসাব রাখুন হাতের মুঠোয়।</p>
-            <div class="text-start mt-4 text-muted" style="max-width: 850px; margin: 0 auto; font-size: 1rem; line-height: 1.6;">
-                <p><strong>msnCloud DPS Calculator</strong> হলো একটি সহজ এবং নির্ভুল ওয়েব টুল, যা ব্যবহারকারীদের তাদের মাসিক সঞ্চয় বা ডিপিএস-এর মেয়াদ শেষের সম্ভাব্য প্রাপ্ত টাকার পরিমাণ জানতে সাহায্য করে। আপনি যদি ভবিষ্যতের জন্য কোনো ব্যাংকে বা আর্থিক প্রতিষ্ঠানে টাকা জমানোর পরিকল্পনা করেন, তবে এই টুলটি ব্যবহার করে মুহূর্তেই <strong>মোট জমাকৃত অর্থ</strong>, <strong>অর্জিত মুনাফা (সুদ)</strong> এবং <strong>মেয়াদ শেষে মোট প্রাপ্য টাকার পরিমাণ</strong> বের করতে পারবেন।</p>
-                <p>শুধুমাত্র আপনার মাসিক জমার পরিমাণ, বার্ষিক সুদের হার এবং সময়কাল ইনপুট দিন এবং 'হিসাব করুন' বাটনে ক্লিক করুন। আমাদের ক্যালকুলেটর স্বয়ংক্রিয়ভাবে জটিল হিসাব করে আপনাকে সঠিক ফলাফল জানিয়ে দেবে।</p>
+    <!-- Header & SEO Section -->
+    <header class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white pt-12 pb-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
+                msnCloud DPS & FDR Calculator
+            </h1>
+            <p class="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
+                সহজেই আপনার সঞ্চয় ও মেয়াদী আমানতের সঠিক মুনাফা হিসেব করুন। msnCloud-এর উন্নত ক্যালকুলেটর আপনাকে দিচ্ছে নির্ভুল ফলাফল।
+            </p>
+            
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-md">
+                    <h2 class="flex items-center font-bold text-lg mb-2">
+                        <i data-lucide="info" class="w-5 h-5 mr-2 text-blue-300"></i> ডিপিএস-এর সুবিধা
+                    </h2>
+                    <p class="text-sm opacity-80 leading-relaxed">
+                        ডিপিএস (Deposit Pension Scheme) ছোট ছোট কিস্তিতে বড় অংকের টাকা জমানোর এক অনন্য উপায়। এটি ভবিষ্যতের জন্য আর্থিক নিরাপত্তা নিশ্চিত করে।
+                    </p>
+                </div>
+                <div class="bg-white/10 p-5 rounded-2xl border border-white/20 backdrop-blur-md">
+                    <h2 class="flex items-center font-bold text-lg mb-2">
+                        <i data-lucide="info" class="w-5 h-5 mr-2 text-blue-300"></i> এফডিআর কেন করবেন?
+                    </h2>
+                    <p class="text-sm opacity-80 leading-relaxed">
+                        ফিক্সড ডিপোজিট বা এফডিআর (FDR) এককালীন বিনিয়োগের জন্য সেরা মাধ্যম। এখানে সুদের হার সঞ্চয়ী হিসাবের চেয়ে অনেক বেশি থাকে।
+                    </p>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- ক্যালকুলেটর সেকশন -->
-    <main class="container mb-5 pb-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8">
-                <div class="calculator-wrapper">
-                    <h3 class="text-center mb-4 text-dark">ডিপিএস হিসাব করুন</h3>
-                    
-                    <form id="dpsForm" onsubmit="calculateDPS(event)">
-                        <div class="mb-3">
-                            <label for="monthlyDeposit" class="form-label">মাসিক জমার পরিমাণ (৳)</label>
-                            <input type="number" class="form-control form-control-lg" id="monthlyDeposit" placeholder="যেমন: ১০০০" required min="1">
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="interestRate" class="form-label">বার্ষিক সুদের হার (%)</label>
-                            <input type="number" step="0.01" class="form-control form-control-lg" id="interestRate" placeholder="যেমন: ৭.৫" required min="0.1">
-                        </div>
-                        
-                        <div class="mb-4">
-                            <label for="years" class="form-label">মেয়াদ (বছর)</label>
-                            <input type="number" step="0.5" class="form-control form-control-lg" id="years" placeholder="যেমন: ৫" required min="0.5">
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary w-100 py-3 fs-5 btn-calculate">হিসাব করুন</button>
-                    </form>
+    <!-- Main Calculator Section -->
+    <main class="max-w-4xl mx-auto -mt-12 px-4">
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
+            
+            <!-- Tabs Navigation -->
+            <div class="flex border-b">
+                <button id="dpsTabBtn" onclick="switchTab('dps')" class="flex-1 py-5 text-lg font-bold flex items-center justify-center transition-all tab-active">
+                    <i data-lucide="trending-up" class="w-5 h-5 mr-2"></i> DPS ক্যালকুলেটর
+                </button>
+                <button id="fdrTabBtn" onclick="switchTab('fdr')" class="flex-1 py-5 text-lg font-bold flex items-center justify-center transition-all tab-inactive">
+                    <i data-lucide="pie-chart" class="w-5 h-5 mr-2"></i> FDR ক্যালকুলেটর
+                </button>
+            </div>
 
-                    <!-- ফলাফল দেখানোর জায়গা -->
-                    <div id="resultArea" class="result-box">
-                        <h4 class="text-center text-success mb-4">আপনার হিসাবের ফলাফল</h4>
-                        <ul class="list-group list-group-flush bg-transparent">
-                            <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent fs-5">
-                                <span class="text-secondary">মোট জমা:</span>
-                                <span id="resTotalDeposit" class="fw-bold text-dark">0 ৳</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent fs-5">
-                                <span class="text-secondary">মোট মুনাফা (সুদ):</span>
-                                <span id="resTotalInterest" class="fw-bold text-dark">0 ৳</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent mt-3 pt-3 border-top border-success fs-4">
-                                <strong class="text-success">মেয়াদ শেষে মোট পাবেন:</strong>
-                                <span id="resMaturityAmount" class="badge bg-success rounded-pill">0 ৳</span>
-                            </li>
-                        </ul>
+            <div class="p-6 md:p-10">
+                <!-- DPS Content -->
+                <div id="dpsSection" class="grid md:grid-cols-2 gap-12 items-start">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-600 mb-2">মাসিক জমার পরিমাণ (টাকা)</label>
+                            <input type="range" min="500" max="100000" step="500" id="dpsMonthlyRange" class="w-full h-2 bg-blue-100 rounded-lg appearance-none cursor-pointer accent-blue-600 mb-4">
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">৳</span>
+                                <input type="number" id="dpsMonthlyInput" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xl text-blue-700 focus:ring-2 focus:ring-blue-500 outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-600 mb-2">মুনাফার হার (%)</label>
+                            <div class="relative">
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">%</span>
+                                <input type="number" step="0.01" id="dpsRateInput" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xl text-blue-700 focus:ring-2 focus:ring-blue-500 outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-600 mb-2">সময়কাল (বছর)</label>
+                            <div class="flex flex-col gap-3">
+                                <div class="relative">
+                                    <i data-lucide="calendar" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
+                                    <input type="number" id="dpsYearsInput" placeholder="বছরের সংখ্যা লিখুন" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xl text-blue-700 focus:ring-2 focus:ring-blue-500 outline-none">
+                                </div>
+                                <div class="flex gap-2" id="dpsYearButtons">
+                                    <button onclick="setDpsYear(1)" class="flex-1 py-2 rounded-lg text-sm font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">1Y</button>
+                                    <button onclick="setDpsYear(3)" class="flex-1 py-2 rounded-lg text-sm font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">3Y</button>
+                                    <button onclick="setDpsYear(5)" class="flex-1 py-2 rounded-lg text-sm font-bold bg-blue-600 text-white shadow-lg transition-all">5Y</button>
+                                    <button onclick="setDpsYear(10)" class="flex-1 py-2 rounded-lg text-sm font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">10Y</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
+                    <div class="bg-slate-900 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 rounded-full -mr-16 -mt-16"></div>
+                        <p class="text-blue-400 text-sm font-bold uppercase tracking-widest mb-2">মেয়াদ শেষে মোট পাবেন</p>
+                        <h3 class="text-4xl font-black mb-10 text-blue-50" id="dpsMaturityText">৳ ০.০০</h3>
+                        <div class="space-y-5 border-t border-slate-700 pt-8">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-400">মোট বিনিয়োগ</span>
+                                <span class="font-bold text-lg" id="dpsInvestmentText">৳ ০.০০</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-400">অর্জিত মুনাফা</span>
+                                <span class="font-bold text-lg text-green-400" id="dpsInterestText">+৳ ০.০০</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- FDR Content (Hidden by default) -->
+                <div id="fdrSection" class="hidden grid md:grid-cols-2 gap-12 items-start">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-600 mb-2">এককালীন জমার পরিমাণ (টাকা)</label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">৳</span>
+                                <input type="number" id="fdrAmountInput" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xl text-indigo-700 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-600 mb-2">মুনাফার হার (%)</label>
+                            <div class="relative">
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">%</span>
+                                <input type="number" step="0.01" id="fdrRateInput" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xl text-indigo-700 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-600 mb-2">সময়কাল (বছর)</label>
+                            <div class="relative">
+                                <i data-lucide="calendar" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
+                                <input type="number" id="fdrYearsInput" class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xl text-indigo-700 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-indigo-950 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full -mr-16 -mt-16"></div>
+                        <p class="text-indigo-300 text-sm font-bold uppercase tracking-widest mb-2">FDR ম্যাচিউরিটি ভ্যালু</p>
+                        <h3 class="text-4xl font-black mb-10 text-indigo-50" id="fdrMaturityText">৳ ০.০০</h3>
+                        <div class="space-y-5 border-t border-indigo-800 pt-8">
+                            <div class="flex justify-between items-center">
+                                <span class="text-indigo-400">বিনিয়োগকৃত আসল</span>
+                                <span class="font-bold text-lg" id="fdrInvestmentText">৳ ০.০০</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-indigo-400">মোট মুনাফা</span>
+                                <span class="font-bold text-lg text-emerald-400" id="fdrInterestText">+৳ ০.০০</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Information Sections -->
+        <section class="mt-16 space-y-8">
+            <div class="grid md:grid-cols-3 gap-6 text-center md:text-left">
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                    <h4 class="font-bold text-slate-800 mb-2">সঠিক হিসেব</h4>
+                    <p class="text-sm text-slate-500">চক্রবৃদ্ধি মুনাফার (Compound Interest) সঠিক সূত্র ব্যবহার করে ফলাফল প্রদান করা হয়।</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                    <h4 class="font-bold text-slate-800 mb-2">সহজ ইন্টারফেস</h4>
+                    <p class="text-sm text-slate-500">মোবাইল বা পিসি যেকোনো ডিভাইস থেকে খুব সহজেই ব্যবহারযোগ্য ইউজার ফ্রেন্ডলি ডিজাইন।</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                    <h4 class="font-bold text-slate-800 mb-2">সুরক্ষিত সঞ্চয়</h4>
+                    <p class="text-sm text-slate-500">আপনার সঞ্চয়ের পরিকল্পনার জন্য msnCloud সবসময় আপনার সাথে আছে।</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Profile Section -->
+        <div class="mt-24 text-center">
+            <p class="text-slate-400 font-bold uppercase tracking-[0.2em] text-xs mb-8">Connect with msnCloud</p>
+            <div class="flex flex-wrap justify-center items-center gap-5">
+                <a href="https://facebook.com/tunerhimu" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm text-blue-600 border border-slate-100 hover:bg-blue-600 hover:text-white transition-all transform hover:-translate-y-1">
+                    <i data-lucide="facebook" class="w-5 h-5"></i>
+                    <span class="font-bold text-slate-600 group-hover:text-white transition-colors">Facebook</span>
+                </a>
+                <a href="https://bd.linkedin.com/in/tunerhimu" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm text-blue-700 border border-slate-100 hover:bg-blue-700 hover:text-white transition-all transform hover:-translate-y-1">
+                    <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    <span class="font-bold text-slate-600 group-hover:text-white transition-colors">LinkedIn</span>
+                </a>
+                <a href="https://github.com/tunerhimu" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm text-slate-800 border border-slate-100 hover:bg-slate-800 hover:text-white transition-all transform hover:-translate-y-1">
+                    <i data-lucide="github" class="w-5 h-5"></i>
+                    <span class="font-bold text-slate-600 group-hover:text-white transition-colors">GitHub</span>
+                </a>
+                <a href="https://youtube.com/TunerHimu" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm text-red-600 border border-slate-100 hover:bg-red-600 hover:text-white transition-all transform hover:-translate-y-1">
+                    <i data-lucide="youtube" class="w-5 h-5"></i>
+                    <span class="font-bold text-slate-600 group-hover:text-white transition-colors">YouTube</span>
+                </a>
+                <a href="https://msncloud.net" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2 bg-white px-5 py-3 rounded-2xl shadow-sm text-emerald-600 border border-slate-100 hover:bg-emerald-600 hover:text-white transition-all transform hover:-translate-y-1">
+                    <i data-lucide="globe" class="w-5 h-5"></i>
+                    <span class="font-bold text-slate-600 group-hover:text-white transition-colors">Website</span>
+                </a>
+            </div>
+            
+            <div class="mt-12 pt-8 border-t border-slate-200">
+                <p class="text-slate-400 text-sm">
+                    © <span id="currentYear"></span> <span class="font-bold text-slate-600">msnCloud</span>. <br class="md:hidden">
+                    স্মার্ট সঞ্চয়, নিরাপদ ভবিষ্যৎ।
+                </p>
             </div>
         </div>
     </main>
 
-    <!-- ফুটার সেকশন (PHP দিয়ে স্বয়ংক্রিয় বছর আপডেট) -->
-    <footer class="text-center py-4 bg-white border-top text-muted mt-auto">
-        <div class="container">
-            <small>&copy; <?php echo date("Y"); ?> msnCloud.net | সর্বস্বত্ব সংরক্ষিত।</small>
-        </div>
-    </footer>
-
-    <!-- বুটস্ট্র্যাপ ৫ জেএস (Bootstrap 5 JS) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- ডিপিএস ক্যালকুলেশন লজিক (JavaScript) -->
     <script>
-        function calculateDPS(event) {
-            // ফর্ম সাবমিট হয়ে পেজ রিলোড হওয়া বন্ধ করা হলো
-            event.preventDefault();
+        // Initialize Icons
+        lucide.createIcons();
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-            // ইনপুট থেকে ডাটা সংগ্রহ
-            const P = parseFloat(document.getElementById('monthlyDeposit').value);
-            const r = parseFloat(document.getElementById('interestRate').value);
-            const t = parseFloat(document.getElementById('years').value);
+        // States
+        let currentTab = 'dps';
+        
+        // DPS Inputs
+        const dpsMonthlyRange = document.getElementById('dpsMonthlyRange');
+        const dpsMonthlyInput = document.getElementById('dpsMonthlyInput');
+        const dpsRateInput = document.getElementById('dpsRateInput');
+        const dpsYearsInput = document.getElementById('dpsYearsInput');
 
-            if (isNaN(P) || isNaN(r) || isNaN(t)) {
-                return;
-            }
+        // FDR Inputs
+        const fdrAmountInput = document.getElementById('fdrAmountInput');
+        const fdrRateInput = document.getElementById('fdrRateInput');
+        const fdrYearsInput = document.getElementById('fdrYearsInput');
 
-            // মাসিক সুদের হার নির্ণয় (বার্ষিক হার / 100 / 12)
-            const i = (r / 100) / 12;
-            // মোট মাস নির্ণয় (বছর * 12)
-            const n = t * 12;
+        // Default Values
+        dpsMonthlyInput.value = 5000;
+        dpsMonthlyRange.value = 5000;
+        dpsRateInput.value = 7.5;
+        dpsYearsInput.value = 5;
 
-            // ডিপিএস এর সূত্র (Maturity Amount Formula)
-            const maturityAmount = P * ((Math.pow(1 + i, n) - 1) / i) * (1 + i);
-            
-            // মোট জমার পরিমাণ
-            const totalDeposit = P * n;
-            
-            // মোট মুনাফা (সুদ)
-            const totalInterest = maturityAmount - totalDeposit;
+        fdrAmountInput.value = 100000;
+        fdrRateInput.value = 8.0;
+        fdrYearsInput.value = 3;
 
-            // ফলাফলগুলো ফরমেট করে এইচটিএমএল-এ বসানো
-            document.getElementById('resTotalDeposit').innerText = totalDeposit.toLocaleString('en-IN', { maximumFractionDigits: 2 }) + " ৳";
-            document.getElementById('resTotalInterest').innerText = totalInterest.toLocaleString('en-IN', { maximumFractionDigits: 2 }) + " ৳";
-            document.getElementById('resMaturityAmount').innerText = maturityAmount.toLocaleString('en-IN', { maximumFractionDigits: 2 }) + " ৳";
-
-            // ফলাফল বক্সটি দৃশ্যমান করা
-            document.getElementById('resultArea').style.display = 'block';
-            
-            // রেজাল্ট বক্সে স্ক্রল করে নিয়ে যাওয়া (Smooth Scroll)
-            document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Functions
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('bn-BD', {
+                style: 'currency',
+                currency: 'BDT',
+            }).format(num);
         }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            const dpsSec = document.getElementById('dpsSection');
+            const fdrSec = document.getElementById('fdrSection');
+            const dpsBtn = document.getElementById('dpsTabBtn');
+            const fdrBtn = document.getElementById('fdrTabBtn');
+
+            if (tab === 'dps') {
+                dpsSec.classList.remove('hidden');
+                fdrSec.classList.add('hidden');
+                dpsBtn.classList.add('tab-active');
+                dpsBtn.classList.remove('tab-inactive');
+                fdrBtn.classList.add('tab-inactive');
+                fdrBtn.classList.remove('tab-active');
+            } else {
+                fdrSec.classList.remove('hidden');
+                dpsSec.classList.add('hidden');
+                fdrBtn.classList.add('tab-active');
+                fdrBtn.classList.remove('tab-inactive');
+                dpsBtn.classList.add('tab-inactive');
+                dpsBtn.classList.remove('tab-active');
+            }
+        }
+
+        function setDpsYear(y) {
+            dpsYearsInput.value = y;
+            updateYearButtons(y);
+            calculateDps();
+        }
+
+        function updateYearButtons(selectedYear) {
+            const btns = document.querySelectorAll('#dpsYearButtons button');
+            btns.forEach(btn => {
+                const year = parseInt(btn.textContent);
+                if (year === selectedYear) {
+                    btn.className = "flex-1 py-2 rounded-lg text-sm font-bold bg-blue-600 text-white shadow-lg transition-all";
+                } else {
+                    btn.className = "flex-1 py-2 rounded-lg text-sm font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all";
+                }
+            });
+        }
+
+        function calculateDps() {
+            const P = parseFloat(dpsMonthlyInput.value) || 0;
+            const rYearly = parseFloat(dpsRateInput.value) || 0;
+            const tYears = parseFloat(dpsYearsInput.value) || 0;
+
+            const r = (rYearly / 100) / 12;
+            const n = tYears * 12;
+
+            if (P > 0 && r > 0 && n > 0) {
+                const maturity = P * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+                const investment = P * n;
+                const interest = maturity - investment;
+
+                document.getElementById('dpsMaturityText').textContent = formatCurrency(maturity);
+                document.getElementById('dpsInvestmentText').textContent = formatCurrency(investment);
+                document.getElementById('dpsInterestText').textContent = "+" + formatCurrency(interest);
+            } else {
+                document.getElementById('dpsMaturityText').textContent = formatCurrency(0);
+                document.getElementById('dpsInvestmentText').textContent = formatCurrency(0);
+                document.getElementById('dpsInterestText').textContent = "+৳ ০.০০";
+            }
+        }
+
+        function calculateFdr() {
+            const P = parseFloat(fdrAmountInput.value) || 0;
+            const rYearly = parseFloat(fdrRateInput.value) || 0;
+            const tYears = parseFloat(fdrYearsInput.value) || 0;
+
+            const r = (rYearly / 100);
+
+            if (P > 0 && r > 0 && tYears > 0) {
+                const maturity = P * Math.pow(1 + r, tYears);
+                const interest = maturity - P;
+
+                document.getElementById('fdrMaturityText').textContent = formatCurrency(maturity);
+                document.getElementById('fdrInvestmentText').textContent = formatCurrency(P);
+                document.getElementById('fdrInterestText').textContent = "+" + formatCurrency(interest);
+            } else {
+                document.getElementById('fdrMaturityText').textContent = formatCurrency(0);
+                document.getElementById('fdrInvestmentText').textContent = formatCurrency(0);
+                document.getElementById('fdrInterestText').textContent = "+৳ ০.০০";
+            }
+        }
+
+        // Event Listeners
+        dpsMonthlyRange.addEventListener('input', (e) => {
+            dpsMonthlyInput.value = e.target.value;
+            calculateDps();
+        });
+
+        dpsMonthlyInput.addEventListener('input', (e) => {
+            dpsMonthlyRange.value = e.target.value;
+            calculateDps();
+        });
+
+        dpsRateInput.addEventListener('input', calculateDps);
+        dpsYearsInput.addEventListener('input', (e) => {
+            updateYearButtons(parseInt(e.target.value));
+            calculateDps();
+        });
+
+        fdrAmountInput.addEventListener('input', calculateFdr);
+        fdrRateInput.addEventListener('input', calculateFdr);
+        fdrYearsInput.addEventListener('input', calculateFdr);
+
+        // Initial Calculation
+        calculateDps();
+        calculateFdr();
     </script>
 </body>
 </html>
