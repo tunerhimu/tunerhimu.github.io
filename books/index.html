@@ -513,16 +513,27 @@
     </div>
   </div>
 
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 mt-6 pt-5 border-t border-slate-800 text-center">
+    <p class="text-xs text-slate-500">Developed by <a href="https://msnCloud.net" target="_blank" rel="noopener" class="text-slate-300 hover:text-white font-semibold transition">msnCloud.net</a></p>
+  </div>
+
   <!-- admin config (hidden by default) -->
   <div id="adminPanel" class="hidden max-w-6xl mx-auto px-4 sm:px-6 mt-6">
     <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700">
       <p class="text-sm font-semibold text-white mb-3"><i class="fa-solid fa-lock mr-1.5"></i> অ্যাডমিন কনফিগারেশন</p>
-      <label class="text-xs text-slate-400">Google Apps Script Web App URL</label>
+      <label class="text-xs text-slate-400">Google Apps Script Web App URL (শুধু এই ডিভাইস/ব্রাউজারে টেস্টিং-এর জন্য)</label>
       <div class="flex flex-col sm:flex-row gap-2 mt-1.5">
         <input id="scriptUrlInput" type="text" placeholder="https://script.google.com/macros/s/xxxx/exec" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200">
         <button onclick="saveScriptUrl()" class="bg-royal text-white text-sm font-semibold px-4 py-2 rounded-lg hover:brightness-110 transition">সংরক্ষণ করুন</button>
       </div>
       <p id="scriptUrlStatus" class="text-xs text-slate-500 mt-2"></p>
+      <p class="text-[11px] text-amber mt-2 leading-relaxed"><i class="fa-solid fa-triangle-exclamation mr-1"></i> এটা শুধু আপনার এই ব্রাউজারে সেভ হয় — সব কাস্টমারের অর্ডার শীটে জমা করাতে চাইলে <code class="bg-slate-900 px-1 rounded">index.html</code> ফাইলে <code class="bg-slate-900 px-1 rounded">GOOGLE_SHEET_WEB_APP_URL</code> ভ্যারিয়েবলে URL সরাসরি বসিয়ে দিন।</p>
+
+      <div class="border-t border-slate-700 mt-4 pt-4">
+        <p class="text-xs font-semibold text-white mb-2"><i class="fa-solid fa-rotate mr-1.5"></i> লোকালি জমা থাকা অসিঙ্ক অর্ডার</p>
+        <button id="resyncBtn" onclick="resyncPendingOrders()" type="button" class="w-full bg-emerald text-white text-sm font-semibold py-2.5 rounded-lg hover:brightness-95 transition"><i class="fa-solid fa-rotate mr-1.5"></i> এখনই সিঙ্ক করুন</button>
+        <p id="resyncStatus" class="text-xs text-slate-400 mt-2"></p>
+      </div>
     </div>
   </div>
 </footer>
@@ -579,6 +590,7 @@
           <div class="border-t border-dashed border-slate-300 pt-2 flex justify-between font-bold text-royal text-base"><span>সর্বমোট</span><span id="invTotal" class="bn-num">৳১,০৬০</span></div>
         </div>
         <p class="text-center text-xs text-slate-400 mt-4">ধন্যবাদ আমাদের সাথে থাকার জন্য 💚</p>
+        <p id="sheetSyncStatus" class="no-print text-center text-xs mt-3 text-slate-400"><i class="fa-solid fa-spinner fa-spin mr-1"></i> গুগল শীটে জমা হচ্ছে...</p>
       </div>
 
       <div class="grid grid-cols-3 gap-2.5 mt-6 no-print">
@@ -622,6 +634,30 @@ const WHATSAPP_NUMBER = '8801919728605';
 const LS_ORDERS_KEY = 'mkbd_orders_cache';
 const LS_SCRIPT_KEY = 'mkbd_script_url';
 let pendingOrder = null;
+
+/* =====================================================================
+   🔗 গুগল অ্যাপস স্ক্রিপ্ট URL — এখানে সরাসরি বসান
+   =====================================================================
+   ⚠️ গুরুত্বপূর্ণ: নিচের গিয়ার (⚙️) আইকন দিয়ে "অ্যাডমিন কনফিগারেশন"-এ URL
+   সেভ করলে সেটা শুধু আপনার নিজের ব্রাউজারে (localStorage) সেভ থাকে —
+   অন্য কোনো কাস্টমার অর্ডার করলে তাদের ব্রাউজারে এই URL থাকে না, তাই তাদের
+   অর্ডার গুগল শীটে জমা হয় না। এটাই মূল কারণ কেন আগে ডেটা আসছিল না।
+
+   সমাধান: Apps Script Deploy করার পর যে Web App URL পাবেন সেটা নিচের
+   কোটেশন চিহ্নের ভেতরে বসিয়ে দিন — তাহলে সাইটের সব ভিজিটরের অর্ডারই
+   সরাসরি আপনার শীটে জমা হবে। উদাহরণ:
+   const GOOGLE_SHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycb.../exec';
+   ===================================================================== */
+const GOOGLE_SHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx-lOrCiqDJimxnz3qIG-y1gASPbAEXLodJ69h0TVvGxOBoAwgrUsT2GcZvfkBormst/exec'; // 👈 এখানে আপনার Web App URL বসান
+
+/** সব সময় সঠিক স্ক্রিপ্ট URL রিটার্ন করে: আগে হার্ডকোড করা URL চেক করে,
+    না থাকলে অ্যাডমিন প্যানেলে (এই ব্রাউজারে) সেভ করা URL ব্যবহার করে (টেস্টিং-এর জন্য) */
+function getScriptUrl(){
+  if(GOOGLE_SHEET_WEB_APP_URL && GOOGLE_SHEET_WEB_APP_URL.trim() !== ''){
+    return GOOGLE_SHEET_WEB_APP_URL.trim();
+  }
+  return localStorage.getItem(LS_SCRIPT_KEY) || '';
+}
 
 /* ==================== BENGALI NUMERAL HELPERS ====================
    সব ডাইনামিক সংখ্যা (দাম, পরিমাণ, টোটাল) বাংলা অঙ্কে স্পষ্টভাবে দেখানোর জন্য।
@@ -700,11 +736,17 @@ function handleOrderSubmit(e){
     date: dateStr,
     timestamp: now.toISOString(),
     status: 'পেন্ডিং',
-    product: 'আয়ান ইন্টেলিজেন্স বুক (AYAN Intelligence Study Book)'
+    product: 'আয়ান ইন্টেলিজেন্স বুক (AYAN Intelligence Study Book)',
+    synced: false // গুগল শীটে সফলভাবে পৌঁছালে true হবে
   };
 
+  // ১) আগে লোকালি সংরক্ষণ করি — এটা হোয়াটসঅ্যাপ/গুগল শীট যা-ই হোক না কেন সবসময় হবে
   cacheOrderLocally(pendingOrder);
+
+  // ২) গুগল শীটে পাঠানোর চেষ্টা করি — এটা ব্যর্থ হলেও ফর্ম সাবমিশন/ইনভয়েস আটকাবে না
   sendOrderToSheet(pendingOrder);
+
+  // ৩) ইনভয়েস মোডাল সবসময় দেখাবে, হোয়াটসঅ্যাপে পাঠানো না পাঠানো নির্বিশেষে
   showInvoiceModal(pendingOrder);
 }
 
@@ -716,19 +758,100 @@ function cacheOrderLocally(order){
   }catch(err){ console.warn('Local cache failed', err); }
 }
 
-async function sendOrderToSheet(order){
-  const scriptUrl = localStorage.getItem(LS_SCRIPT_KEY);
-  if(!scriptUrl){ console.info('কোনো Google Sheet স্ক্রিপ্ট URL কনফিগার করা নেই — শুধু লোকাল কপি সংরক্ষিত হয়েছে।'); return; }
+function updateLocalSyncFlag(orderId, synced){
   try{
-    await fetch(scriptUrl, {
+    const orders = JSON.parse(localStorage.getItem(LS_ORDERS_KEY) || '[]');
+    const idx = orders.findIndex(o => o.orderId === orderId);
+    if(idx > -1){ orders[idx].synced = synced; localStorage.setItem(LS_ORDERS_KEY, JSON.stringify(orders)); }
+  }catch(err){ /* ignore */ }
+}
+
+/** গুগল শীটে অর্ডার পাঠায়। no-cors ব্যবহার না করে সাধারণ (cors) মোডে
+    পাঠানো হয়, কারণ text/plain বডি একটি "simple request" হিসেবে গণ্য হয়
+    (কোনো preflight লাগে না) এবং Apps Script Web App নিজে থেকেই CORS
+    হেডার যোগ করে দেয় — ফলে আমরা রেসপন্স পড়ে সত্যিই ডেটা গেছে কিনা যাচাই করতে পারি। */
+async function sendOrderToSheet(order){
+  const scriptUrl = getScriptUrl();
+  if(!scriptUrl){
+    console.warn('⚠️ কোনো Google Sheet Web App URL কনফিগার করা নেই — index.html ফাইলের GOOGLE_SHEET_WEB_APP_URL এ URL বসান, অথবা ফুটারের ⚙️ আইকন দিয়ে (শুধু টেস্টিং-এর জন্য) সেভ করুন।');
+    updateSyncBadge(false, 'not_configured');
+    return;
+  }
+  try{
+    const res = await fetch(scriptUrl, {
       method: 'POST',
-      mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({ action: 'newOrder', order })
     });
+    const data = await res.json().catch(() => null);
+    if(data && data.success){
+      updateLocalSyncFlag(order.orderId, true);
+      updateSyncBadge(true);
+    } else {
+      updateLocalSyncFlag(order.orderId, false);
+      updateSyncBadge(false, 'server_error');
+      console.warn('Google Sheet রেসপন্স:', data);
+    }
   }catch(err){
-    console.warn('Google Sheet এ পাঠাতে সমস্যা হয়েছে:', err);
+    updateLocalSyncFlag(order.orderId, false);
+    updateSyncBadge(false, 'network_error');
+    console.warn('Google Sheet এ পাঠাতে সমস্যা হয়েছে (নেটওয়ার্ক/CORS):', err);
   }
+}
+
+/** ইনভয়েস মোডালে ছোট্ট একটা সিঙ্ক-স্ট্যাটাস দেখায়, যাতে বোঝা যায় ডেটা শীটে গেছে কিনা */
+function updateSyncBadge(success, reason){
+  const el = document.getElementById('sheetSyncStatus');
+  if(!el) return;
+  if(success){
+    el.innerHTML = '<i class="fa-solid fa-circle-check text-emerald mr-1"></i> গুগল শীটে সফলভাবে জমা হয়েছে';
+    el.className = 'no-print text-center text-xs mt-3 text-emerald font-semibold';
+  } else {
+    let msg = 'গুগল শীটে জমা হয়নি — লোকালি সংরক্ষিত আছে, পরে সিঙ্ক করুন';
+    if(reason === 'not_configured') msg = 'Google Sheet URL কনফিগার করা নেই (অ্যাডমিন ⚙️ দেখুন)';
+    el.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-amber mr-1"></i> ' + msg;
+    el.className = 'no-print text-center text-xs mt-3 text-amber font-semibold';
+  }
+}
+
+/** যেসব অর্ডার আগে শীটে সিঙ্ক হয়নি (নেটওয়ার্ক সমস্যা/URL কনফিগার না থাকা ইত্যাদির কারণে),
+    সেগুলো আবার পাঠানোর চেষ্টা করে। ⚙️ অ্যাডমিন প্যানেলে "এখনই সিঙ্ক করুন" বাটন থেকে চালানো যায়। */
+async function resyncPendingOrders(){
+  const btn = document.getElementById('resyncBtn');
+  const statusEl = document.getElementById('resyncStatus');
+  const scriptUrl = getScriptUrl();
+
+  if(!scriptUrl){
+    if(statusEl) statusEl.textContent = 'আগে Web App URL সেভ করুন।';
+    return;
+  }
+
+  let orders = [];
+  try{ orders = JSON.parse(localStorage.getItem(LS_ORDERS_KEY) || '[]'); }catch(err){ orders = []; }
+  const unsynced = orders.filter(o => !o.synced);
+
+  if(unsynced.length === 0){
+    if(statusEl) statusEl.textContent = 'সিঙ্ক করার মতো কোনো নতুন অর্ডার নেই। সব আগেই সিঙ্ক করা আছে ✅';
+    return;
+  }
+
+  if(btn){ btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> সিঙ্ক হচ্ছে...'; }
+  let successCount = 0;
+
+  for(const order of unsynced){
+    try{
+      const res = await fetch(scriptUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'newOrder', order })
+      });
+      const data = await res.json().catch(() => null);
+      if(data && data.success){ updateLocalSyncFlag(order.orderId, true); successCount++; }
+    }catch(err){ console.warn('Resync failed for', order.orderId, err); }
+  }
+
+  if(btn){ btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-rotate mr-1.5"></i> এখনই সিঙ্ক করুন'; }
+  if(statusEl) statusEl.textContent = `${successCount}/${unsynced.length} টি অর্ডার সফলভাবে সিঙ্ক হয়েছে।`;
 }
 
 /* ==================== INVOICE MODAL ==================== */
@@ -824,7 +947,7 @@ async function trackOrder(){
   }
   resultBox.innerHTML = `<p class="text-sm text-slate-400 text-center"><i class="fa-solid fa-spinner fa-spin mr-1.5"></i>খোঁজা হচ্ছে...</p>`;
 
-  const scriptUrl = localStorage.getItem(LS_SCRIPT_KEY);
+  const scriptUrl = getScriptUrl();
   let order = null;
 
   if(scriptUrl){
