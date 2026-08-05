@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>আয়ান ইন্টেলিজেন্স বুক | My Kid BD Shop</title>
+<meta name="description" content="আয়ান ইন্টেলিজেন্স স্টাডি বুক - কথা বলার বই, ফোনেটিক লার্নিং। মাত্র ৯৯০ টাকায় অর্ডার করুন।">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { hind: ['Hind Siliguri', 'sans-serif'] },
+        colors: {
+          royal: '#4f46e5',
+          emerald: '#10b981',
+          amber: '#f59e0b',
+          rose: '#f43f5e',
+          slate: '#f8fafc',
+        },
+        boxShadow: {
+          soft: '0 10px 40px -10px rgba(79,70,229,0.25)',
+          card: '0 4px 24px -4px rgba(15,23,42,0.08)',
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  :root{
+    --royal:#4f46e5; --royal-dark:#4338ca; --emerald:#10b981; --amber:#f59e0b; --rose:#f43f5e; --bg:#f8fafc;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ overflow-x:hidden; max-width:100%; }
+  body{
+    font-family:'Hind Siliguri', sans-serif;
+    background:var(--bg);
+    font-weight:500;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;
+    font-feature-settings:"tnum" 1, "kern" 1;
+    letter-spacing:0.1px;
+  }
+  p, span, li, label, td, th, a, button, input, textarea{ font-weight:inherit; }
+  h1,h2,h3,h4{ font-weight:700; letter-spacing:0.1px; }
+  /* Bengali digits: slightly heavier + tabular so amounts line up and read clearly */
+  .bn-num{
+    font-variant-numeric: tabular-nums;
+    font-weight:700;
+    letter-spacing:0.4px;
+  }
+
+  .dotted-bg{
+    background-image: radial-gradient(rgba(79,70,229,0.14) 1.6px, transparent 1.6px);
+    background-size: 22px 22px;
+  }
+  .wavy-divider{ display:block; width:100%; height:60px; }
+
+  .price-ribbon{
+    position:relative;
+    background: linear-gradient(135deg, var(--rose), #fb7185);
+    clip-path: polygon(0 0, 100% 0, 100% 78%, 92% 100%, 0 100%);
+  }
+
+  .blob{
+    border-radius: 42% 58% 65% 35% / 45% 45% 55% 55%;
+  }
+
+  .float-anim{ animation: floaty 5s ease-in-out infinite; }
+  @keyframes floaty{ 0%,100%{ transform:translateY(0px) rotate(0deg);} 50%{ transform:translateY(-14px) rotate(2deg);} }
+
+  .pulse-cta{ animation: pulseGlow 2.4s ease-in-out infinite; }
+  @keyframes pulseGlow{
+    0%,100%{ box-shadow: 0 0 0 0 rgba(244,63,94,0.45); }
+    50%{ box-shadow: 0 0 0 14px rgba(244,63,94,0); }
+  }
+
+  .thumb-active{ border-color: var(--royal) !important; box-shadow: 0 0 0 3px rgba(79,70,229,0.25); }
+
+  .step-badge{
+    background: linear-gradient(135deg, var(--royal), #7c6ff0);
+  }
+
+  /* Custom scrollbar for modals */
+  .modal-scroll::-webkit-scrollbar{ width:6px; }
+  .modal-scroll::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:10px; }
+
+  input:focus, select:focus, textarea:focus{ outline:none; }
+
+  .radio-card:has(input:checked){
+    border-color: var(--royal);
+    background: #eef2ff;
+  }
+  .radio-card:has(input:checked) .radio-dot{
+    border-color: var(--royal);
+  }
+  .radio-card:has(input:checked) .radio-dot::after{
+    opacity:1;
+  }
+  .radio-dot::after{
+    content:''; position:absolute; inset:3px; border-radius:9999px; background:var(--royal); opacity:0; transition:opacity .15s;
+  }
+
+  @media print{
+    body *{ visibility:hidden; }
+    #invoiceArea, #invoiceArea *{ visibility:visible; }
+    #invoiceArea{ position:absolute; left:0; top:0; width:100%; }
+    .no-print{ display:none !important; }
+  }
+
+  .status-badge{ font-weight:600; padding:.35rem .9rem; border-radius:9999px; font-size:.85rem; display:inline-block; }
+  .status-পেন্ডিং{ background:#fef3c7; color:#92400e; }
+  .status-প্রসেসিং{ background:#dbeafe; color:#1e40af; }
+  .status-শিপড{ background:#ede9fe; color:#5b21b6; }
+  .status-ডেলিভারড{ background:#d1fae5; color:#065f46; }
+
+  .marker-tick{
+    background-image: linear-gradient(45deg, transparent 48%, var(--amber) 48%, var(--amber) 52%, transparent 52%);
+  }
+</style>
+</head>
+<body class="text-slate-800 antialiased">
+
+<!-- ============ HEADER ============ -->
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-100">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-2.5">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-royal to-indigo-400 grid place-items-center text-white shadow-soft shrink-0">
+        <i class="fa-solid fa-book-open-reader text-lg"></i>
+      </div>
+      <div class="leading-tight">
+        <p class="font-bold text-sm sm:text-base text-slate-800">My Kid BD Shop</p>
+        <p class="text-[11px] sm:text-xs text-slate-400 -mt-0.5">শিশুদের শেখার নির্ভরযোগ্য ঠিকানা</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="openTrackModal()" class="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-royal border border-royal/30 bg-royal/5 px-2.5 sm:px-4 py-2 rounded-full hover:bg-royal/10 transition">
+        <i class="fa-solid fa-truck-fast"></i> <span class="hidden xs:inline sm:inline">অর্ডার</span> ট্র্যাকিং
+      </button>
+      <a href="tel:01919728605" class="hidden sm:flex items-center gap-1.5 text-sm font-semibold text-white bg-emerald px-4 py-2 rounded-full hover:brightness-95 transition">
+        <i class="fa-solid fa-phone"></i> ০১৯১৯-৭২৮৬০৫
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="dotted-bg relative overflow-hidden">
+  <div class="absolute -top-10 -left-10 w-52 h-52 bg-amber/20 blob float-anim hidden sm:block"></div>
+  <div class="absolute top-24 -right-14 w-64 h-64 bg-emerald/15 blob float-anim hidden sm:block" style="animation-delay:1.2s"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-14 relative">
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+
+      <!-- Left copy -->
+      <div class="text-center lg:text-left order-2 lg:order-1">
+        <span class="inline-flex items-center gap-2 bg-white text-royal text-xs sm:text-sm font-semibold px-4 py-1.5 rounded-full shadow-card border border-indigo-100">
+          <i class="fa-solid fa-star text-amber"></i> ১০০+ কনটেন্ট • কথা বলা স্টাডি বুক
+        </span>
+
+        <h1 class="mt-5 text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-[1.25]">
+          <span class="text-royal">আয়ান ইন্টেলিজেন্স বুক</span><br>
+          <span class="text-2xl sm:text-3xl lg:text-4xl text-slate-700">AYAN Intelligence Study Book</span>
+        </h1>
+
+        <p class="mt-4 text-base sm:text-lg text-slate-500 max-w-xl mx-auto lg:mx-0">
+          🗣️ কথা বলার বই <span class="text-slate-300">|</span> Phonetic Learning <span class="text-slate-300">|</span> শিক্ষার মজা, আনন্দ ভরা
+        </p>
+
+        <div class="mt-6 flex flex-wrap justify-center lg:justify-start gap-2.5">
+          <span class="bg-white shadow-card text-xs sm:text-sm font-medium px-3.5 py-2 rounded-xl flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber"></i> USB Type-C রিচার্জেবল</span>
+          <span class="bg-white shadow-card text-xs sm:text-sm font-medium px-3.5 py-2 rounded-xl flex items-center gap-1.5"><i class="fa-solid fa-shield-heart text-emerald"></i> চোখের জন্য নিরাপদ</span>
+          <span class="bg-white shadow-card text-xs sm:text-sm font-medium px-3.5 py-2 rounded-xl flex items-center gap-1.5"><i class="fa-solid fa-file-lines text-royal"></i> ৫২ পৃষ্ঠা</span>
+        </div>
+
+        <!-- Price block -->
+        <div class="mt-7 flex items-center justify-center lg:justify-start gap-4">
+          <div>
+            <p class="text-sm text-slate-400 line-through">৳২,০০০</p>
+            <p class="text-4xl sm:text-5xl font-bold text-royal">৳৯৯০</p>
+          </div>
+          <span class="bg-rose text-white text-xs sm:text-sm font-bold px-3 py-1.5 rounded-full rotate-[-6deg] shadow-soft">৫০% ছাড়!</span>
+        </div>
+
+        <p class="mt-2 text-sm text-emerald font-semibold flex items-center justify-center lg:justify-start gap-1.5">
+          <i class="fa-solid fa-certificate"></i> ৬ মাসের গ্যারান্টি সহ
+        </p>
+
+        <div class="mt-7 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+          <a href="#order" class="pulse-cta bg-rose text-white font-bold px-8 py-3.5 rounded-2xl shadow-soft text-center hover:brightness-95 transition">
+            <i class="fa-solid fa-cart-shopping mr-2"></i> এখনই অর্ডার করুন
+          </a>
+          <a href="tel:01919728605" class="bg-white border border-slate-200 text-slate-700 font-semibold px-8 py-3.5 rounded-2xl text-center hover:bg-slate-50 transition">
+            <i class="fa-solid fa-phone mr-2 text-emerald"></i> ০১৯১৯-৭২৮৬০৫
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: image showcase -->
+      <div class="order-1 lg:order-2">
+        <div class="relative bg-white rounded-3xl shadow-soft p-4 sm:p-6">
+          <div class="aspect-square rounded-2xl overflow-hidden bg-slate-50 grid place-items-center relative">
+            <img id="mainProductImage" src="books1.jpg" onerror="this.onerror=null;this.src='1000319319.jpg';this.onerror=function(){this.remove(); document.getElementById('imgFallback').classList.remove('hidden');}" alt="আয়ান ইন্টেলিজেন্স বুক" class="w-full h-full object-cover">
+            <div id="imgFallback" class="hidden absolute inset-0 flex-col items-center justify-center text-slate-300 gap-2">
+              <i class="fa-solid fa-book-open text-6xl"></i>
+              <p class="text-sm">প্রোডাক্ট ছবি শীঘ্রই আসছে</p>
+            </div>
+            <span class="absolute top-3 left-3 bg-emerald text-white text-xs font-bold px-3 py-1 rounded-full shadow"><i class="fa-solid fa-check mr-1"></i> স্টকে আছে</span>
+          </div>
+
+          <div class="mt-4 grid grid-cols-2 gap-3">
+            <button onclick="switchImage('books1.jpg', this)" class="thumb-btn thumb-active border-2 rounded-xl overflow-hidden aspect-video bg-slate-50 transition relative">
+              <img src="books1.jpg" onerror="this.style.display='none'" class="w-full h-full object-cover">
+              <span class="absolute bottom-1 left-1 right-1 bg-black/50 text-white text-[10px] sm:text-xs rounded px-1.5 py-0.5">সামনের দিক</span>
+            </button>
+            <button onclick="switchImage('books2.jpg', this)" class="thumb-btn border-2 border-transparent rounded-xl overflow-hidden aspect-video bg-slate-50 transition relative">
+              <img src="books2.jpg" onerror="this.style.display='none'" class="w-full h-full object-cover">
+              <span class="absolute bottom-1 left-1 right-1 bg-black/50 text-white text-[10px] sm:text-xs rounded px-1.5 py-0.5">রিচার্জেবল ফিচার</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="max-w-6xl mx-auto px-4 sm:px-6 py-14">
+  <div class="text-center mb-10">
+    <p class="text-royal font-bold text-sm tracking-wide">✨ বইয়ের বিশেষত্ব</p>
+    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-2">যা যা শিখবে আপনার সন্তান</h2>
+  </div>
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+    <div class="bg-white rounded-2xl shadow-card p-5 text-center hover:-translate-y-1 transition">
+      <div class="w-12 h-12 mx-auto rounded-xl bg-royal/10 text-royal grid place-items-center text-xl mb-3"><i class="fa-solid fa-language"></i></div>
+      <p class="font-semibold text-sm">বাংলা শিক্ষা</p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-card p-5 text-center hover:-translate-y-1 transition">
+      <div class="w-12 h-12 mx-auto rounded-xl bg-amber/10 text-amber grid place-items-center text-xl mb-3"><i class="fa-solid fa-spell-check"></i></div>
+      <p class="font-semibold text-sm">অক্ষর পরিচিতি</p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-card p-5 text-center hover:-translate-y-1 transition">
+      <div class="w-12 h-12 mx-auto rounded-xl bg-emerald/10 text-emerald grid place-items-center text-xl mb-3"><i class="fa-solid fa-hashtag"></i></div>
+      <p class="font-semibold text-sm">সংখ্যা শিক্ষা</p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-card p-5 text-center hover:-translate-y-1 transition">
+      <div class="w-12 h-12 mx-auto rounded-xl bg-rose/10 text-rose grid place-items-center text-xl mb-3"><i class="fa-solid fa-mosque"></i></div>
+      <p class="font-semibold text-sm">আরবি শিক্ষা</p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-card p-5 text-center hover:-translate-y-1 transition">
+      <div class="w-12 h-12 mx-auto rounded-xl bg-royal/10 text-royal grid place-items-center text-xl mb-3"><i class="fa-solid fa-microphone"></i></div>
+      <p class="font-semibold text-sm">রেকর্ডিং ফাংশন</p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-card p-5 text-center hover:-translate-y-1 transition">
+      <div class="w-12 h-12 mx-auto rounded-xl bg-amber/10 text-amber grid place-items-center text-xl mb-3"><i class="fa-solid fa-eye"></i></div>
+      <p class="font-semibold text-sm">পর্যবেক্ষণ ক্ষমতা</p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-card p-5 text-center hover:-translate-y-1 transition">
+      <div class="w-12 h-12 mx-auto rounded-xl bg-emerald/10 text-emerald grid place-items-center text-xl mb-3"><i class="fa-solid fa-brain"></i></div>
+      <p class="font-semibold text-sm">চিন্তা শক্তি বৃদ্ধি</p>
+    </div>
+    <div class="bg-white rounded-2xl shadow-card p-5 text-center hover:-translate-y-1 transition">
+      <div class="w-12 h-12 mx-auto rounded-xl bg-rose/10 text-rose grid place-items-center text-xl mb-3"><i class="fa-solid fa-comment-dots"></i></div>
+      <p class="font-semibold text-sm">সঠিক উচ্চারণ</p>
+    </div>
+  </div>
+
+  <!-- highlight strip -->
+  <div class="mt-8 grid sm:grid-cols-3 gap-4">
+    <div class="bg-gradient-to-br from-royal to-indigo-400 text-white rounded-2xl p-5 flex items-center gap-4 shadow-soft">
+      <i class="fa-solid fa-usb text-3xl opacity-90"></i>
+      <div>
+        <p class="font-bold">USB Type-C চার্জিং</p>
+        <p class="text-xs text-white/80">সহজে রিচার্জ করা যায়</p>
+      </div>
+    </div>
+    <div class="bg-gradient-to-br from-emerald to-teal-400 text-white rounded-2xl p-5 flex items-center gap-4 shadow-soft">
+      <i class="fa-solid fa-eye-slash text-3xl opacity-90"></i>
+      <div>
+        <p class="font-bold">স্ক্রিনহীন ডিজাইন</p>
+        <p class="text-xs text-white/80">চোখের জন্য সম্পূর্ণ নিরাপদ</p>
+      </div>
+    </div>
+    <div class="bg-gradient-to-br from-amber to-orange-400 text-white rounded-2xl p-5 flex items-center gap-4 shadow-soft">
+      <i class="fa-solid fa-layer-group text-3xl opacity-90"></i>
+      <div>
+        <p class="font-bold">৩০+ আইটেম</p>
+        <p class="text-xs text-white/80">১০০+ কনটেন্ট রয়েছে</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOX CONTENTS ============ -->
+<section class="bg-white py-14">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-10">
+      <p class="text-rose font-bold text-sm tracking-wide">📦 বক্সে কী কী পাচ্ছেন</p>
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-2">সম্পূর্ণ প্যাকেজে ৭টি আইটেম</h2>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div class="border border-slate-100 rounded-2xl p-5 text-center bg-slate-50/50">
+        <i class="fa-solid fa-pen text-2xl text-royal mb-2"></i>
+        <p class="text-sm font-semibold">১টি কলম</p>
+      </div>
+      <div class="border border-slate-100 rounded-2xl p-5 text-center bg-slate-50/50">
+        <i class="fa-solid fa-eraser text-2xl text-amber mb-2"></i>
+        <p class="text-sm font-semibold">১টি ডাস্টার</p>
+      </div>
+      <div class="border border-slate-100 rounded-2xl p-5 text-center bg-slate-50/50">
+        <i class="fa-solid fa-marker text-2xl text-emerald mb-2"></i>
+        <p class="text-sm font-semibold">১টি ওয়াটার মার্কার</p>
+      </div>
+      <div class="border border-slate-100 rounded-2xl p-5 text-center bg-slate-50/50">
+        <i class="fa-solid fa-water text-2xl text-rose mb-2"></i>
+        <p class="text-sm font-semibold">১টি ওয়াটার বুক</p>
+      </div>
+      <div class="border border-slate-100 rounded-2xl p-5 text-center bg-slate-50/50">
+        <i class="fa-solid fa-plug text-2xl text-royal mb-2"></i>
+        <p class="text-sm font-semibold">১টি চার্জার কেবল</p>
+      </div>
+      <div class="border border-slate-100 rounded-2xl p-5 text-center bg-slate-50/50">
+        <i class="fa-solid fa-book text-2xl text-amber mb-2"></i>
+        <p class="text-sm font-semibold">১টি ইন্টেলিজেন্ট বুক</p>
+      </div>
+      <div class="border border-slate-100 rounded-2xl p-5 text-center bg-slate-50/50 col-span-2 sm:col-span-1">
+        <i class="fa-solid fa-clone text-2xl text-emerald mb-2"></i>
+        <p class="text-sm font-semibold">২৫টি ফ্ল্যাশ কার্ড</p>
+      </div>
+      <div class="rounded-2xl p-5 text-center bg-gradient-to-br from-royal to-indigo-500 text-white flex flex-col justify-center">
+        <p class="text-xs opacity-80">মোট মূল্য</p>
+        <p class="font-bold text-lg">সব মিলে ৯৯০৳</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ORDER FORM ============ -->
+<section id="order" class="max-w-6xl mx-auto px-4 sm:px-6 py-14">
+  <div class="text-center mb-10">
+    <p class="text-emerald font-bold text-sm tracking-wide">🛒 অর্ডার করুন</p>
+    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-2">এখনই আপনার বইটি অর্ডার করুন</h2>
+    <p class="text-slate-400 text-sm mt-2">ক্যাশ অন ডেলিভারি — বই হাতে পেয়ে টাকা দিন</p>
+  </div>
+
+  <div class="grid lg:grid-cols-5 gap-8">
+    <!-- form -->
+    <form id="orderForm" class="lg:col-span-3 bg-white rounded-3xl shadow-card p-5 sm:p-8 space-y-5" onsubmit="handleOrderSubmit(event)">
+
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-1.5">পূর্ণ নাম <span class="text-rose">*</span></label>
+        <input type="text" id="custName" required placeholder="আপনার নাম লিখুন" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-royal focus:ring-2 focus:ring-royal/20 transition">
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-1.5">মোবাইল নম্বর <span class="text-rose">*</span></label>
+        <input type="tel" id="custPhone" required pattern="01[3-9][0-9]{8}" placeholder="01XXXXXXXXX" maxlength="11" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-royal focus:ring-2 focus:ring-royal/20 transition">
+        <p class="text-xs text-slate-400 mt-1">উদাহরণ: 01919728605</p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-1.5">সম্পূর্ণ ঠিকানা (জেলা/থানা সহ) <span class="text-rose">*</span></label>
+        <textarea id="custAddress" required rows="3" placeholder="বাসা/হোল্ডিং, রোড, থানা, জেলা লিখুন" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-royal focus:ring-2 focus:ring-royal/20 transition resize-none"></textarea>
+      </div>
+
+      <!-- quantity -->
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-1.5">পরিমাণ (সর্বোচ্চ ৩টি)</label>
+        <div class="flex items-center gap-3">
+          <button type="button" onclick="changeQty(-1)" class="w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-lg transition">−</button>
+          <span id="qtyDisplay" class="bn-num w-14 text-center text-xl font-bold text-slate-800">১</span>
+          <button type="button" onclick="changeQty(1)" class="w-11 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-lg transition">+</button>
+          <span class="text-xs text-slate-400 ml-2">বই (Max: 3, Min: 1)</span>
+        </div>
+      </div>
+
+      <!-- delivery location -->
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-2">ডেলিভারি এলাকা</label>
+        <div class="grid grid-cols-2 gap-3">
+          <label class="radio-card cursor-pointer border-2 border-slate-200 rounded-xl p-3.5 flex items-center gap-2.5 transition">
+            <input type="radio" name="deliveryLoc" value="70" checked onchange="updateSummary()" class="sr-only">
+            <span class="radio-dot relative w-4 h-4 rounded-full border-2 border-slate-300 shrink-0"></span>
+            <span class="text-sm">
+              <span class="block font-semibold">ঢাকার ভেতরে</span>
+              <span class="block text-xs text-slate-400">৳৭০ ডেলিভারি চার্জ</span>
+            </span>
+          </label>
+          <label class="radio-card cursor-pointer border-2 border-slate-200 rounded-xl p-3.5 flex items-center gap-2.5 transition">
+            <input type="radio" name="deliveryLoc" value="90" onchange="updateSummary()" class="sr-only">
+            <span class="radio-dot relative w-4 h-4 rounded-full border-2 border-slate-300 shrink-0"></span>
+            <span class="text-sm">
+              <span class="block font-semibold">ঢাকার বাইরে</span>
+              <span class="block text-xs text-slate-400">৳৯০ ডেলিভারি চার্জ</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- summary -->
+      <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4 sm:p-5 space-y-2">
+        <div class="flex justify-between text-sm text-slate-600">
+          <span>সাবটোটাল (<span id="sumQty" class="bn-num">১</span> x ৳৯৯০)</span>
+          <span id="sumSubtotal" class="bn-num font-semibold">৳৯৯০</span>
+        </div>
+        <div class="flex justify-between text-sm text-slate-600">
+          <span>ডেলিভারি চার্জ</span>
+          <span id="sumDelivery" class="bn-num font-semibold">৳৭০</span>
+        </div>
+        <div class="border-t border-dashed border-slate-300 pt-2 flex justify-between items-center">
+          <span class="font-bold text-slate-800">সর্বমোট</span>
+          <span id="sumTotal" class="bn-num font-bold text-xl text-royal">৳১,০৬০</span>
+        </div>
+      </div>
+
+      <button type="submit" class="w-full bg-rose hover:brightness-95 text-white font-bold py-4 rounded-2xl shadow-soft transition text-base">
+        <i class="fa-solid fa-check-circle mr-2"></i> অর্ডার কনফার্ম করুন
+      </button>
+      <p class="text-center text-xs text-slate-400 flex items-center justify-center gap-1.5"><i class="fa-solid fa-lock"></i> আপনার তথ্য সম্পূর্ণ নিরাপদ</p>
+    </form>
+
+    <!-- side info -->
+    <div class="lg:col-span-2 space-y-5">
+      <div class="bg-gradient-to-br from-royal to-indigo-500 text-white rounded-3xl p-6 shadow-soft">
+        <p class="font-bold text-lg mb-3"><i class="fa-solid fa-gift mr-2"></i> অফার সামারি</p>
+        <ul class="space-y-2 text-sm text-white/90">
+          <li class="flex justify-between"><span>রেগুলার মূল্য</span><span class="line-through opacity-70">৳২,০০০</span></li>
+          <li class="flex justify-between"><span>ছাড়ের মূল্য</span><span class="font-bold">৳৯৯০</span></li>
+          <li class="flex justify-between"><span>গ্যারান্টি</span><span class="font-bold">৬ মাস</span></li>
+          <li class="flex justify-between"><span>পৃষ্ঠা সংখ্যা</span><span class="font-bold">৫২ পৃষ্ঠা</span></li>
+        </ul>
+      </div>
+
+      <div class="bg-white rounded-3xl shadow-card p-6">
+        <p class="font-bold text-slate-800 mb-3"><i class="fa-solid fa-headset text-emerald mr-2"></i>সাহায্য দরকার?</p>
+        <p class="text-sm text-slate-500 mb-3">অর্ডার করতে সমস্যা হলে সরাসরি কল করুন</p>
+        <a href="tel:01919728605" class="flex items-center justify-center gap-2 bg-emerald text-white font-semibold py-3 rounded-xl hover:brightness-95 transition">
+          <i class="fa-solid fa-phone"></i> ০১৯১৯-৭২৮৬০৫
+        </a>
+      </div>
+
+      <div class="bg-amber/10 border border-amber/30 rounded-3xl p-6">
+        <p class="font-bold text-amber text-sm mb-2"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i> বিঃদ্রঃ</p>
+        <p class="text-xs text-slate-500 leading-relaxed">সঠিক ফোন নম্বর ও ঠিকানা দিন যাতে ডেলিভারি দিতে সমস্যা না হয়। ক্যাশ অন ডেলিভারিতে বই হাতে পেয়ে টাকা পরিশোধ করবেন।</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="bg-white py-14">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-8">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">সচরাচর জিজ্ঞাসা</h2>
+    </div>
+    <div class="space-y-3" id="faqAccordion">
+      <details class="group bg-slate-50 rounded-2xl p-4 sm:p-5 open:shadow-card transition">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold text-sm sm:text-base list-none">
+          বইটি কি রিচার্জেবল?
+          <i class="fa-solid fa-chevron-down text-royal transition group-open:rotate-180"></i>
+        </summary>
+        <p class="text-sm text-slate-500 mt-3">হ্যাঁ, বইটি USB Type-C ক্যাবলের মাধ্যমে রিচার্জ করা যায়। প্যাকেজের সাথেই চার্জার কেবল দেওয়া হয়।</p>
+      </details>
+      <details class="group bg-slate-50 rounded-2xl p-4 sm:p-5 open:shadow-card transition">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold text-sm sm:text-base list-none">
+          ডেলিভারি চার্জ কত?
+          <i class="fa-solid fa-chevron-down text-royal transition group-open:rotate-180"></i>
+        </summary>
+        <p class="text-sm text-slate-500 mt-3">ঢাকার ভেতরে ৳৭০ এবং ঢাকার বাইরে ৳৯০ ডেলিভারি চার্জ প্রযোজ্য।</p>
+      </details>
+      <details class="group bg-slate-50 rounded-2xl p-4 sm:p-5 open:shadow-card transition">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold text-sm sm:text-base list-none">
+          গ্যারান্টি কতদিনের?
+          <i class="fa-solid fa-chevron-down text-royal transition group-open:rotate-180"></i>
+        </summary>
+        <p class="text-sm text-slate-500 mt-3">প্রোডাক্টটির সাথে ৬ মাসের গ্যারান্টি দেওয়া হয়।</p>
+      </details>
+      <details class="group bg-slate-50 rounded-2xl p-4 sm:p-5 open:shadow-card transition">
+        <summary class="flex justify-between items-center cursor-pointer font-semibold text-sm sm:text-base list-none">
+          একসাথে কয়টি বই অর্ডার করা যাবে?
+          <i class="fa-solid fa-chevron-down text-royal transition group-open:rotate-180"></i>
+        </summary>
+        <p class="text-sm text-slate-500 mt-3">একটি অর্ডারে সর্বোচ্চ ৩টি বই নেওয়া যাবে।</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="bg-slate-900 text-slate-300 py-10">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <div class="flex items-center gap-2.5">
+      <div class="w-9 h-9 rounded-xl bg-royal grid place-items-center text-white"><i class="fa-solid fa-book-open-reader"></i></div>
+      <div>
+        <p class="font-bold text-white text-sm">My Kid BD Shop</p>
+        <p class="text-xs text-slate-500">© 2026 সর্বস্বত্ব সংরক্ষিত</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-4 text-sm">
+      <a href="tel:01919728605" class="hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-phone text-emerald"></i> ০১৯১৯-৭২৮৬০৫</a>
+      <button onclick="toggleAdmin()" class="text-slate-500 hover:text-slate-300 transition text-xs"><i class="fa-solid fa-gear"></i></button>
+    </div>
+  </div>
+
+  <!-- admin config (hidden by default) -->
+  <div id="adminPanel" class="hidden max-w-6xl mx-auto px-4 sm:px-6 mt-6">
+    <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700">
+      <p class="text-sm font-semibold text-white mb-3"><i class="fa-solid fa-lock mr-1.5"></i> অ্যাডমিন কনফিগারেশন</p>
+      <label class="text-xs text-slate-400">Google Apps Script Web App URL</label>
+      <div class="flex flex-col sm:flex-row gap-2 mt-1.5">
+        <input id="scriptUrlInput" type="text" placeholder="https://script.google.com/macros/s/xxxx/exec" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200">
+        <button onclick="saveScriptUrl()" class="bg-royal text-white text-sm font-semibold px-4 py-2 rounded-lg hover:brightness-110 transition">সংরক্ষণ করুন</button>
+      </div>
+      <p id="scriptUrlStatus" class="text-xs text-slate-500 mt-2"></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ FLOATING WHATSAPP CONTACT BUTTON ============ -->
+<a href="https://wa.me/8801919728605?text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AF%E0%A6%BC%E0%A6%BE%E0%A6%A8%20%E0%A6%87%E0%A6%A8%E0%A7%8D%E0%A6%9F%E0%A7%87%E0%A6%B2%E0%A6%BF%E0%A6%9C%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%B8%20%E0%A6%AC%E0%A6%87%20%E0%A6%B8%E0%A6%AE%E0%A7%8D%E0%A6%AA%E0%A6%B0%E0%A7%8D%E0%A6%95%E0%A7%87%20%E0%A6%9C%E0%A6%BE%E0%A6%A8%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87%E2%80%A4"
+   target="_blank" rel="noopener"
+   class="no-print fixed right-4 sm:right-6 bottom-20 sm:bottom-8 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white grid place-items-center shadow-soft hover:brightness-95 transition"
+   aria-label="হোয়াটসঅ্যাপে যোগাযোগ করুন">
+  <i class="fa-brands fa-whatsapp text-2xl"></i>
+</a>
+
+<!-- ============ FLOATING MOBILE CTA ============ -->
+<div class="fixed bottom-0 left-0 right-0 z-30 sm:hidden bg-white border-t border-slate-200 p-3 flex items-center gap-3 no-print">
+  <div class="flex-1">
+    <p class="text-xs text-slate-400 line-through">৳২,০০০</p>
+    <p class="text-lg font-bold text-royal leading-none">৳৯৯০</p>
+  </div>
+  <a href="#order" class="bg-rose text-white font-bold px-6 py-3 rounded-xl text-sm">অর্ডার করুন</a>
+</div>
+
+<!-- ============ ORDER CONFIRMATION / INVOICE MODAL ============ -->
+<div id="invoiceModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm items-center justify-center p-3 sm:p-6">
+  <div class="bg-white rounded-3xl w-full max-w-lg max-h-[92vh] overflow-y-auto modal-scroll shadow-2xl">
+    <div id="invoiceArea" class="p-6 sm:p-8">
+      <div class="flex items-center justify-between mb-5 no-print">
+        <p class="font-bold text-lg text-slate-800"><i class="fa-solid fa-circle-check text-emerald mr-2"></i>অর্ডার সফল হয়েছে!</p>
+        <button onclick="closeInvoiceModal()" class="no-print text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+
+      <div class="border-2 border-dashed border-slate-200 rounded-2xl p-5">
+        <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
+          <div>
+            <p class="font-bold text-royal">My Kid BD Shop</p>
+            <p class="text-xs text-slate-400">আয়ান ইন্টেলিজেন্স বুক</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-slate-400">অর্ডার আইডি</p>
+            <p class="font-bold text-sm" id="invOrderId">#MKBD-000000</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-y-2 text-sm mb-4">
+          <span class="text-slate-400">নাম</span><span class="text-right font-medium" id="invName">-</span>
+          <span class="text-slate-400">মোবাইল</span><span class="text-right font-medium" id="invPhone">-</span>
+          <span class="text-slate-400">ঠিকানা</span><span class="text-right font-medium" id="invAddress">-</span>
+          <span class="text-slate-400">তারিখ</span><span class="text-right font-medium" id="invDate">-</span>
+          <span class="text-slate-400">অবস্থা</span><span class="text-right"><span class="status-badge status-পেন্ডিং">পেন্ডিং</span></span>
+        </div>
+
+        <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-sm">
+          <div class="flex justify-between"><span class="text-slate-500">আয়ান ইন্টেলিজেন্স বুক x <span id="invQty" class="bn-num">১</span></span><span id="invSubtotal" class="bn-num font-semibold">৳৯৯০</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">ডেলিভারি চার্জ (<span id="invLocText">ঢাকার ভেতরে</span>)</span><span id="invDelivery" class="bn-num font-semibold">৳৭০</span></div>
+          <div class="border-t border-dashed border-slate-300 pt-2 flex justify-between font-bold text-royal text-base"><span>সর্বমোট</span><span id="invTotal" class="bn-num">৳১,০৬০</span></div>
+        </div>
+        <p class="text-center text-xs text-slate-400 mt-4">ধন্যবাদ আমাদের সাথে থাকার জন্য 💚</p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2.5 mt-6 no-print">
+        <button onclick="confirmViaWhatsApp()" class="bg-emerald text-white text-xs sm:text-sm font-semibold py-3 rounded-xl hover:brightness-95 transition flex flex-col items-center gap-1">
+          <i class="fa-brands fa-whatsapp text-lg"></i> কনফার্ম করুন
+        </button>
+        <button onclick="downloadInvoiceScreenshot()" class="bg-royal text-white text-xs sm:text-sm font-semibold py-3 rounded-xl hover:brightness-95 transition flex flex-col items-center gap-1">
+          <i class="fa-solid fa-camera text-lg"></i> স্ক্রিনশট
+        </button>
+        <button onclick="window.print()" class="bg-slate-700 text-white text-xs sm:text-sm font-semibold py-3 rounded-xl hover:brightness-95 transition flex flex-col items-center gap-1">
+          <i class="fa-solid fa-print text-lg"></i> প্রিন্ট/PDF
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ORDER TRACKING MODAL ============ -->
+<div id="trackModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm items-center justify-center p-3 sm:p-6">
+  <div class="bg-white rounded-3xl w-full max-w-md max-h-[90vh] overflow-y-auto modal-scroll shadow-2xl p-6 sm:p-8">
+    <div class="flex items-center justify-between mb-5">
+      <p class="font-bold text-lg text-slate-800"><i class="fa-solid fa-truck-fast text-royal mr-2"></i>অর্ডার ট্র্যাকিং</p>
+      <button onclick="closeTrackModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+    </div>
+
+    <label class="block text-sm font-semibold text-slate-700 mb-1.5">অর্ডার আইডি অথবা মোবাইল নম্বর</label>
+    <div class="flex gap-2">
+      <input id="trackInput" type="text" placeholder="#MKBD-000000 বা 01XXXXXXXXX" class="flex-1 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-royal focus:ring-2 focus:ring-royal/20">
+      <button onclick="trackOrder()" class="bg-royal text-white px-4 rounded-xl hover:brightness-95 transition"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+
+    <div id="trackResult" class="mt-5"></div>
+  </div>
+</div>
+
+<script>
+/* ==================== STATE ==================== */
+const UNIT_PRICE = 990;
+let currentQty = 1;
+const WHATSAPP_NUMBER = '8801919728605';
+const LS_ORDERS_KEY = 'mkbd_orders_cache';
+const LS_SCRIPT_KEY = 'mkbd_script_url';
+let pendingOrder = null;
+
+/* ==================== BENGALI NUMERAL HELPERS ====================
+   সব ডাইনামিক সংখ্যা (দাম, পরিমাণ, টোটাল) বাংলা অঙ্কে স্পষ্টভাবে দেখানোর জন্য।
+   ফোন নম্বর ও অর্ডার আইডি ইচ্ছাকৃতভাবে ইংরেজি সংখ্যাতেই রাখা হয়েছে (কল/হোয়াটসঅ্যাপে সহজে ব্যবহারের জন্য)। */
+const BN_DIGIT_MAP = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
+function toBnDigits(input){
+  return String(input).replace(/[0-9]/g, d => BN_DIGIT_MAP[d]);
+}
+function bnCurrency(amount){
+  return '৳' + toBnDigits(Number(amount).toLocaleString('en-US'));
+}
+function bnNum(amount){
+  return toBnDigits(amount);
+}
+
+/* ==================== IMAGE SWITCHER ==================== */
+function switchImage(src, btn){
+  const img = document.getElementById('mainProductImage');
+  if(img) img.src = src;
+  document.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('thumb-active'));
+  btn.classList.add('thumb-active');
+}
+
+/* ==================== QUANTITY ==================== */
+function changeQty(delta){
+  currentQty = Math.min(3, Math.max(1, currentQty + delta));
+  document.getElementById('qtyDisplay').textContent = toBnDigits(currentQty);
+  updateSummary();
+}
+
+function updateSummary(){
+  const deliveryFee = parseInt(document.querySelector('input[name="deliveryLoc"]:checked').value, 10);
+  const subtotal = UNIT_PRICE * currentQty;
+  const total = subtotal + deliveryFee;
+
+  document.getElementById('sumQty').textContent = toBnDigits(currentQty);
+  document.getElementById('sumSubtotal').textContent = bnCurrency(subtotal);
+  document.getElementById('sumDelivery').textContent = bnCurrency(deliveryFee);
+  document.getElementById('sumTotal').textContent = bnCurrency(total);
+}
+
+/* ==================== ORDER ID ==================== */
+function generateOrderId(){
+  const rand = Math.floor(100000 + Math.random() * 900000);
+  return '#MKBD-' + rand;
+}
+
+/* ==================== FORM SUBMIT ==================== */
+function handleOrderSubmit(e){
+  e.preventDefault();
+
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const address = document.getElementById('custAddress').value.trim();
+  const phonePattern = /^01[3-9][0-9]{8}$/;
+
+  if(!phonePattern.test(phone)){
+    alert('অনুগ্রহ করে সঠিক মোবাইল নম্বর দিন। উদাহরণ: 01919728605');
+    return;
+  }
+
+  const deliveryFee = parseInt(document.querySelector('input[name="deliveryLoc"]:checked').value, 10);
+  const deliveryLocText = deliveryFee === 70 ? 'ঢাকার ভেতরে' : 'ঢাকার বাইরে';
+  const subtotal = UNIT_PRICE * currentQty;
+  const total = subtotal + deliveryFee;
+  const orderId = generateOrderId();
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('bn-BD', { year:'numeric', month:'long', day:'numeric' }) + ' ' + now.toLocaleTimeString('bn-BD', { hour:'2-digit', minute:'2-digit' });
+
+  pendingOrder = {
+    orderId, name, phone, address,
+    quantity: currentQty,
+    unitPrice: UNIT_PRICE,
+    deliveryLocation: deliveryLocText,
+    deliveryFee, subtotal, total,
+    date: dateStr,
+    timestamp: now.toISOString(),
+    status: 'পেন্ডিং',
+    product: 'আয়ান ইন্টেলিজেন্স বুক (AYAN Intelligence Study Book)'
+  };
+
+  cacheOrderLocally(pendingOrder);
+  sendOrderToSheet(pendingOrder);
+  showInvoiceModal(pendingOrder);
+}
+
+function cacheOrderLocally(order){
+  try{
+    const orders = JSON.parse(localStorage.getItem(LS_ORDERS_KEY) || '[]');
+    orders.push(order);
+    localStorage.setItem(LS_ORDERS_KEY, JSON.stringify(orders));
+  }catch(err){ console.warn('Local cache failed', err); }
+}
+
+async function sendOrderToSheet(order){
+  const scriptUrl = localStorage.getItem(LS_SCRIPT_KEY);
+  if(!scriptUrl){ console.info('কোনো Google Sheet স্ক্রিপ্ট URL কনফিগার করা নেই — শুধু লোকাল কপি সংরক্ষিত হয়েছে।'); return; }
+  try{
+    await fetch(scriptUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'newOrder', order })
+    });
+  }catch(err){
+    console.warn('Google Sheet এ পাঠাতে সমস্যা হয়েছে:', err);
+  }
+}
+
+/* ==================== INVOICE MODAL ==================== */
+function showInvoiceModal(order){
+  document.getElementById('invOrderId').textContent = order.orderId;
+  document.getElementById('invName').textContent = order.name;
+  document.getElementById('invPhone').textContent = order.phone;
+  document.getElementById('invAddress').textContent = order.address;
+  document.getElementById('invDate').textContent = order.date;
+  document.getElementById('invQty').textContent = toBnDigits(order.quantity);
+  document.getElementById('invSubtotal').textContent = bnCurrency(order.subtotal);
+  document.getElementById('invDelivery').textContent = bnCurrency(order.deliveryFee);
+  document.getElementById('invLocText').textContent = order.deliveryLocation;
+  document.getElementById('invTotal').textContent = bnCurrency(order.total);
+
+  const modal = document.getElementById('invoiceModal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+
+function closeInvoiceModal(){
+  const modal = document.getElementById('invoiceModal');
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+  document.getElementById('orderForm').reset();
+  currentQty = 1;
+  document.getElementById('qtyDisplay').textContent = '1';
+  updateSummary();
+}
+
+function confirmViaWhatsApp(){
+  if(!pendingOrder) return;
+  const o = pendingOrder;
+  const msg =
+`*নতুন অর্ডার - My Kid BD Shop* 🛍️
+
+📦 অর্ডার আইডি: ${o.orderId}
+👤 নাম: ${o.name}
+📱 মোবাইল: ${o.phone}
+🏠 ঠিকানা: ${o.address}
+
+📚 প্রোডাক্ট: ${o.product}
+🔢 পরিমাণ: ${o.quantity} টি
+💰 সাবটোটাল: ৳${o.subtotal}
+🚚 ডেলিভারি (${o.deliveryLocation}): ৳${o.deliveryFee}
+✅ সর্বমোট: ৳${o.total}
+
+📅 তারিখ: ${o.date}
+🔖 স্ট্যাটাস: ${o.status}`;
+
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
+function downloadInvoiceScreenshot(){
+  const el = document.getElementById('invoiceArea');
+  const noPrintEls = el.querySelectorAll('.no-print');
+  noPrintEls.forEach(e => e.style.visibility = 'hidden');
+
+  html2canvas(el, { backgroundColor: '#ffffff', scale: 2 }).then(canvas => {
+    noPrintEls.forEach(e => e.style.visibility = '');
+    const link = document.createElement('a');
+    link.download = (pendingOrder ? pendingOrder.orderId.replace('#','') : 'invoice') + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }).catch(err => {
+    noPrintEls.forEach(e => e.style.visibility = '');
+    alert('স্ক্রিনশট নিতে সমস্যা হয়েছে।');
+    console.error(err);
+  });
+}
+
+/* ==================== ORDER TRACKING ==================== */
+function openTrackModal(){
+  const modal = document.getElementById('trackModal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  document.getElementById('trackResult').innerHTML = '';
+  document.getElementById('trackInput').value = '';
+}
+function closeTrackModal(){
+  const modal = document.getElementById('trackModal');
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+}
+
+async function trackOrder(){
+  const query = document.getElementById('trackInput').value.trim();
+  const resultBox = document.getElementById('trackResult');
+  if(!query){
+    resultBox.innerHTML = `<p class="text-sm text-rose text-center">অনুগ্রহ করে অর্ডার আইডি বা মোবাইল নম্বর দিন।</p>`;
+    return;
+  }
+  resultBox.innerHTML = `<p class="text-sm text-slate-400 text-center"><i class="fa-solid fa-spinner fa-spin mr-1.5"></i>খোঁজা হচ্ছে...</p>`;
+
+  const scriptUrl = localStorage.getItem(LS_SCRIPT_KEY);
+  let order = null;
+
+  if(scriptUrl){
+    try{
+      const res = await fetch(`${scriptUrl}?action=track&query=${encodeURIComponent(query)}`);
+      const data = await res.json();
+      if(data && data.found) order = data.order;
+    }catch(err){
+      console.warn('Google Sheet থেকে ট্র্যাকিং ডেটা আনতে সমস্যা, লোকাল ক্যাশ ব্যবহার হচ্ছে।', err);
+    }
+  }
+
+  if(!order){
+    try{
+      const orders = JSON.parse(localStorage.getItem(LS_ORDERS_KEY) || '[]');
+      order = orders.slice().reverse().find(o => o.orderId.toLowerCase() === query.toLowerCase() || o.phone === query);
+    }catch(err){ /* ignore */ }
+  }
+
+  if(!order){
+    resultBox.innerHTML = `
+      <div class="text-center py-4">
+        <i class="fa-solid fa-circle-exclamation text-3xl text-amber mb-2"></i>
+        <p class="text-sm text-slate-500">কোনো অর্ডার খুঁজে পাওয়া যায়নি। অর্ডার আইডি বা মোবাইল নম্বর যাচাই করুন।</p>
+      </div>`;
+    return;
+  }
+
+  const statusClass = 'status-' + (order.status || 'পেন্ডিং');
+  resultBox.innerHTML = `
+    <div class="border border-slate-100 rounded-2xl p-4 bg-slate-50">
+      <div class="flex justify-between items-center mb-3">
+        <span class="font-bold text-sm">${order.orderId}</span>
+        <span class="status-badge ${statusClass}">${order.status || 'পেন্ডিং'}</span>
+      </div>
+      <div class="text-sm space-y-1 text-slate-600">
+        <p><span class="text-slate-400">নাম:</span> ${order.name}</p>
+        <p><span class="text-slate-400">মোবাইল:</span> ${order.phone}</p>
+        <p><span class="text-slate-400">পরিমাণ:</span> <span class="bn-num">${toBnDigits(order.quantity)}</span> টি</p>
+        <p><span class="text-slate-400">সর্বমোট:</span> <span class="bn-num">${bnCurrency(order.total)}</span></p>
+        <p><span class="text-slate-400">তারিখ:</span> ${order.date}</p>
+      </div>
+      <div class="flex justify-between mt-4 pt-3 border-t border-dashed border-slate-300 text-[11px] text-slate-400">
+        <span class="${(order.status==='পেন্ডিং')?'text-royal font-semibold':''}">পেন্ডিং</span>
+        <span class="${(order.status==='প্রসেসিং')?'text-royal font-semibold':''}">প্রসেসিং</span>
+        <span class="${(order.status==='শিপড')?'text-royal font-semibold':''}">শিপড</span>
+        <span class="${(order.status==='ডেলিভারড')?'text-royal font-semibold':''}">ডেলিভারড</span>
+      </div>
+    </div>`;
+}
+
+/* ==================== ADMIN CONFIG ==================== */
+function toggleAdmin(){
+  const panel = document.getElementById('adminPanel');
+  panel.classList.toggle('hidden');
+  const saved = localStorage.getItem(LS_SCRIPT_KEY);
+  if(saved) document.getElementById('scriptUrlInput').value = saved;
+}
+function saveScriptUrl(){
+  const val = document.getElementById('scriptUrlInput').value.trim();
+  if(!val){
+    document.getElementById('scriptUrlStatus').textContent = 'অনুগ্রহ করে একটি বৈধ URL দিন।';
+    return;
+  }
+  localStorage.setItem(LS_SCRIPT_KEY, val);
+  document.getElementById('scriptUrlStatus').textContent = '✅ সংরক্ষিত হয়েছে!';
+}
+
+/* ==================== INIT ==================== */
+document.addEventListener('DOMContentLoaded', () => {
+  updateSummary();
+});
+</script>
+
+</body>
+</html>
