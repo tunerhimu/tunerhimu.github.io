@@ -141,7 +141,7 @@
                     <i class="fa-solid fa-image"></i>
                     <span>Screenshot (PNG)</span>
                 </button>
-                <button onclick="window.print()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium rounded-lg border border-slate-700 transition flex items-center gap-1.5 text-xs">
+                <button onclick="printFullInvoice()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium rounded-lg border border-slate-700 transition flex items-center gap-1.5 text-xs">
                     <i class="fa-solid fa-print"></i>
                     <span>Print</span>
                 </button>
@@ -455,98 +455,98 @@ Seven Star Shopping Complex, Padua, Lohagara, Chattogram • WhatsApp: 01814-996
                 description: "SOLAR PV MODULE:\nCapacity: 30.0 kWp (Sustained morning/afternoon load & battery charging)\nModule Capacity: 650 W/ 620W/ 600W/ OTHERS\nInternational Tier 1: Yes\nCell Type: N-Type TOPCon, Bifacial Dual Glass\nEfficiency: ≥22.5%\nBrand: Jinko / Longi / JA Solar / Astronergy\nOrigin: China / Germany\nWarranty: 25 Years Linear Performance Warranty",
                 warranty: "5yr",
                 unit: "KW",
-                qty: 29760,
+                qty: 0,
                 price: 18.50
             },
             {
                 description: "ON-GRID SMART HYBRID INVERTER:\nInverter Capacity: 20 KW; 3-Phase\nSREDA Approved\nBrand: GROWATT/SOLAX, Origin: China\nWarranty: 5 Years",
                 warranty: "5yr",
                 unit: "Nos",
-                qty: 1,
+                qty: 0,
                 price: 0
             },
             {
                 description: "LITHIUM ION BATTERY:\nBrand: Gotion/Green/ SOLAX/Akai/ya, Origin: China\nCapacity: 16kWh, 51.2V, 314Ah LiFePO4 Smart Battery\nProduct Warranty: 5 Years",
                 warranty: "5yr",
                 unit: "Nos",
-                qty: 2,
+                qty: 0,
                 price: 0
             },
             {
                 description: "MOUNTING STRUCTURE (PROFILE TIN-SHED):\nAluminum Rail with high strength extrusion aluminum 6005-T5 material and L feet and a variety of clip Lock.",
                 warranty: "N/A",
                 unit: "KW",
-                qty: 30,
+                qty: 0,
                 price: 0
             },
             {
                 description: "INTER MODULE DC SOLAR CABLE (4.0 mm²):\nSize: 1 × 4.0 mm² Copper Tinned, 1500V DC, XLPO Insulated",
                 warranty: "N/A",
                 unit: "Mtr",
-                qty: 150,
+                qty: 0,
                 price: 0
             },
             {
                 description: "MAIN HOME-RUN DC SOLAR CABLE (6.0 mm²):\nSize: 1 × 6.0 mm² Copper Tinned, 1500V DC, TUV Certified",
                 warranty: "N/A",
                 unit: "Mtr",
-                qty: 300,
+                qty: 0,
                 price: 0
             },
             {
                 description: "BATTERY DC CABLES (50 mm² / 70 mm²):\nSize: 1 × 50 mm² / 70 mm² Super Flexible Pure Copper Cable",
                 warranty: "N/A",
                 unit: "Lot",
-                qty: 1,
+                qty: 0,
                 price: 0
             },
             {
                 description: "HEAVY-DUTY MC4 CONNECTORS:\n1500V DC, 30A Rated, IP68 Waterproof, Genuine Stäubli / Multi-Contact Type",
                 warranty: "N/A",
                 unit: "Pair",
-                qty: 14,
+                qty: 0,
                 price: 0
             },
             {
                 description: "INTEGRATED AC & DC PROTECTION PANELS (ACDB, DCDB & BATT FUSE):\n• DC String Protection: 1000V DC MCB (20A/25A, 2P) & 1000V Class-II DC SPD\n• Battery Protection: 2P 250A DC MCCB / NH-00 High-Speed DC Fuse Disconnector\n• AC Grid Protection: 4-Pole 50A/63A AC MCCB & 4-Pole Class-II AC SPD (40kA)",
                 warranty: "N/A",
                 unit: "Set",
-                qty: 1,
+                qty: 0,
                 price: 0
             },
             {
                 description: "AC GRID INTERCONNECTION CABLE:\n4-Core Pure Copper Heavy-Duty Industrial Armored Cable (BRB / Poly / Eastern)",
                 warranty: "N/A",
                 unit: "Lot",
-                qty: 1,
+                qty: 0,
                 price: 0
             },
             {
                 description: "EARTHING & LIGHTNING PROTECTION",
                 warranty: "N/A",
                 unit: "Job",
-                qty: 1,
+                qty: 0,
                 price: 0
             },
             {
                 description: "BALANCE OF SYSTEM (BOS) & ACCESSORIES:\nUV Conduit Pipes, GI Cable Trays, Lugs, Glands, Industrial Ties, Safety Signage",
                 warranty: "N/A",
                 unit: "Lot",
-                qty: 1,
+                qty: 0,
                 price: 0
             },
             {
                 description: "INSTALLATION, TESTING & COMMISSIONING (30 KWP)",
                 warranty: "N/A",
                 unit: "Job",
-                qty: 1,
+                qty: 0,
                 price: 0
             },
             {
                 description: "TRANSPORTATION & LOGISTICS",
                 warranty: "N/A",
                 unit: "Job",
-                qty: 1,
+                qty: 0,
                 price: 0
             }
         ];
@@ -612,13 +612,12 @@ Seven Star Shopping Complex, Padua, Lohagara, Chattogram • WhatsApp: 01814-996
                         <textarea rows="2" oninput="updateItemField(${index}, 'description', this.value)" class="w-full text-[11px] bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-500 focus:bg-white rounded p-1 resize-y leading-snug text-slate-800">${escapeHtml(item.description)}</textarea>
                     </td>
                     <td class="py-1 px-1 text-center border border-slate-200">
-                        <input type="text" value="${escapeHtml(item.warranty || 'N/A')}" oninput="updateItemField(${index}, 'warranty', this.value)" class="w-full text-center bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-500 focus:bg-white rounded py-1 font-semibold text-slate-700">
-                    </td>
-                    
-                    <td class="py-1 px-1 text-center border border-slate-200">
                         <input type="text" value="${escapeHtml(item.unit)}" oninput="updateItemField(${index}, 'unit', this.value)" class="w-full text-center bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-500 focus:bg-white rounded py-1 text-slate-700">
                     </td>
-                     <td class="py-1 px-1 text-center border border-slate-200">
+                    <td class="py-1 px-1 text-center border border-slate-200">
+                        <input type="text" value="${escapeHtml(item.warranty || 'N/A')}" oninput="updateItemField(${index}, 'warranty', this.value)" class="w-full text-center bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-500 focus:bg-white rounded py-1 font-semibold text-slate-700">
+                    </td>
+                    <td class="py-1 px-1 text-center border border-slate-200">
                         <input type="number" min="0" step="any" value="${item.qty}" oninput="updateItemField(${index}, 'qty', this.value)" class="w-full text-center font-semibold bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-500 focus:bg-white rounded py-1 text-slate-800">
                     </td>
                     <td class="py-1 px-2 text-right border border-slate-200">
@@ -947,6 +946,13 @@ Seven Star Shopping Complex, Padua, Lohagara, Chattogram • WhatsApp: 01814-996
                 if (original.classList.contains('text-right')) replacement.style.textAlign = 'right';
                 control.replaceWith(replacement);
             });
+            // Hide zero-quantity products in exported screenshots only; keep them editable on screen.
+            clone.querySelectorAll('#items-tbody tr').forEach((row, index) => {
+                if (Number(currentItems[index]?.qty) <= 0) row.remove();
+            });
+            clone.querySelectorAll('#items-tbody tr').forEach((row, index) => {
+                if (row.cells[0]) row.cells[0].textContent = String(index + 1);
+            });
             clone.querySelectorAll('.no-print').forEach(node => node.remove());
             clone.querySelectorAll('.overflow-x-auto, .custom-scroll').forEach(node => {
                 node.style.overflow = 'visible';
@@ -974,46 +980,193 @@ Seven Star Shopping Complex, Padua, Lohagara, Chattogram • WhatsApp: 01814-996
             return {clone, holder};
         }
 
-        async function downloadAsPDF() {
-            if (!window.jspdf || !window.jspdf.jsPDF || typeof html2canvas !== 'function') {
-                showToast('PDF unavailable', 'Internet is required to load PDF export libraries.', true);
-                return;
-            }
+        // Print a fully expanded, clean copy rather than clipped editable controls.
+        function printFullInvoice() {
+            // Isolate the print document from the application's flex/mobile layout.
             const {clone, holder} = prepareInvoiceExport();
-            const invNo = (document.getElementById('inv-number').value.trim() || 'Invoice').replace(/[^a-zA-Z0-9_-]/g, '_');
-            showToast('Generating PDF', 'Preparing professional A4 invoice pages...');
+            clone.style.cssText = 'display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;background:white;padding:0;margin:0;border:0;border-radius:0;box-shadow:none;position:static;';
+            const markup = clone.outerHTML;
+            holder.remove();
+            const frame = document.createElement('iframe');
+            frame.setAttribute('aria-hidden','true');
+            frame.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;opacity:0;';
+            document.body.appendChild(frame);
+            const doc = frame.contentDocument;
+            const stylesheet = [...document.querySelectorAll('link[rel="stylesheet"],style')]
+                .filter(el => el.id !== 'invoice-print-styles').map(el => el.outerHTML).join('\n');
+            doc.open();
+            doc.write(`<!doctype html><html><head><meta charset="utf-8">${stylesheet}<style>
+              @page {size:A4 portrait;margin:10mm 9mm;}
+              html,body {display:block!important;width:100%!important;margin:0!important;padding:0!important;background:white!important;overflow:visible!important;}
+              #invoice-paper {display:block!important;width:100%!important;max-width:none!important;min-width:0!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;}
+              .no-print {display:none!important;}
+              .overflow-x-auto,.custom-scroll {overflow:visible!important;margin:0!important;}
+              table {width:100%!important;min-width:0!important;table-layout:fixed!important;border-collapse:collapse!important;}
+              th,td {min-width:0!important;overflow-wrap:anywhere!important;word-break:normal!important;vertical-align:top!important;}
+              tr {break-inside:avoid;page-break-inside:avoid;}
+              .grid {display:grid!important;}
+              .grid-cols-1.md\:grid-cols-12 {grid-template-columns:repeat(12,minmax(0,1fr))!important;}
+              .md\:col-span-7 {grid-column:span 7/span 7!important;}
+              .md\:col-span-5 {grid-column:span 5/span 5!important;}
+              .grid-cols-2 {grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+              #invoice-paper * {max-height:none!important;}
+              </style></head><body>${markup}</body></html>`);
+            doc.close();
+            let fired = false;
+            const runPrint = () => {
+                if (fired) return;
+                fired = true;
+                const win = frame.contentWindow;
+                win.addEventListener('afterprint', () => setTimeout(() => frame.remove(), 300));
+                win.focus();
+                win.print();
+                setTimeout(() => { if (frame.isConnected) frame.remove(); }, 120000);
+            };
+            // Allow font and stylesheet resources to settle before opening preview.
+            Promise.race([doc.fonts?.ready || Promise.resolve(), new Promise(r => setTimeout(r, 1200))])
+                .then(() => setTimeout(runPrint, 250));
+        }
+
+        // Dependency-free, direct-download, multipage vector PDF generator.
+        // Produces selectable text without opening the print dialog.
+        function downloadAsPDF() {
             try {
-                await document.fonts.ready;
-                // Render the same full-content invoice as PNG; slice its pixels into A4 pages.
-                const canvas = await html2canvas(clone, {
-                    scale: 2, backgroundColor: '#ffffff', useCORS: true,
-                    width: 794, height: clone.scrollHeight, windowWidth: 1000,
-                    scrollX: 0, scrollY: 0, logging: false
-                });
-                if (!canvas.width || !canvas.height) throw new Error('Invoice canvas is empty');
-                const pdf = new window.jspdf.jsPDF({orientation:'portrait', unit:'mm', format:'a4', compress:true});
-                const margin = 9, printableWidth = 210 - margin * 2;
-                const pageHeightMm = 297 - margin * 2;
-                const pxPerMm = canvas.width / printableWidth;
-                const pagePixels = Math.floor(pageHeightMm * pxPerMm);
-                let y = 0, page = 0;
-                while (y < canvas.height) {
-                    const sliceHeight = Math.min(pagePixels, canvas.height - y);
-                    const slice = document.createElement('canvas');
-                    slice.width = canvas.width;
-                    slice.height = sliceHeight;
-                    slice.getContext('2d').drawImage(canvas, 0, y, canvas.width, sliceHeight, 0, 0, canvas.width, sliceHeight);
-                    if (page++) pdf.addPage();
-                    pdf.addImage(slice.toDataURL('image/jpeg', 0.96), 'JPEG', margin, margin,
-                        printableWidth, sliceHeight / pxPerMm, undefined, 'FAST');
-                    y += sliceHeight;
+                const get = id => (document.getElementById(id)?.value || '').trim();
+                const enc = new TextEncoder();
+                const pdfText = str => String(str ?? '').normalize('NFKD').replace(/[\u0980-\u09FF]/g, '?').replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"').replace(/[\u2013\u2014]/g, '-').replace(/[^\x20-\x7E]/g, ' ');
+                const esc = str => pdfText(str).replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+                const W = 595.28, H = 841.89, L = 38, R = 38, CW = W-L-R;
+                const pages = []; let ops = [], y = 0, pageNum = 0;
+                function cmd(t){ops.push(t)}
+                function rect(x,top,w,h,fill){cmd(`${fill} rg ${x.toFixed(2)} ${(H-top-h).toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re f`)}
+                function line(x1,top1,x2,top2){cmd(`0.72 0.78 0.83 RG 0.6 w ${x1} ${(H-top1).toFixed(2)} m ${x2} ${(H-top2).toFixed(2)} l S`)}
+                function txt(t,x,top,size=9,bold=false,color='0.12 0.19 0.28'){
+                    cmd(`${color} rg BT /${bold?'F2':'F1'} ${size} Tf 1 0 0 1 ${x.toFixed(2)} ${(H-top-size).toFixed(2)} Tm (${esc(t)}) Tj ET`);
                 }
-                pdf.save(`Nasir_Electric_${invNo}.pdf`);
-                showToast('PDF downloaded', `${page} A4 page(s) exported successfully.`);
-            } catch (err) {
-                console.error(err);
-                showToast('PDF export failed', 'Please retry in Chrome with internet access.', true);
-            } finally { holder.remove(); }
+                function wrap(t,maxWidth,size=9){
+                    const max=Math.max(8,Math.floor(maxWidth/(size*0.51)));
+                    const lines=[];
+                    String(t??'').split(/\r?\n/).forEach(part=>{
+                        const words=pdfText(part).split(/\s+/);let cur='';
+                        words.forEach(word=>{
+                            if(!word)return;
+                            while(word.length>max){if(cur){lines.push(cur);cur=''}lines.push(word.slice(0,max));word=word.slice(max)}
+                            if(!word)return;
+                            if((cur+' '+word).trim().length>max){if(cur)lines.push(cur);cur=word}else cur=(cur+' '+word).trim();
+                        });lines.push(cur||' ');
+                    });return lines;
+                }
+                function paragraph(t,x,width,size=9,lh=12,bold=false){
+                    for(const part of wrap(t,width,size)){if(y+lh>H-48)newPage();txt(part,x,y,size,bold);y+=lh;}
+                }
+                function newPage(){
+                    if(ops.length)pages.push(ops.join('\n'));
+                    ops=[];pageNum++;y=38;
+                    rect(0,0,W,7,'0.03 0.48 0.62');
+                    txt('NASIR ELECTRIC SOLAR SYSTEM',L,y,15,true,'0.04 0.23 0.35');y+=24;
+                    txt('Seven Star Shopping Complex, Padua, Lohagara, Chattogram',L,y,8);y+=13;
+                    txt('WhatsApp: 01814-996020   |   Call: 01974-996020',L,y,8);y+=20;
+                    line(L,y,W-R,y);y+=13;
+                }
+                function section(s){if(y+28>H-60)newPage();rect(L,y,CW,20,'0.86 0.95 0.97');txt(s,L+8,y+4,10,true);y+=27}
+                function field(k,v){if(y+18>H-60)newPage();txt(k+':',L,y,9,true);paragraph(v||'-',L+118,CW-118,9,12);y+=4}
+                const col=[L,L+25,L+245,L+288,L+347,L+390,L+453,W-R];
+                const headerLabels=['#','PRODUCT DESCRIPTION','UNIT','WARRANTY','QTY','PRICE (BDT)','AMOUNT (BDT)'];
+                function cellText(value,x1,x2,top,sz=8,bold=false,right=false){
+                    const lines=wrap(String(value??''),x2-x1-10,sz);
+                    lines.forEach((t,i)=>txt(t,right?x2-5-t.length*sz*.49:x1+5,top+5+i*(sz+3),sz,bold));
+                }
+                function gridHeader(){
+                    const h=27;rect(L,y,CW,h,'0.79 0.91 0.95');
+                    for(const x of col)line(x,y,x,y+h);
+                    line(L,y,W-R,y);line(L,y+h,W-R,y+h);
+                    headerLabels.forEach((t,i)=>cellText(t,col[i],col[i+1],y,7,true));y+=h;
+                }
+                function gridRow(item,index,descriptionLines){
+                    const qty=Number(item.qty)||0,price=Number(item.price)||0;
+                    const h=Math.max(31,descriptionLines.length*10+12);
+                    if(y+h>H-66){newPage();gridHeader()}
+                    const top=y;
+                    if(index%2)rect(L,y,CW,h,'0.965 0.979 0.985');
+                    for(const x of col)line(x,y,x,y+h);
+                    line(L,y+h,W-R,y+h);
+                    cellText(index+1,col[0],col[1],top,8);
+                    descriptionLines.forEach((t,j)=>txt(t,col[1]+5,top+5+j*10,7.7));
+                    cellText(item.unit||'-',col[2],col[3],top,7.5);
+                    cellText(item.warranty||'-',col[3],col[4],top,7.2);
+                    cellText(qty,col[4],col[5],top,8);
+                    cellText(formatNumber(price),col[5],col[6],top,7.5);
+                    cellText(formatNumber(qty*price),col[6],col[7],top,7.5,true);
+                    y+=h;
+                }
+                newPage();
+                rect(L,y,CW,27,'0.85 0.95 0.97');txt('TAX INVOICE / QUOTATION',L+10,y+5,14,true,'0.04 0.32 0.45');y+=39;
+                // Two-column metadata with distinct labeled areas.
+                const metadata=[['Invoice No',get('inv-number'),'Date',get('inv-date')],['Customer',get('cust-name'),'Phone',get('cust-phone')],['Address',get('cust-address'),'Reference',get('inv-reference')],['Payment Terms',get('inv-payment-terms'),'','']];
+                metadata.forEach(([k,v,k2,v2])=>{
+                    const left=wrap(v||'-',230,8),right=wrap(v2||'-',135,8);
+                    const h=Math.max(23,Math.max(left.length,right.length)*11+9);
+                    if(y+h>H-80)newPage();
+                    rect(L,y,CW,h,'0.96 0.97 0.98');line(L,y,W-R,y);line(L,y+h,W-R,y+h);line(L+295,y,L+295,y+h);
+                    txt(k+':',L+7,y+6,8,true);left.forEach((t,i)=>txt(t,L+88,y+6+i*11,8));
+                    if(k2){txt(k2+':',L+303,y+6,8,true);right.forEach((t,i)=>txt(t,L+368,y+6+i*11,8))}
+                    y+=h;
+                });
+                y+=17;section('PRODUCTS AND SERVICES');gridHeader();
+                currentItems.filter(it => Number(it.qty) > 0).forEach((it,i)=>{
+                    const descriptionLines=wrap(it.description||'Product',col[2]-col[1]-10,7.7);
+                    gridRow(it,i,descriptionLines);
+                });
+                y+=16;if(y>H-185)newPage();section('PAYMENT SUMMARY');
+                const subtotal=currentItems.reduce((n,it)=>n+(Number(it.qty)||0)*(Number(it.price)||0),0);
+                const discount=Math.max(0,Number(get('input-discount'))||0),vat=Number(get('input-vat-percent'))||0;
+                const delivery=Math.max(0,Number(get('input-delivery'))||0),advance=Math.max(0,Number(get('input-advance'))||0);
+                const tax=Math.max(0,subtotal-discount)*vat/100;
+                const grand=Math.max(0,subtotal-discount+tax+delivery);
+                [['Subtotal',subtotal],['Discount',discount],['VAT / Tax',tax],['Delivery / Logistics',delivery],['GRAND TOTAL',grand],['Advance Paid',advance],['Due Balance',Math.max(0,grand-advance)]].forEach(([k,v])=>{
+                    if(y+22>H-60)newPage();
+                    if(k==='GRAND TOTAL')rect(L+210,y,CW-210,21,'0.84 0.94 0.97');
+                    line(L+210,y,L+CW,y);line(L+210,y+21,L+CW,y+21);
+                    txt(k,L+218,y+5,9,k==='GRAND TOTAL');
+                    txt('BDT '+formatNumber(v),W-R-123,y+5,9,k==='GRAND TOTAL');y+=21;
+                });
+                y+=12;section('AMOUNT IN WORDS');
+                paragraph(amountToTakaWords(grand),L+7,CW-14,9,13,true);
+                y+=12;section('TERMS AND CONDITIONS');
+                paragraph(get('terms-note'),L+7,CW-14,9,13);
+                y+=25;if(y+75>H-55)newPage();
+                line(L+30,y+25,L+215,y+25);line(L+310,y+25,W-R-25,y+25);
+                txt(get('sig-cust-title')||'Customer Signature',L+35,y+32,9,true);
+                txt(get('sig-auth-title')||'Authorized Signature',L+315,y+32,9,true);y+=72;
+                section('FOOTER NOTE');paragraph(get('footer-custom-text'),L+7,CW-14,8,12);
+                if(y+35>H-45)newPage();
+                y+=16;txt('Development by msnCloud.net',L,y,7,false,'0.45 0.5 0.56');
+                pages.push(ops.join('\n'));
+                const objs=[null],add=x=>{objs.push(x);return objs.length-1};
+                const catalog=add(''),pagesObj=add('');
+                const font1=add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>');
+                const font2=add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>');
+                const refs=[];
+                pages.forEach(content=>{
+                    const bytes=enc.encode(content+'\n');
+                    const stream=add(`<< /Length ${bytes.length} >>\nstream\n${content}\nendstream`);
+                    const page=add(`<< /Type /Page /Parent ${pagesObj} 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 ${font1} 0 R /F2 ${font2} 0 R >> >> /Contents ${stream} 0 R >>`);
+                    refs.push(`${page} 0 R`);
+                });
+                objs[pagesObj]=`<< /Type /Pages /Kids [${refs.join(' ')}] /Count ${refs.length} >>`;
+                objs[catalog]=`<< /Type /Catalog /Pages ${pagesObj} 0 R >>`;
+                let body='%PDF-1.4\n%ASCII\n';const offsets=[0];
+                for(let i=1;i<objs.length;i++){offsets[i]=enc.encode(body).length;body+=`${i} 0 obj\n${objs[i]}\nendobj\n`}
+                const xref=enc.encode(body).length;
+                body+=`xref\n0 ${objs.length}\n0000000000 65535 f \n`;
+                for(let i=1;i<objs.length;i++)body+=`${String(offsets[i]).padStart(10,'0')} 00000 n \n`;
+                body+=`trailer\n<< /Size ${objs.length} /Root ${catalog} 0 R >>\nstartxref\n${xref}\n%%EOF`;
+                const blob=new Blob([enc.encode(body)],{type:'application/pdf'});
+                const url=URL.createObjectURL(blob),a=document.createElement('a');
+                a.href=url;a.download='Nasir_Electric_'+(get('inv-number')||'Invoice').replace(/[^a-zA-Z0-9_-]/g,'_')+'.pdf';
+                document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+                showToast('PDF downloaded',`${pages.length} A4 page(s) prepared for download.`);
+            }catch(e){console.error(e);showToast('PDF export failed',String(e.message||e),true)}
         }
 
         async function downloadAsImage() {
