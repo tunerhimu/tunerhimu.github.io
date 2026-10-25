@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nasir Electric Solar System - Automated Invoice System</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Client-side PDF & Screenshot Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        cyanHeader: '#a5f3fc'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+
+        /* Printable setup */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            #invoice-paper {
+                box-shadow: none !important;
+                border: 1px solid #94a3b8 !important;
+                padding: 18px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 6mm 8mm;
+            }
+        }
+
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        /* Invoice input minimal reset */
+        .inv-input {
+            width: 100%;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            padding: 3px 6px;
+            transition: all 0.15s ease;
+        }
+        .inv-input:hover {
+            border-color: #cbd5e1;
+            background-color: #f8fafc;
+        }
+        .inv-input:focus {
+            border-color: #0284c7;
+            background-color: #ffffff;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15);
+        }
+        @media (max-width: 640px) {
+            #invoice-paper { padding: 12px !important; border-radius: 8px; }
+            #invoice-paper .grid { gap: 10px; }
+            #invoice-paper label { font-size: 10px; }
+            #invoice-table { min-width: 760px; }
+            #invoice-paper input, #invoice-paper textarea { font-size: 12px; }
+            header .max-w-7xl { justify-content: center; }
+            header button { flex-grow: 1; justify-content: center; }
+        }
+        .invoice-export-copy #invoice-table { min-width: 0 !important; }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Top Action Navigation Bar -->
+    <header class="bg-slate-900 text-white shadow-xl sticky top-0 z-40 no-print border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-amber-500 to-sky-500 p-2 rounded-xl text-white shadow flex items-center justify-center">
+                    <i class="fa-solid fa-solar-panel text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold tracking-tight">Nasir Electric Solar System</h1>
+                    <p class="text-xs text-sky-400 font-medium">Smart Commercial Invoice & Quotation Automation</p>
+                </div>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="saveCurrentInvoice()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-semibold rounded-lg shadow transition flex items-center gap-1.5 text-xs">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Save to DB</span>
+                </button>
+                <button onclick="downloadAsPDF()" class="px-3.5 py-2 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-semibold rounded-lg shadow transition flex items-center gap-1.5 text-xs">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Download PDF</span>
+                </button>
+                <button onclick="downloadAsImage()" class="px-3.5 py-2 bg-sky-600 hover:bg-sky-500 active:scale-95 text-white font-semibold rounded-lg shadow transition flex items-center gap-1.5 text-xs">
+                    <i class="fa-solid fa-image"></i>
+                    <span>Screenshot (PNG)</span>
+                </button>
+                <button onclick="window.print()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium rounded-lg border border-slate-700 transition flex items-center gap-1.5 text-xs">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Print</span>
+                </button>
+                <button onclick="openHistoryModal()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-700 transition flex items-center gap-1.5 text-xs" title="View Saved Database">
+                    <i class="fa-solid fa-database text-amber-400"></i>
+                    <span>Records</span>
+                    <span id="saved-badge" class="bg-emerald-500 text-slate-900 text-[10px] px-1.5 py-0.2 rounded-full font-bold ml-0.5">0</span>
+                </button>
+                <button onclick="createNewInvoice()" class="px-3 py-2 bg-white text-slate-900 hover:bg-slate-100 font-semibold rounded-lg transition text-xs flex items-center gap-1.5 shadow">
+                    <i class="fa-solid fa-plus-circle text-blue-600"></i>
+                    <span>New Invoice</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl border border-slate-700">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <div>
+            <p id="toast-title" class="font-bold text-xs">Success</p>
+            <p id="toast-msg" class="text-xs text-slate-300">Operation finished successfully.</p>
+        </div>
+    </div>
+
+    <!-- Main Workspace Container -->
+    <main class="max-w-7xl mx-auto w-full p-3 md:p-6 flex-grow">
+
+        <!-- Controls Toolbar (No-Print) -->
+        <div class="no-print bg-white p-3 md:p-4 rounded-xl shadow-sm border border-slate-200 mb-5 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 bg-cyan-100 text-cyan-900 rounded-md text-xs font-bold uppercase tracking-wider">A4 Format Ready</span>
+                <p class="text-xs text-slate-500">Edit fields directly. Items, quantities, warranty, prices, and footers update in real-time.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="addNewItemRow()" class="px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-plus"></i> Add Item Row
+                </button>
+                <button onclick="resetToPrimaryProducts()" class="px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg text-xs font-medium flex items-center gap-1.5 transition" title="Restore primary default products">
+                    <i class="fa-solid fa-rotate-left"></i> Restore 14 Primary Products
+                </button>
+            </div>
+        </div>
+
+        <!-- ======================= INVOICE PAPER (A4 CANVAS) ======================= -->
+        <div id="invoice-paper" class="bg-white mx-auto rounded-xl shadow-lg border border-slate-300 p-6 md:p-8 max-w-[960px] transition-all">
+            
+            <!-- COMPANY HEADER (Teal / Cyan theme matching user's spreadsheet banner) -->
+            <div class="bg-gradient-to-r from-cyan-200 via-cyan-100 to-teal-100 border border-cyan-300 rounded-xl p-4 text-center mb-5 shadow-sm">
+                <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight uppercase">Nasir Electric Solar System</h1>
+                <p class="text-xs md:text-sm font-semibold text-slate-700 mt-1">Seven Star Shopping Complex, Padua, Lohagara, Chattogram</p>
+                <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-bold text-slate-800 mt-1.5">
+                    <span class="flex items-center gap-1 text-emerald-800">
+                        <i class="fa-brands fa-whatsapp text-emerald-600"></i> WhatsApp: 01814-996020
+                    </span>
+                    <span class="text-slate-400">|</span>
+                    <span class="flex items-center gap-1 text-blue-900">
+                        <i class="fa-solid fa-phone text-blue-600"></i> Call: 01974-996020
+                    </span>
+                </div>
+            </div>
+
+            <!-- INVOICE METADATA & BILL-TO GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 mb-5 text-xs">
+                
+                <!-- Left Details: Customer & Address -->
+                <div class="md:col-span-7 bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
+                    <div class="flex items-center gap-2">
+                        <label class="w-28 font-bold text-slate-700 flex-shrink-0">Invoice No:</label>
+                        <input id="inv-number" type="text" value="INV-2026-001" class="inv-input font-bold text-blue-900">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="w-28 font-bold text-slate-700 flex-shrink-0">Customer Name:</label>
+                        <input id="cust-name" type="text" placeholder="Enter Customer / Company Name" value="M/S Green Power Industries Ltd." class="inv-input font-semibold text-slate-800">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="w-28 font-bold text-slate-700 flex-shrink-0">Phone Number:</label>
+                        <input id="cust-phone" type="text" placeholder="e.g. 01711-XXXXXX" value="01819-223344" class="inv-input text-slate-800">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="w-28 font-bold text-slate-700 flex-shrink-0">Address / Location:</label>
+                        <input id="cust-address" type="text" placeholder="Project or Site Address" value="Padua Bypass Road, Lohagara, Chattogram" class="inv-input text-slate-800">
+                    </div>
+                </div>
+
+                <!-- Right Details: Date & Reference -->
+                <div class="md:col-span-5 bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
+                    <div class="flex items-center gap-2">
+                        <label class="w-24 font-bold text-slate-700 flex-shrink-0">Date:</label>
+                        <input id="inv-date" type="date" class="inv-input font-medium text-slate-800">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="w-24 font-bold text-slate-700 flex-shrink-0">Reference:</label>
+                        <input id="inv-reference" type="text" placeholder="Ref or Project Name" value="20 KW Hybrid Rooftop Solar" class="inv-input text-slate-800">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="w-24 font-bold text-slate-700 flex-shrink-0">Payment Term:</label>
+                        <input id="inv-payment-terms" type="text" value="50% Advance, 50% on Handover" class="inv-input text-slate-800">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="w-24 font-bold text-slate-700 flex-shrink-0">Status:</label>
+                        <span class="inline-block px-2.5 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">Official Quotation</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PRODUCT ITEMS TABLE WITH WARRANTY COLUMN -->
+            <div class="overflow-x-auto custom-scroll -mx-2 md:mx-0 mb-4">
+                <table class="w-full border-collapse text-left text-[11px]" id="invoice-table">
+                    <thead>
+                        <tr class="bg-cyan-200 text-slate-900 border-y border-cyan-400 font-bold uppercase tracking-wider">
+                            <th class="py-2 px-1 text-center w-8 border border-cyan-300">SL</th>
+                            <th class="py-2 px-2 border border-cyan-300 min-w-[280px]">Product / Description</th>
+                            <th class="py-2 px-2 text-center w-14 border border-cyan-300">Unit</th>
+                            <th class="py-2 px-2 text-center w-20 border border-cyan-300">Warranty</th>
+                            <th class="py-2 px-2 text-center w-20 border border-cyan-300">Qty</th>
+                            <th class="py-2 px-2 text-right w-24 border border-cyan-300">Unit Price (৳)</th>
+                            <th class="py-2 px-2 text-right w-28 border border-cyan-300">Total Amount (৳)</th>
+                            <th class="py-2 px-1 text-center w-8 no-print border border-cyan-300">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="items-tbody" class="border border-slate-300 divide-y divide-slate-200">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TOTALS & EDITABLE NOTES SECTION -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-start mb-6">
+                
+                <!-- Left: Editable Terms & Warranty Note -->
+                <div class="md:col-span-7 bg-slate-50 p-3.5 rounded-lg border border-slate-200 text-xs space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label class="font-bold text-slate-800 flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-contract text-cyan-600"></i> Terms & Conditions / Warranty Note:
+                        </label>
+                        <span class="text-[10px] text-slate-400 no-print">(Click to edit)</span>
+                    </div>
+                    <textarea id="terms-note" rows="4" class="w-full text-[11px] bg-white border border-slate-200 rounded p-2 text-slate-700 leading-relaxed focus:outline-blue-500">1. Tier-1 Solar PV Modules come with a 25-Year Linear Performance Warranty.
+2. Smart On-Grid Hybrid Inverter and LiFePO4 Lithium Batteries include 5-Year Replacement/Service Warranty.
+3. Quotation is valid for 15 days from the date of issue.
+4. Supply and installation will be executed strictly following standard electrical engineering codes.</textarea>
+
+                    <div class="pt-2 border-t border-slate-200">
+                        <span class="font-semibold text-slate-600 text-[11px]">Amount in Words:</span>
+                        <p id="amount-in-words" class="text-blue-900 font-bold capitalize text-xs mt-0.5 italic">Zero Taka Only.</p>
+                    </div>
+                </div>
+
+                <!-- Right: Financial Summary Box -->
+                <div class="md:col-span-5 bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm space-y-2 text-xs">
+                    
+                    <div class="flex justify-between items-center text-slate-600">
+                        <span class="font-medium">Subtotal:</span>
+                        <span id="summary-subtotal" class="font-bold text-slate-900 text-xs">৳ 0.00</span>
+                    </div>
+
+                    <div class="flex justify-between items-center text-slate-600">
+                        <span class="font-medium">Discount (-):</span>
+                        <div class="flex items-center gap-1">
+                            <span>৳</span>
+                            <input id="input-discount" type="number" min="0" value="0" oninput="calculateAllTotals()" class="w-24 text-right bg-slate-50 border border-slate-300 rounded px-1.5 py-0.5 font-semibold text-slate-800 focus:outline-blue-500">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-slate-600">
+                        <div class="flex items-center gap-1">
+                            <span class="font-medium">VAT / Tax (%):</span>
+                            <input id="input-vat-percent" type="number" min="0" max="100" value="0" oninput="calculateAllTotals()" class="w-12 text-center bg-slate-50 border border-slate-300 rounded px-1 py-0.5 text-xs focus:outline-blue-500">
+                            <span>%</span>
+                        </div>
+                        <span id="summary-vat-amount" class="font-medium text-slate-800">৳ 0.00</span>
+                    </div>
+
+                    <div class="flex justify-between items-center text-slate-600">
+                        <span class="font-medium">Delivery / Logistics:</span>
+                        <div class="flex items-center gap-1">
+                            <span>৳</span>
+                            <input id="input-delivery" type="number" min="0" value="0" oninput="calculateAllTotals()" class="w-24 text-right bg-slate-50 border border-slate-300 rounded px-1.5 py-0.5 font-semibold text-slate-800 focus:outline-blue-500">
+                        </div>
+                    </div>
+
+                    <div class="border-t-2 border-slate-900 pt-2 flex justify-between items-center bg-cyan-50/70 p-2 rounded">
+                        <span class="text-xs font-bold text-slate-900 uppercase">Net Grand Total:</span>
+                        <span id="summary-grandtotal" class="text-sm font-extrabold text-blue-950">৳ 0.00</span>
+                    </div>
+
+                    <!-- Advance & Balance -->
+                    <div class="flex justify-between items-center text-slate-600 pt-1">
+                        <span class="font-medium">Advance Paid:</span>
+                        <div class="flex items-center gap-1">
+                            <span>৳</span>
+                            <input id="input-advance" type="number" min="0" value="0" oninput="calculateAllTotals()" class="w-24 text-right bg-slate-50 border border-slate-300 rounded px-1.5 py-0.5 font-semibold text-emerald-700 focus:outline-blue-500">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-rose-700 font-bold pt-1 border-t border-dashed border-slate-200">
+                        <span>Due Balance:</span>
+                        <span id="summary-balance" class="text-xs">৳ 0.00</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- EDITABLE FOOTER & SIGNATURE SECTION -->
+            <div class="pt-6 mt-4 border-t border-slate-300">
+                <div class="grid grid-cols-2 gap-8 text-center text-xs">
+                    <div>
+                        <div class="w-44 mx-auto border-b border-slate-400 mb-1.5"></div>
+                        <input id="sig-cust-title" type="text" value="Customer Signature & Seal" class="text-center font-semibold text-slate-700 inv-input text-xs w-52 mx-auto">
+                    </div>
+                    <div>
+                        <div class="w-44 mx-auto border-b border-slate-400 mb-1.5"></div>
+                        <input id="sig-auth-title" type="text" value="Authorized Signature" class="text-center font-bold text-blue-900 inv-input text-xs w-52 mx-auto">
+                        <p class="text-[10px] text-slate-500">Nasir Electric Solar System</p>
+                    </div>
+                </div>
+
+                <!-- Editable Custom Footer Message -->
+                <div class="mt-6 border-t border-slate-200 pt-3">
+                    <div class="flex justify-between items-center mb-1 no-print">
+                        <span class="text-[10px] font-semibold text-slate-400 uppercase">Editable Footer Note:</span>
+                    </div>
+                    <textarea id="footer-custom-text" rows="2" class="w-full text-center text-[11px] text-slate-600 inv-input resize-none leading-relaxed" placeholder="Write any appreciation or custom closing note here...">Thank you for choosing Nasir Electric Solar System. We deliver dependable clean energy solutions for home, business, and industry.
+Seven Star Shopping Complex, Padua, Lohagara, Chattogram • WhatsApp: 01814-996020 | Phone: 01974-996020</textarea>
+                </div>
+            </div>
+
+            <p style="font-size:8px;text-align:center;color:#94a3b8;margin-top:12px">Development by msnCloud.net</p>
+        </div>
+        <!-- ======================= END INVOICE PAPER ======================= -->
+
+    </main>
+
+    <!-- SAVED INVOICE DATABASE MODAL -->
+    <div id="history-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-slate-200">
+            
+            <div class="px-6 py-4 bg-slate-900 text-white flex justify-between items-center">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-database text-cyan-400 text-lg"></i>
+                    <div>
+                        <h2 class="font-bold text-base">Invoice Database Records</h2>
+                        <p class="text-xs text-slate-400">View, search, restore or export all your saved invoices to CSV</p>
+                    </div>
+                </div>
+                <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-white text-xl p-1 rounded-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="p-4 bg-slate-50 border-b border-slate-200 flex flex-wrap justify-between items-center gap-3">
+                <div class="relative flex-grow max-w-sm">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                    <input id="db-search-input" oninput="filterDatabase()" type="text" placeholder="Search by customer name or invoice no..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-slate-300 rounded-lg focus:outline-blue-500">
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="exportDatabaseToCSV()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-file-excel"></i> Export CSV / Excel
+                    </button>
+                    <button onclick="clearAllDatabase()" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-lg text-xs font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-trash"></i> Clear All
+                    </button>
+                </div>
+            </div>
+
+            <div class="overflow-y-auto custom-scroll p-4 flex-grow">
+                <table class="w-full text-xs text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                            <th class="p-2 font-bold">Invoice No</th>
+                            <th class="p-2 font-bold">Date</th>
+                            <th class="p-2 font-bold">Customer Name</th>
+                            <th class="p-2 font-bold">Phone</th>
+                            <th class="p-2 font-bold text-right">Grand Total (৳)</th>
+                            <th class="p-2 font-bold text-right">Due (৳)</th>
+                            <th class="p-2 font-bold text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="database-tbody" class="divide-y divide-slate-100">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+                <div id="no-data-msg" class="text-center py-10 text-slate-400 hidden">
+                    <i class="fa-solid fa-folder-open text-3xl mb-2 text-slate-300"></i>
+                    <p class="text-xs">No saved invoices found in database.</p>
+                </div>
+            </div>
+
+            <div class="px-6 py-3 bg-slate-50 border-t border-slate-200 flex justify-end">
+                <button onclick="closeHistoryModal()" class="px-4 py-1.5 bg-slate-700 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold">
+                    Close
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Page Footer -->
+    <footer class="bg-white border-t border-slate-200 py-3 text-center text-xs text-slate-500 no-print">
+        <p>© 2026 Nasir Electric Solar System • Padua, Lohagara, Chattogram • Smart Automated Billing System</p>
+    </footer>
+
+    <!-- JAVASCRIPT APPLICATION CODE -->
+    <script>
+        // Exact 14 Primary Products from your uploaded image screenshot
+        const primarySolarProducts = [
+            {
+                description: "SOLAR PV MODULE:\nCapacity: 30.0 kWp (Sustained morning/afternoon load & battery charging)\nModule Capacity: 650 W/ 620W/ 600W/ OTHERS\nInternational Tier 1: Yes\nCell Type: N-Type TOPCon, Bifacial Dual Glass\nEfficiency: ≥22.5%\nBrand: Jinko / Longi / JA Solar / Astronergy\nOrigin: China / Germany\nWarranty: 25 Years Linear Performance Warranty",
+                warranty: "5yr",
+                unit: "KW",
+                qty: 29760,
+                price: 18.50
+            },
+            {
+                description: "ON-GRID SMART HYBRID INVERTER:\nInverter Capacity: 20 KW; 3-Phase\nSREDA Approved\nBrand: GROWATT/SOLAX, Origin: China\nWarranty: 5 Years",
+                warranty: "5yr",
+                unit: "Nos",
+                qty: 1,
+                price: 0
+            },
+            {
+                description: "LITHIUM ION BATTERY:\nBrand: Gotion/Green/ SOLAX/Akai/ya, Origin: China\nCapacity: 16kWh, 51.2V, 314Ah LiFePO4 Smart Battery\nProduct Warranty: 5 Years",
+                warranty: "5yr",
+                unit: "Nos",
+                qty: 2,
+                price: 0
+            },
+            {
+                description: "MOUNTING STRUCTURE (PROFILE TIN-SHED):\nAluminum Rail with high strength extrusion aluminum 6005-T5 material and L feet and a variety of clip Lock.",
+                warranty: "N/A",
+                unit: "KW",
+                qty: 30,
+                price: 0
+            },
+            {
+                description: "INTER MODULE DC SOLAR CABLE (4.0 mm²):\nSize: 1 × 4.0 mm² Copper Tinned, 1500V DC, XLPO Insulated",
+                warranty: "N/A",
+                unit: "Mtr",
+                qty: 150,
+                price: 0
+            },
+            {
+                description: "MAIN HOME-RUN DC SOLAR CABLE (6.0 mm²):\nSize: 1 × 6.0 mm² Copper Tinned, 1500V DC, TUV Certified",
+                warranty: "N/A",
+                unit: "Mtr",
+                qty: 300,
+                price: 0
+            },
+            {
+                description: "BATTERY DC CABLES (50 mm² / 70 mm²):\nSize: 1 × 50 mm² / 70 mm² Super Flexible Pure Copper Cable",
+                warranty: "N/A",
+                unit: "Lot",
+                qty: 1,
+                price: 0
+            },
+            {
+                description: "HEAVY-DUTY MC4 CONNECTORS:\n1500V DC, 30A Rated, IP68 Waterproof, Genuine Stäubli / Multi-Contact Type",
+                warranty: "N/A",
+                unit: "Pair",
+                qty: 14,
+                price: 0
+            },
+            {
+                description: "INTEGRATED AC & DC PROTECTION PANELS (ACDB, DCDB & BATT FUSE):\n• DC String Protection: 1000V DC MCB (20A/25A, 2P) & 1000V Class-II DC SPD\n• Battery Protection: 2P 250A DC MCCB / NH-00 High-Speed DC Fuse Disconnector\n• AC Grid Protection: 4-Pole 50A/63A AC MCCB & 4-Pole Class-II AC SPD (40kA)",
+                warranty: "N/A",
+                unit: "Set",
+                qty: 1,
+                price: 0
+            },
+            {
+                description: "AC GRID INTERCONNECTION CABLE:\n4-Core Pure Copper Heavy-Duty Industrial Armored Cable (BRB / Poly / Eastern)",
+                warranty: "N/A",
+                unit: "Lot",
+                qty: 1,
+                price: 0
+            },
+            {
+                description: "EARTHING & LIGHTNING PROTECTION",
+                warranty: "N/A",
+                unit: "Job",
+                qty: 1,
+                price: 0
+            },
+            {
+                description: "BALANCE OF SYSTEM (BOS) & ACCESSORIES:\nUV Conduit Pipes, GI Cable Trays, Lugs, Glands, Industrial Ties, Safety Signage",
+                warranty: "N/A",
+                unit: "Lot",
+                qty: 1,
+                price: 0
+            },
+            {
+                description: "INSTALLATION, TESTING & COMMISSIONING (30 KWP)",
+                warranty: "N/A",
+                unit: "Job",
+                qty: 1,
+                price: 0
+            },
+            {
+                description: "TRANSPORTATION & LOGISTICS",
+                warranty: "N/A",
+                unit: "Job",
+                qty: 1,
+                price: 0
+            }
+        ];
+
+        let currentItems = [];
+        let savedInvoices = [];
+
+        // App initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('inv-date').value = today;
+
+            resetToPrimaryProducts();
+
+            // Seed sample demo record
+            savedInvoices.push({
+                id: "INV-2026-001",
+                date: today,
+                customer: "M/S Green Power Industries Ltd.",
+                phone: "01819-223344",
+                address: "Padua Bypass Road, Lohagara, Chattogram",
+                reference: "20 KW Hybrid Rooftop Solar",
+                paymentTerms: "50% Advance, 50% on Handover",
+                subtotal: 550560.00,
+                discount: 0,
+                vatPercent: 0,
+                delivery: 0,
+                grandTotal: 550560.00,
+                advance: 0,
+                balance: 550560.00,
+                termsNote: document.getElementById('terms-note').value,
+                footerText: document.getElementById('footer-custom-text').value,
+                sigCust: "Customer Signature & Seal",
+                sigAuth: "Authorized Signature",
+                items: JSON.parse(JSON.stringify(primarySolarProducts))
+            });
+
+            updateSavedBadge();
+        });
+
+        // Restore Primary 14 Products
+        function resetToPrimaryProducts() {
+            currentItems = JSON.parse(JSON.stringify(primarySolarProducts));
+            renderTableRows();
+            calculateAllTotals();
+            showToast("Primary Products Loaded", "Default 14 solar items restored successfully.");
+        }
+
+        // Render Table Rows with Warranty column
+        function renderTableRows() {
+            const tbody = document.getElementById('items-tbody');
+            tbody.innerHTML = '';
+
+            currentItems.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.className = index % 2 === 1 ? 'bg-slate-50/70 hover:bg-cyan-50/40' : 'bg-white hover:bg-cyan-50/40';
+
+                const lineTotal = (parseFloat(item.qty) || 0) * (parseFloat(item.price) || 0);
+
+                tr.innerHTML = `
+                    <td class="py-2 px-1 text-center font-bold text-slate-500 border border-slate-200">${index + 1}</td>
+                    <td class="py-1 px-2 border border-slate-200">
+                        <textarea rows="2" oninput="updateItemField(${index}, 'description', this.value)" class="w-full text-[11px] bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-500 focus:bg-white rounded p-1 resize-y leading-snug text-slate-800">${escapeHtml(item.description)}</textarea>
+                    </td>
+                    <td class="py-1 px-1 text-center border border-slate-200">
+                        <input type="text" value="${escapeHtml(item.warranty || 'N/A')}" oninput="updateItemField(${index}, 'warranty', this.value)" class="w-full text-center bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-500 focus:bg-white rounded py-1 font-semibold text-slate-700">
+                    </td>
+                    
+                    <td class="py-1 px-1 text-center border border-slate-200">
+                        <input type="text" value="${escapeHtml(item.unit)}" oninput="updateItemField(${index}, 'unit', this.value)" class="w-full text-center bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-500 focus:bg-white rounded py-1 text-slate-700">
+                    </td>
+                     <td class="py-1 px-1 text-center border border-slate-200">
+                        <input type="number" min="0" step="any" value="${item.qty}" oninput="updateItemField(${index}, 'qty', this.value)" class="w-full text-center font-semibold bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-500 focus:bg-white rounded py-1 text-slate-800">
+                    </td>
+                    <td class="py-1 px-2 text-right border border-slate-200">
+                        <input type="number" min="0" step="any" value="${item.price}" oninput="updateItemField(${index}, 'price', this.value)" class="w-full text-right font-semibold bg-transparent border border-transparent hover:border-slate-300 focus:border-cyan-500 focus:bg-white rounded py-1 text-slate-800">
+                    </td>
+                    <td class="py-2 px-2 text-right font-bold text-slate-900 border border-slate-200">
+                        ৳ ${formatNumber(lineTotal)}
+                    </td>
+                    <td class="py-1 px-1 text-center no-print border border-slate-200">
+                        <button onclick="removeItemRow(${index})" class="text-rose-400 hover:text-rose-600 p-1 rounded transition" title="Delete Row">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Add New Blank Item Row
+        function addNewItemRow() {
+            currentItems.push({
+                description: "New Equipment / Service Item",
+                warranty: "N/A",
+                unit: "Nos",
+                qty: 1,
+                price: 0
+            });
+            renderTableRows();
+            calculateAllTotals();
+        }
+
+        // Remove Row
+        function removeItemRow(index) {
+            if (currentItems.length <= 1) {
+                showToast("Warning", "At least one row is required in the invoice.", true);
+                return;
+            }
+            currentItems.splice(index, 1);
+            renderTableRows();
+            calculateAllTotals();
+        }
+
+        // Update single field
+        function updateItemField(index, field, value) {
+            if (field === 'qty' || field === 'price') {
+                currentItems[index][field] = parseFloat(value) || 0;
+            } else {
+                currentItems[index][field] = value;
+            }
+
+            // Realtime update line total
+            const tbody = document.getElementById('items-tbody');
+            const row = tbody.children[index];
+            if (row) {
+                const qty = parseFloat(currentItems[index].qty) || 0;
+                const price = parseFloat(currentItems[index].price) || 0;
+                const totalCell = row.children[6];
+                totalCell.innerText = "৳ " + formatNumber(qty * price);
+            }
+            calculateAllTotals();
+        }
+
+        // Calculate Totals, Taxes, Grand Total, and Words
+        function calculateAllTotals() {
+            let subtotal = 0;
+            currentItems.forEach(item => {
+                const q = parseFloat(item.qty) || 0;
+                const p = parseFloat(item.price) || 0;
+                subtotal += (q * p);
+            });
+
+            const discount = parseFloat(document.getElementById('input-discount').value) || 0;
+            const vatPercent = parseFloat(document.getElementById('input-vat-percent').value) || 0;
+            const delivery = parseFloat(document.getElementById('input-delivery').value) || 0;
+            const advance = parseFloat(document.getElementById('input-advance').value) || 0;
+
+            const vatAmount = Math.max(0, (subtotal - discount) * (vatPercent / 100));
+            const grandTotal = Math.max(0, (subtotal - discount) + vatAmount + delivery);
+            const balance = Math.max(0, grandTotal - advance);
+
+            // Update UI
+            document.getElementById('summary-subtotal').innerText = "৳ " + formatNumber(subtotal);
+            document.getElementById('summary-vat-amount').innerText = "৳ " + formatNumber(vatAmount);
+            document.getElementById('summary-grandtotal').innerText = "৳ " + formatNumber(grandTotal);
+            document.getElementById('summary-balance').innerText = "৳ " + formatNumber(balance);
+
+            // In Words
+            document.getElementById('amount-in-words').innerText = amountToTakaWords(grandTotal);
+        }
+
+        // Formatting Helper
+        function formatNumber(num) {
+            return Number(num).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // Create New Invoice
+        function createNewInvoice() {
+            const randomCode = Math.floor(100 + Math.random() * 900);
+            document.getElementById('inv-number').value = `INV-2026-${randomCode}`;
+            document.getElementById('cust-name').value = "";
+            document.getElementById('cust-phone').value = "";
+            document.getElementById('cust-address').value = "";
+            document.getElementById('inv-reference').value = "";
+            document.getElementById('input-discount').value = 0;
+            document.getElementById('input-vat-percent').value = 0;
+            document.getElementById('input-delivery').value = 0;
+            document.getElementById('input-advance').value = 0;
+
+            resetToPrimaryProducts();
+            showToast("New Invoice Form Ready", "Enter customer details and customize items as needed.");
+        }
+
+        // Save Current Invoice to In-Memory DB
+        function saveCurrentInvoice() {
+            const invNo = document.getElementById('inv-number').value.trim();
+            const custName = document.getElementById('cust-name').value.trim();
+
+            if (!invNo || !custName) {
+                showToast("Incomplete Data", "Please specify both Invoice No and Customer Name.", true);
+                return;
+            }
+
+            const invData = {
+                id: invNo,
+                date: document.getElementById('inv-date').value,
+                customer: custName,
+                phone: document.getElementById('cust-phone').value.trim(),
+                address: document.getElementById('cust-address').value.trim(),
+                reference: document.getElementById('inv-reference').value.trim(),
+                paymentTerms: document.getElementById('inv-payment-terms').value.trim(),
+                subtotal: parseFloat(document.getElementById('summary-subtotal').innerText.replace(/[৳,\s]/g, '')) || 0,
+                discount: parseFloat(document.getElementById('input-discount').value) || 0,
+                vatPercent: parseFloat(document.getElementById('input-vat-percent').value) || 0,
+                delivery: parseFloat(document.getElementById('input-delivery').value) || 0,
+                grandTotal: parseFloat(document.getElementById('summary-grandtotal').innerText.replace(/[৳,\s]/g, '')) || 0,
+                advance: parseFloat(document.getElementById('input-advance').value) || 0,
+                balance: parseFloat(document.getElementById('summary-balance').innerText.replace(/[৳,\s]/g, '')) || 0,
+                termsNote: document.getElementById('terms-note').value,
+                footerText: document.getElementById('footer-custom-text').value,
+                sigCust: document.getElementById('sig-cust-title').value,
+                sigAuth: document.getElementById('sig-auth-title').value,
+                items: JSON.parse(JSON.stringify(currentItems))
+            };
+
+            const existingIndex = savedInvoices.findIndex(inv => inv.id === invNo);
+            if (existingIndex >= 0) {
+                savedInvoices[existingIndex] = invData;
+                showToast("Invoice Updated", `Invoice ${invNo} updated in database.`);
+            } else {
+                savedInvoices.unshift(invData);
+                showToast("Saved Successfully", `Invoice ${invNo} stored in database.`);
+            }
+
+            updateSavedBadge();
+        }
+
+        function updateSavedBadge() {
+            document.getElementById('saved-badge').innerText = savedInvoices.length;
+        }
+
+        // Open Database Modal
+        function openHistoryModal() {
+            document.getElementById('history-modal').classList.remove('hidden');
+            renderDatabaseTable();
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('history-modal').classList.add('hidden');
+        }
+
+        function renderDatabaseTable(filteredList = null) {
+            const tbody = document.getElementById('database-tbody');
+            const noData = document.getElementById('no-data-msg');
+            const list = filteredList !== null ? filteredList : savedInvoices;
+
+            tbody.innerHTML = '';
+            if (list.length === 0) {
+                noData.classList.remove('hidden');
+                return;
+            }
+            noData.classList.add('hidden');
+
+            list.forEach(inv => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition border-b border-slate-100";
+                tr.innerHTML = `
+                    <td class="p-2 font-bold text-blue-900">${escapeHtml(inv.id)}</td>
+                    <td class="p-2 text-slate-600">${escapeHtml(inv.date)}</td>
+                    <td class="p-2 font-semibold text-slate-800">${escapeHtml(inv.customer)}</td>
+                    <td class="p-2 text-slate-600">${escapeHtml(inv.phone || 'N/A')}</td>
+                    <td class="p-2 text-right font-bold text-slate-900">৳ ${formatNumber(inv.grandTotal)}</td>
+                    <td class="p-2 text-right font-semibold ${inv.balance > 0 ? 'text-rose-600' : 'text-emerald-600'}">৳ ${formatNumber(inv.balance)}</td>
+                    <td class="p-2 text-center space-x-1">
+                        <button onclick="loadInvoiceFromDB('${inv.id}')" class="px-2 py-1 bg-cyan-100 text-cyan-900 hover:bg-cyan-200 rounded font-semibold text-[10px] transition">
+                            <i class="fa-solid fa-folder-open"></i> Load
+                        </button>
+                        <button onclick="deleteInvoiceFromDB('${inv.id}')" class="px-2 py-1 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded text-[10px] transition">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function loadInvoiceFromDB(id) {
+            const found = savedInvoices.find(item => item.id === id);
+            if (!found) return;
+
+            document.getElementById('inv-number').value = found.id;
+            document.getElementById('inv-date').value = found.date;
+            document.getElementById('cust-name').value = found.customer;
+            document.getElementById('cust-phone').value = found.phone || "";
+            document.getElementById('cust-address').value = found.address || "";
+            document.getElementById('inv-reference').value = found.reference || "";
+            document.getElementById('inv-payment-terms').value = found.paymentTerms || "";
+
+            document.getElementById('input-discount').value = found.discount || 0;
+            document.getElementById('input-vat-percent').value = found.vatPercent || 0;
+            document.getElementById('input-delivery').value = found.delivery || 0;
+            document.getElementById('input-advance').value = found.advance || 0;
+
+            if (found.termsNote) document.getElementById('terms-note').value = found.termsNote;
+            if (found.footerText) document.getElementById('footer-custom-text').value = found.footerText;
+            if (found.sigCust) document.getElementById('sig-cust-title').value = found.sigCust;
+            if (found.sigAuth) document.getElementById('sig-auth-title').value = found.sigAuth;
+
+            currentItems = JSON.parse(JSON.stringify(found.items));
+            renderTableRows();
+            calculateAllTotals();
+
+            closeHistoryModal();
+            showToast("Invoice Restored", `Invoice ${id} loaded into editor.`);
+        }
+
+        function deleteInvoiceFromDB(id) {
+            savedInvoices = savedInvoices.filter(item => item.id !== id);
+            updateSavedBadge();
+            renderDatabaseTable();
+            showToast("Deleted", `Invoice ${id} removed.`);
+        }
+
+        function clearAllDatabase() {
+            if (savedInvoices.length === 0) return;
+            savedInvoices = [];
+            updateSavedBadge();
+            renderDatabaseTable();
+            showToast("Database Cleared", "All records removed.");
+        }
+
+        function filterDatabase() {
+            const query = document.getElementById('db-search-input').value.toLowerCase().trim();
+            if (!query) {
+                renderDatabaseTable();
+                return;
+            }
+            const filtered = savedInvoices.filter(inv =>
+                inv.id.toLowerCase().includes(query) ||
+                inv.customer.toLowerCase().includes(query) ||
+                (inv.phone && inv.phone.includes(query))
+            );
+            renderDatabaseTable(filtered);
+        }
+
+        function exportDatabaseToCSV() {
+            if (savedInvoices.length === 0) {
+                showToast("Empty Database", "Save some invoices first before exporting.", true);
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            csvContent += "Invoice No,Date,Customer Name,Phone,Address,Reference,Subtotal,Discount,Grand Total,Advance,Due Balance\n";
+
+            savedInvoices.forEach(inv => {
+                const row = [
+                    `"${inv.id}"`,
+                    `"${inv.date}"`,
+                    `"${inv.customer.replace(/"/g, '""')}"`,
+                    `"${(inv.phone || '').replace(/"/g, '""')}"`,
+                    `"${(inv.address || '').replace(/"/g, '""')}"`,
+                    `"${(inv.reference || '').replace(/"/g, '""')}"`,
+                    inv.subtotal,
+                    inv.discount,
+                    inv.grandTotal,
+                    inv.advance,
+                    inv.balance
+                ];
+                csvContent += row.join(",") + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Nasir_Electric_Invoices_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showToast("CSV Downloaded", "Spreadsheet CSV exported successfully.");
+        }
+
+        // Build a clean, fully expanded invoice exclusively for export.
+        // Native textarea/input controls are replaced by flowing text so no
+        // description or terms are clipped by their on-screen scroll areas.
+        function prepareInvoiceExport() {
+            const source = document.getElementById('invoice-paper');
+            const clone = source.cloneNode(true);
+            clone.removeAttribute('id');
+            clone.className = 'invoice-export-copy';
+            clone.style.cssText = 'width:794px;max-width:none;min-width:794px;box-sizing:border-box;background:#fff;padding:26px;margin:0;border:0;border-radius:0;box-shadow:none;position:absolute;left:0;top:0;';
+            const originalControls = source.querySelectorAll('input, textarea, select');
+            const copiedControls = clone.querySelectorAll('input, textarea, select');
+            copiedControls.forEach((control, i) => {
+                const original = originalControls[i];
+                const text = original.tagName === 'SELECT' ? original.options[original.selectedIndex]?.text || '' : original.value;
+                const replacement = document.createElement('div');
+                replacement.textContent = text;
+                replacement.style.cssText = 'white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal;overflow:visible;height:auto;max-height:none;min-height:0;width:100%;box-sizing:border-box;padding:3px 5px;line-height:1.5;color:inherit;font:inherit;text-align:inherit;';
+                if (original.type === 'number') replacement.style.textAlign = original.classList.contains('text-center') ? 'center' : 'right';
+                if (original.classList.contains('text-center')) replacement.style.textAlign = 'center';
+                if (original.classList.contains('text-right')) replacement.style.textAlign = 'right';
+                control.replaceWith(replacement);
+            });
+            clone.querySelectorAll('.no-print').forEach(node => node.remove());
+            clone.querySelectorAll('.overflow-x-auto, .custom-scroll').forEach(node => {
+                node.style.overflow = 'visible';
+                node.style.marginLeft = '0';
+                node.style.marginRight = '0';
+            });
+            clone.querySelectorAll('table').forEach(table => {
+                table.style.width = '100%';
+                table.style.tableLayout = 'fixed';
+            });
+            clone.querySelectorAll('th,td').forEach(cell => {
+                cell.style.minWidth = '0';
+                cell.style.overflowWrap = 'anywhere';
+                cell.style.verticalAlign = 'top';
+            });
+            clone.querySelectorAll('tr').forEach(row => {
+                row.style.breakInside = 'avoid';
+                row.style.pageBreakInside = 'avoid';
+            });
+
+            const holder = document.createElement('div');
+            holder.style.cssText = 'position:fixed;left:0;top:0;width:794px;z-index:-1;pointer-events:none;';
+            holder.appendChild(clone);
+            document.body.appendChild(holder);
+            return {clone, holder};
+        }
+
+        async function downloadAsPDF() {
+            if (!window.jspdf || !window.jspdf.jsPDF || typeof html2canvas !== 'function') {
+                showToast('PDF unavailable', 'Internet is required to load PDF export libraries.', true);
+                return;
+            }
+            const {clone, holder} = prepareInvoiceExport();
+            const invNo = (document.getElementById('inv-number').value.trim() || 'Invoice').replace(/[^a-zA-Z0-9_-]/g, '_');
+            showToast('Generating PDF', 'Preparing professional A4 invoice pages...');
+            try {
+                await document.fonts.ready;
+                // Render the same full-content invoice as PNG; slice its pixels into A4 pages.
+                const canvas = await html2canvas(clone, {
+                    scale: 2, backgroundColor: '#ffffff', useCORS: true,
+                    width: 794, height: clone.scrollHeight, windowWidth: 1000,
+                    scrollX: 0, scrollY: 0, logging: false
+                });
+                if (!canvas.width || !canvas.height) throw new Error('Invoice canvas is empty');
+                const pdf = new window.jspdf.jsPDF({orientation:'portrait', unit:'mm', format:'a4', compress:true});
+                const margin = 9, printableWidth = 210 - margin * 2;
+                const pageHeightMm = 297 - margin * 2;
+                const pxPerMm = canvas.width / printableWidth;
+                const pagePixels = Math.floor(pageHeightMm * pxPerMm);
+                let y = 0, page = 0;
+                while (y < canvas.height) {
+                    const sliceHeight = Math.min(pagePixels, canvas.height - y);
+                    const slice = document.createElement('canvas');
+                    slice.width = canvas.width;
+                    slice.height = sliceHeight;
+                    slice.getContext('2d').drawImage(canvas, 0, y, canvas.width, sliceHeight, 0, 0, canvas.width, sliceHeight);
+                    if (page++) pdf.addPage();
+                    pdf.addImage(slice.toDataURL('image/jpeg', 0.96), 'JPEG', margin, margin,
+                        printableWidth, sliceHeight / pxPerMm, undefined, 'FAST');
+                    y += sliceHeight;
+                }
+                pdf.save(`Nasir_Electric_${invNo}.pdf`);
+                showToast('PDF downloaded', `${page} A4 page(s) exported successfully.`);
+            } catch (err) {
+                console.error(err);
+                showToast('PDF export failed', 'Please retry in Chrome with internet access.', true);
+            } finally { holder.remove(); }
+        }
+
+        async function downloadAsImage() {
+            if (typeof html2canvas !== 'function') {
+                showToast('Screenshot unavailable', 'Connect to the internet to load the image library.', true);
+                return;
+            }
+            const {clone, holder} = prepareInvoiceExport();
+            const invNo = (document.getElementById('inv-number').value.trim() || 'Invoice').replace(/[^a-zA-Z0-9_-]/g, '_');
+            showToast('Capturing invoice', 'Exporting the complete invoice image...');
+            try {
+                const canvas = await html2canvas(clone, {
+                    scale: 2, backgroundColor: '#ffffff', useCORS: true,
+                    width: 794, height: clone.scrollHeight, windowWidth: 1000,
+                    scrollX: 0, scrollY: 0
+                });
+                const link = document.createElement('a');
+                link.download = `Nasir_Electric_${invNo}.png`;
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                showToast('Screenshot downloaded', 'The full invoice image has been exported.');
+            } catch (err) {
+                console.error(err);
+                showToast('Screenshot failed', 'Please try again.', true);
+            } finally {
+                holder.remove();
+            }
+        }
+
+        // Custom Toast Notification
+        function showToast(title, message, isError = false) {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toast-icon');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-msg').innerText = message;
+
+            if (isError) {
+                icon.className = "fa-solid fa-circle-exclamation text-rose-400 text-lg";
+            } else {
+                icon.className = "fa-solid fa-circle-check text-emerald-400 text-lg";
+            }
+
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        function numberToEnglishWords(value) {
+            let num = Math.floor(Math.abs(Number(value) || 0));
+            if (!num) return 'Zero';
+            const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+            const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+            function underThousand(n) {
+                const parts = [];
+                if (n >= 100) { parts.push(ones[Math.floor(n / 100)] + ' Hundred'); n %= 100; }
+                if (n >= 20) { parts.push(tens[Math.floor(n / 10)]); n %= 10; }
+                if (n) parts.push(ones[n]);
+                return parts.join(' ');
+            }
+            const groups = [[10000000, 'Crore'], [100000, 'Lakh'], [1000, 'Thousand'], [1, '']];
+            const result = [];
+            for (const [size, label] of groups) {
+                const chunk = Math.floor(num / size);
+                if (chunk) result.push(underThousand(chunk) + (label ? ' ' + label : ''));
+                num %= size;
+            }
+            return result.join(' ');
+        }
+        function amountToTakaWords(amount) {
+            const paisa = Math.round((Math.max(0, Number(amount) || 0) + Number.EPSILON) * 100);
+            const taka = Math.floor(paisa / 100);
+            const remainder = paisa % 100;
+            return numberToEnglishWords(taka) + ' Taka' + (remainder ? ' and ' + numberToEnglishWords(remainder) + ' Paisa' : '') + ' Only.';
+        }
+    </script>
+</body>
+</html>
