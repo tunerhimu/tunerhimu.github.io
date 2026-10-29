@@ -410,7 +410,7 @@
       <i class="fa-solid fa-phone"></i> <span>সরাসরি কল</span>
     </a>
 
-    <button onclick="openWhatsAppModal()" class="group relative flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold p-3 sm:px-4 sm:py-2.5 rounded-full shadow-lg transition-all border border-white" aria-label="WhatsApp Smart Inquiry">
+    <button onclick="openWhatsAppModal()" class="group relative flex items-center gap-2 bg-emerald-600 hover:bg-emerald-50 text-white font-bold p-3 sm:px-4 sm:py-2.5 rounded-full shadow-lg transition-all border border-white" aria-label="WhatsApp Smart Inquiry">
       <i class="fa-brands fa-whatsapp text-2xl sm:text-lg"></i>
       <span class="hidden sm:inline text-xs sm:text-sm font-semibold tracking-wide">WhatsApp প্রশ্ন ও কোটেশন</span>
     </button>
@@ -503,11 +503,15 @@
     };
 
     // --- 4 PRIMARY DEMO VIDEOS (DIRECT VIDEO IDs PREVENT ERROR 153) ---
-    // You can easily change videoId, title, or tags anytime from Admin Dashboard or right here.
+    // User Provided URLs:
+    // https://youtu.be/Psb6Vg5lXfA?si=Ru7y0cfNRtN-TAl0
+    // https://youtu.be/Psb6Vg5lXfA?si=2c4MMY_dW0BjTtJK
+    // https://youtube.com/shorts/KpyywZeDQAw?feature=share
+    // https://youtube.com/shorts/Kx9KSJTCicA?feature=share
     let demoVideos = [
       {
         id: "v1",
-        videoId: "28OX5R9nl4s", // Demo solar package video
+        videoId: "Psb6Vg5lXfA", // Updated from user link 1
         title: "সোলার সেচ পাম্প ও হাইব্রিড প্যাকেজ ডেমো",
         category: "সোলার সেচ পাম্প",
         duration: "ভিডিও ডেমো ১",
@@ -515,7 +519,7 @@
       },
       {
         id: "v2",
-        videoId: "eMsRduK7Ias", // Demo field video
+        videoId: "Psb6Vg5lXfA", // Updated from user link 2
         title: "মাছের খামারে সোলার এয়ারেটর ও পাম্প সিস্টেম",
         category: "মৎস্য খামার",
         duration: "ভিডিও ডেমো ২",
@@ -523,7 +527,7 @@
       },
       {
         id: "v3",
-        videoId: "28OX5R9nl4s",
+        videoId: "KpyywZeDQAw", // Updated from user link 3 (Shorts)
         title: "১০–১২ প্যানেল লাল-সবুজ হেভি ফ্রেম স্ট্রাকচার স্থাপন",
         category: "মাউন্টিং ফ্রেম",
         duration: "ভিডিও ডেমো ৩",
@@ -531,7 +535,7 @@
       },
       {
         id: "v4",
-        videoId: "eMsRduK7Ias",
+        videoId: "Kx9KSJTCicA", // Updated from user link 4 (Shorts)
         title: "পদুয়া শোরুম ও ভিএফডি ইনভার্টার কন্ট্রোল প্যানেল",
         category: "টেকনিক্যাল সেটআপ",
         duration: "ভিডিও ডেমো ৪",
@@ -592,7 +596,6 @@
         url: "s5.jpg",
         caption: "দীর্ঘমেয়াদী ওয়ারেন্টিসহ ব্রান্ডেড সিলিং ফ্যানের বিশাল সমাহার।"
       },
-
       {
         id: "p1",
         title: "মাঠে সোলার সেচ পাম্প স্থাপন",
@@ -679,7 +682,7 @@
     // Helper: Parse YouTube Video ID from any standard link or raw ID
     function extractVideoId(input) {
       if (!input) return "";
-      const match = input.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+      const match = input.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=)|youtube\.com\/shorts\/)([\w-]{11})/);
       if (match && match[1]) {
         return match[1];
       }
@@ -1242,7 +1245,36 @@
             </div>
 
             <!-- Main Interactive Video Preview Player -->
-           
+            <div id="videoPlayerContainer" class="max-w-4xl mx-auto bg-slate-900 rounded-2xl overflow-hidden shadow-xl mb-8 border border-slate-700">
+              <div class="relative w-full pt-[56.25%] h-0">
+                <iframe 
+                  id="main-video-player" 
+                  src="https://www.youtube.com/embed/${currentActiveVideo.videoId}?autoplay=0&rel=0" 
+                  title="YouTube video player" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  allowfullscreen
+                  class="absolute top-0 left-0 w-full h-full"
+                ></iframe>
+              </div>
+              <div class="p-4 sm:p-5 bg-slate-900 text-white flex flex-col sm:flex-row justify-between items-start gap-4">
+                <div>
+                  <span id="main-video-badge" class="inline-block bg-red-600/20 text-red-400 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded mb-2 border border-red-500/30">
+                    ${currentActiveVideo.category}
+                  </span>
+                  <h3 id="main-video-title" class="text-lg sm:text-xl font-bold leading-tight mb-1 text-slate-100">
+                    ${currentActiveVideo.title}
+                  </h3>
+                  <p id="main-video-desc" class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                    ${currentActiveVideo.desc}
+                  </p>
+                </div>
+                <a id="main-video-ytlink" href="https://www.youtube.com/watch?v=${currentActiveVideo.videoId}" target="_blank" rel="noopener noreferrer" class="shrink-0 flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition">
+                  <i class="fa-brands fa-youtube text-lg"></i>
+                  <span>ইউটিউবে দেখুন</span>
+                </a>
+              </div>
+            </div>
 
             <!-- 4 Distinct Video Thumbnail Cards (Click to Play in Main Player) -->
             <div class="max-w-5xl mx-auto">

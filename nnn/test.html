@@ -503,43 +503,39 @@
     };
 
     // --- 4 PRIMARY DEMO VIDEOS (DIRECT VIDEO IDs PREVENT ERROR 153) ---
-    // User Provided URLs:
-    // https://youtu.be/Psb6Vg5lXfA?si=Ru7y0cfNRtN-TAl0
-    // https://youtu.be/Psb6Vg5lXfA?si=2c4MMY_dW0BjTtJK
-    // https://youtube.com/shorts/KpyywZeDQAw?feature=share
-    // https://youtube.com/shorts/Kx9KSJTCicA?feature=share
+    // Updated video titles and descriptions for relevance and conciseness
     let demoVideos = [
       {
         id: "v1",
-        videoId: "Psb6Vg5lXfA", // Updated from user link 1
-        title: "সোলার সেচ পাম্প ও হাইব্রিড প্যাকেজ ডেমো",
+        videoId: "Psb6Vg5lXfA",
+        title: "মাঠপর্যায়ে সোলার সেচ পাম্প ডেমো",
         category: "সোলার সেচ পাম্প",
         duration: "ভিডিও ডেমো ১",
-        desc: "সরাসরি মাঠপর্যায়ে সোলার পাওয়ারের মাধ্যমে সাবমার্সিবল মোটর চালনা ও পানির পর্যাপ্ত প্রেসার প্রিভিউ।"
+        desc: "সরাসরি মাঠে সোলার পাওয়ারের মাধ্যমে সাবমার্সিবল মোটর চালনা ও পানির প্রেসার।"
       },
       {
         id: "v2",
-        videoId: "Psb6Vg5lXfA", // Updated from user link 2
-        title: "মাছের খামারে সোলার এয়ারেটর ও পাম্প সিস্টেম",
-        category: "মৎস্য খামার",
+        videoId: "Psb6Vg5lXfA", 
+        title: "সোলার পাম্পের কার্যকারিতা পরীক্ষা",
+        category: "পানির প্রেসার",
         duration: "ভিডিও ডেমো ২",
-        desc: "বাণিজ্যিক পুকুরে অক্সিজেন সংকট নিরসনে সোলার প্যাডেল হুইল ও ওয়াটার সার্কুলেশন টেস্ট।"
+        desc: "সোলার পাম্পের মাধ্যমে জমিতে সেচ দেওয়ার লাইভ ভিডিও প্রিভিউ।"
       },
       {
         id: "v3",
-        videoId: "KpyywZeDQAw", // Updated from user link 3 (Shorts)
-        title: "১০–১২ প্যানেল লাল-সবুজ হেভি ফ্রেম স্ট্রাকচার স্থাপন",
-        category: "মাউন্টিং ফ্রেম",
+        videoId: "KpyywZeDQAw",
+        title: "সোলার প্যানেল মাউন্টিং ও ইনস্টলেশন",
+        category: "প্যানেল সেটআপ",
         duration: "ভিডিও ডেমো ৩",
-        desc: "ঝড় ও তীব্র বাতাস প্রতিরোধী ভারী অ্যাঙ্গেল মাউন্টিং ফ্রেম এবং সঠিক সানলাইট অ্যাঙ্গেল টিউনিং।"
+        desc: "সঠিক অ্যাঙ্গেলে সোলার প্যানেল বসানো এবং মজবুত ফ্রেমের ইনস্টলেশন।"
       },
       {
         id: "v4",
-        videoId: "Kx9KSJTCicA", // Updated from user link 4 (Shorts)
-        title: "পদুয়া শোরুম ও ভিএফডি ইনভার্টার কন্ট্রোল প্যানেল",
+        videoId: "Kx9KSJTCicA",
+        title: "VFD ইনভার্টার কন্ট্রোল প্যানেল সেটআপ",
         category: "টেকনিক্যাল সেটআপ",
         duration: "ভিডিও ডেমো ৪",
-        desc: "অটোমেটেড VFD ইনভার্টার কন্ট্রোলার, সুইচগিয়ার ও সোলার ক্যাবলিংয়ের নিখুঁত ওয়্যারিং পদ্ধতি।"
+        desc: "নিরাপদ ওয়্যারিং সহ অটোমেটেড VFD ইনভার্টার কন্ট্রোলার বক্সের ডেমো।"
       }
     ];
 
@@ -935,119 +931,6 @@
       closeWhatsAppModal();
     }
 
-    // --- GRAPHICAL SVG VISUALIZER ---
-    function getSolarArrayVisualSVG() {
-      return `
-        <div class="relative w-full rounded-2xl overflow-hidden shadow-xl border-4 border-slate-700 bg-slate-900 group">
-          <svg viewBox="0 0 800 480" class="w-full h-auto block select-none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#38bdf8" />
-                <stop offset="60%" stop-color="#bae6fd" />
-                <stop offset="100%" stop-color="#f0fdf4" />
-              </linearGradient>
-              <linearGradient id="sunGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#fef08a" />
-                <stop offset="100%" stop-color="#f59e0b" />
-              </linearGradient>
-              <linearGradient id="solarCell" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#1e3a8a" />
-                <stop offset="50%" stop-color="#1d4ed8" />
-                <stop offset="100%" stop-color="#172554" />
-              </linearGradient>
-              <linearGradient id="grassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="#15803d" />
-                <stop offset="100%" stop-color="#14532d" />
-              </linearGradient>
-              <pattern id="solarGrid" width="20" height="25" patternUnits="userSpaceOnUse">
-                <rect width="20" height="25" fill="none" stroke="#60a5fa" stroke-width="0.7" stroke-opacity="0.5" />
-                <line x1="0" y1="12.5" x2="20" y2="12.5" stroke="#93c5fd" stroke-width="0.4" />
-              </pattern>
-            </defs>
-
-            <rect width="800" height="340" fill="url(#skyGrad)" />
-            <circle cx="680" cy="90" r="50" fill="url(#sunGrad)" opacity="0.9" />
-            <path d="M0,320 Q200,300 400,320 T800,310 L800,480 L0,480 Z" fill="#86efac" opacity="0.4" />
-            <rect y="330" width="800" height="150" fill="url(#grassGrad)" />
-
-            <path d="M480,410 C520,400 580,420 640,410 C700,400 760,430 800,420 L800,480 L440,480 Z" fill="#38bdf8" opacity="0.85" />
-            <circle cx="485" cy="405" r="7" fill="#0284c7" />
-            <path d="M480,400 Q470,380 490,375 Q510,380 500,405" fill="#bae6fd" opacity="0.8" />
-            <path d="M470,395 Q450,385 465,370" stroke="#bae6fd" stroke-width="2" fill="none" />
-
-            <rect x="420" y="380" width="70" height="30" rx="4" fill="#64748b" />
-            <rect x="430" y="350" width="45" height="35" rx="3" fill="#0284c7" />
-            <text x="435" y="372" fill="#ffffff" font-size="9" font-family="sans-serif" font-weight="bold">PUMP</text>
-            <path d="M475,365 C500,365 480,395 490,405" stroke="#047857" stroke-width="8" fill="none" stroke-linecap="round" />
-
-            <!-- Support Stands -->
-            <rect x="110" y="370" width="30" height="15" fill="#e2e8f0" stroke="#94a3b8" />
-            <rect x="250" y="370" width="30" height="15" fill="#e2e8f0" stroke="#94a3b8" />
-            <rect x="390" y="370" width="30" height="15" fill="#e2e8f0" stroke="#94a3b8" />
-            <rect x="530" y="370" width="30" height="15" fill="#e2e8f0" stroke="#94a3b8" />
-
-            <line x1="125" y1="370" x2="155" y2="180" stroke="#C53030" stroke-width="9" stroke-linecap="round" />
-            <line x1="265" y1="370" x2="295" y2="180" stroke="#C53030" stroke-width="9" stroke-linecap="round" />
-            <line x1="405" y1="370" x2="435" y2="180" stroke="#C53030" stroke-width="9" stroke-linecap="round" />
-            <line x1="545" y1="370" x2="575" y2="180" stroke="#C53030" stroke-width="9" stroke-linecap="round" />
-
-            <line x1="150" y1="375" x2="175" y2="280" stroke="#991B1B" stroke-width="8" stroke-linecap="round" />
-            <line x1="290" y1="375" x2="315" y2="280" stroke="#991B1B" stroke-width="8" stroke-linecap="round" />
-            <line x1="430" y1="375" x2="455" y2="280" stroke="#991B1B" stroke-width="8" stroke-linecap="round" />
-            <line x1="570" y1="375" x2="595" y2="280" stroke="#991B1B" stroke-width="8" stroke-linecap="round" />
-
-            <line x1="125" y1="320" x2="175" y2="230" stroke="#15803D" stroke-width="6" />
-            <line x1="160" y1="320" x2="140" y2="210" stroke="#15803D" stroke-width="6" />
-            <line x1="265" y1="320" x2="315" y2="230" stroke="#15803D" stroke-width="6" />
-            <line x1="300" y1="320" x2="280" y2="210" stroke="#15803D" stroke-width="6" />
-            <line x1="405" y1="320" x2="455" y2="230" stroke="#15803D" stroke-width="6" />
-            <line x1="440" y1="320" x2="420" y2="210" stroke="#15803D" stroke-width="6" />
-            
-            <line x1="120" y1="350" x2="560" y2="350" stroke="#166534" stroke-width="5" />
-            <line x1="145" y1="230" x2="580" y2="230" stroke="#166534" stroke-width="6" />
-
-            <!-- Panels -->
-            <g transform="translate(110, 140) skewX(-16) scale(0.9, 0.85)">
-              <rect x="-8" y="-8" width="566" height="196" rx="6" fill="#0f172a" stroke="#cbd5e1" stroke-width="2" />
-              
-              <g id="topRowPanels">
-                <rect x="0" y="0" width="85" height="85" fill="url(#solarCell)" stroke="#94a3b8" stroke-width="1.5" /><rect x="0" y="0" width="85" height="85" fill="url(#solarGrid)" />
-                <rect x="92" y="0" width="85" height="85" fill="url(#solarCell)" stroke="#94a3b8" stroke-width="1.5" /><rect x="92" y="0" width="85" height="85" fill="url(#solarGrid)" />
-                <rect x="184" y="0" width="85" height="85" fill="url(#solarCell)" stroke="#94a3b8" stroke-width="1.5" /><rect x="184" y="0" width="85" height="85" fill="url(#solarGrid)" />
-                <rect x="276" y="0" width="85" height="85" fill="url(#solarCell)" stroke="#94a3b8" stroke-width="1.5" /><rect x="276" y="0" width="85" height="85" fill="url(#solarGrid)" />
-                <rect x="368" y="0" width="85" height="85" fill="url(#solarCell)" stroke="#94a3b8" stroke-width="1.5" /><rect x="368" y="0" width="85" height="85" fill="url(#solarGrid)" />
-                <rect x="460" y="0" width="85" height="85" fill="url(#solarCell)" stroke="#94a3b8" stroke-width="1.5" /><rect x="460" y="0" width="85" height="85" fill="url(#solarGrid)" />
-              </g>
-
-              <g id="bottomRowPanels">
-                <rect x="0" y="94" width="85" height="85" fill="url(#solarCell)" stroke="#94a3b8" stroke-width="1.5" /><rect x="0" y="94" width="85" height="85" fill="url(#solarGrid)" />
-                <rect x="92" y="94" width="85" height="85" fill="url(#solarCell)" stroke="#94a3b8" stroke-width="1.5" /><rect x="92" y="94" width="85" height="85" fill="url(#solarGrid)" />
-                <rect x="184" y="94" width="85" height="85" fill="url(#solarCell)" stroke="#94a3b8" stroke-width="1.5" /><rect x="184" y="94" width="85" height="85" fill="url(#solarGrid)" />
-                <rect x="276" y="94" width="85" height="85" fill="url(#solarCell)" stroke="#94a3b8" stroke-width="1.5" /><rect x="276" y="94" width="85" height="85" fill="url(#solarGrid)" />
-                <rect x="368" y="94" width="85" height="85" fill="url(#solarCell)" stroke="#94a3b8" stroke-width="1.5" /><rect x="368" y="94" width="85" height="85" fill="url(#solarGrid)" />
-                <rect x="460" y="94" width="85" height="85" fill="url(#solarCell)" stroke="#94a3b8" stroke-width="1.5" /><rect x="460" y="94" width="85" height="85" fill="url(#solarGrid)" />
-              </g>
-            </g>
-
-            <rect x="290" y="270" width="40" height="55" rx="3" fill="#f8fafc" stroke="#334155" stroke-width="2" />
-            <circle cx="310" cy="285" r="4" fill="#22c55e" />
-            <text x="294" y="310" fill="#0f172a" font-size="6" font-weight="bold" font-family="sans-serif">VFD/INV</text>
-            <path d="M310,325 L310,380 L430,380" stroke="#0f172a" stroke-width="3" fill="none" />
-
-            <g transform="translate(20, 20)">
-              <rect width="255" height="48" rx="8" fill="#0f172a" opacity="0.85" />
-              <text x="12" y="22" fill="#38bdf8" font-size="12" font-weight="bold" font-family="sans-serif">১২ টি মনো/পলি ব্লু সোলার প্যানেল অ্যারে</text>
-              <text x="12" y="38" fill="#e2e8f0" font-size="10" font-family="sans-serif">মজবুত লাল-সবুজ ভারী স্ট্রাকচার ও VFD কন্ট্রোলার</text>
-            </g>
-          </svg>
-          <div class="bg-slate-900/90 px-4 py-2 text-xs text-slate-300 flex justify-between items-center border-t border-slate-700">
-            <span><i class="fa-solid fa-circle-check text-solarGreen-accent mr-1"></i> ১০–১২ প্যানেল বিশিষ্ট হেভি মাউন্টিং সিস্টেম</span>
-            <span class="text-solarYellow font-medium">লোহাগাড়া, চট্টগ্রাম</span>
-          </div>
-        </div>
-      `;
-    }
-
     // --- HTML RENDER ROUTER ---
     function renderContent() {
       const container = document.getElementById('app-content');
@@ -1149,12 +1032,18 @@
                 </div>
               </div>
 
-              <!-- Right Column: Visual Array -->
+              <!-- Right Column: Visual Replace With Real Image 3.jpg -->
               <div class="lg:col-span-5">
-                ${getSolarArrayVisualSVG()}
-                <div class="mt-2 text-center">
+                <div class="relative w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-slate-700 bg-slate-900 group">
+                  <img src="3.jpg" alt="Nasir Solar System Installation" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/800x480/0284c7/ffffff?text=Nasir+Solar+Project'" />
+                  <div class="absolute bottom-0 inset-x-0 bg-slate-900/90 px-4 py-2 text-xs text-slate-300 flex justify-between items-center border-t border-slate-700 backdrop-blur-sm">
+                    <span><i class="fa-solid fa-circle-check text-solarGreen-accent mr-1"></i> নাছির সোলার প্রজেক্ট</span>
+                    <span class="text-solarYellow font-medium">লোহাগাড়া, চট্টগ্রাম</span>
+                  </div>
+                </div>
+                <div class="mt-3 text-center">
                   <p class="text-[11px] text-sky-200">
-                    ${isBn ? '*১০-১২ প্যানেল ও রেড-গ্রিন সাপোর্ট ফ্রেম বিশিষ্ট নাছির সোলারের বিশেষ মাউন্টিং মডেল' : '*Authentic representation of our 10-12 panel array on red-and-green heavy angle support stands'}
+                    ${isBn ? '*আমাদের নিজস্ব ইনস্টলেশন প্রজেক্টের বাস্তব চিত্র' : '*Real image of our installation project'}
                   </p>
                 </div>
               </div>
@@ -1880,7 +1769,7 @@
           titleBn: 'পোল্ট্রি ফার্ম সোলার সমাধান',
           titleEn: 'Solar Solutions for Poultry Farms',
           icon: 'fa-feather',
-          descBn: 'পোল্ট্রি ও লেয়ার খামারে শেডের তাপমাত্রা নিয়ন্ত্রণ ও ব্রুডিং নিশ্চিত করতে সোলার সিস্টেম। এক্সহস্ট ফ্যান ও আলোর নিরবচ্ছিন্ন সরবরাহ থাকায় মুরগির হিট-স্ট্রোকের ঝুঁকি থাকে না।',
+          descBn: 'পোল্ট্রি ও লেয়ার খামারে শেডের তাপমাত্রা নিয়ন্ত্রণ ও ব্রুডিং নিশ্চিত করতে সোলার সিস্টেম। এক্সহস্ট ফ্যান ও আলোর নিরবচ্ছিন্ন সরবরাহ থাকায় মুরগির হিট-স্ট্রোকের ঝুঁকি থাকেবিধা।',
           specs: ['উচ্চ ক্ষমতার এক্সহস্ট ফ্যান অপারেশন', 'স্বয়ংক্রিয় তাপমাত্রা ও আর্দ্রতা নিয়ন্ত্রণ', 'জরুরি ব্রুডিং লাইটিং ব্যাকআপ', 'বিদ্যুৎ বিভ্রাটেও খামারের নিরাপত্তা']
         },
         'orchard': {
